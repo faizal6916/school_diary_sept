@@ -4,4 +4,16 @@ class ColorUtil {
   static const white = Colors.white;
   static const lightPurple = Color(0xff8A8CBD);
   static const navyBlue = Color(0xff007AB9);
+  static const assignmentText = Color(0xff525bff);
+  static const assignmentBg = Color(0x190cb1ff);
+  static const circularBg = Color(0xffffa781);
+  static const circularText = Color(0xff5b0e2d);
+  static const examText = Color(0xff05b79c);
+  static const examBg = Color(0x1961e3a5);
+  static const reportText = Color(0xfffd4585);
+  static const reportBg = Color(0x19fe998c);
+  static const dateColor = Color(0xff252525);
+  static const blue = Color(0xff35378c);
+  static const mainBg = Color(0xffe5e4f2);
+  static const borderSep = Color(0xff3f526d);
 }

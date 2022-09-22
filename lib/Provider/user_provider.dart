@@ -51,4 +51,47 @@ class UserProvider with ChangeNotifier {
    }
 
   }
+
+  Future<dynamic> getDashboardfeed(String parentId, String studId) async{
+    var url = '${ApiConstants.baseUrl}${ApiConstants.dashboardFeed}/$parentId/$studId';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      var request = http.Request('GET',Uri.parse(url));
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+
+  }
+
+  Future<dynamic> getCircular(String parentId,String childId,String acadYear) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.circular}/$parentId/$childId/$acadYear/Circular';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      var request = http.Request('GET',Uri.parse(url));
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+
+  }
+
 }
