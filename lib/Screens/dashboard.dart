@@ -14,9 +14,10 @@ import '../Models/dashboard_model.dart';
 
 class DashboardScreen extends StatefulWidget {
   final String parentId;
-  final List<StudentDetail> studentsList;
+  final String childId;
+  //final List<StudentDetail> studentsList;
   const DashboardScreen(
-      {Key? key, required this.parentId, required this.studentsList})
+      {Key? key, required this.parentId,required this.childId})
       : super(key: key);
 
   @override
@@ -56,9 +57,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void didChangeDependencies() {
+    print('dashboard didchangede');
     // TODO: implement didChangeDependencies
-    _dashBoardFeed(widget.parentId, widget.studentsList[0].userId.toString());
+    _dashBoardFeed(widget.parentId, widget.childId);
     super.didChangeDependencies();
+  }
+  @override
+  void didUpdateWidget(covariant DashboardScreen oldWidget) {
+    print('dashboard didupdate');
+    _dashBoardFeed(widget.parentId, widget.childId);
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -66,35 +75,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       child: Column(
         children: [
-          CarouselSlider.builder(
-            itemCount: widget.studentsList.length,
-            itemBuilder: (context, index, realIndex) {
-              final name = widget.studentsList[index].name;
-              final classofstd = widget.studentsList[index].studentDetailClass;
-              final batchofstd = widget.studentsList[index].batch;
-              final imgUrl =
-                  'https://teamsqa3000.educore.guru${widget.studentsList[index].photo}';
-              return nameCard(
-                  studentName: name.toString(),
-                  photourl: imgUrl,
-                  grade: batchofstd.toString(),
-                  classofstd: classofstd.toString());
-            },
-            options: CarouselOptions(
-                height: 170,
-                //enlargeCenterPage: true,
-                viewportFraction: 1,
-                enableInfiniteScroll: false,
-                onPageChanged: (index, reason) async {
-                  setState(() {
-                    _activeindex = index;
-                    print(widget.parentId);
-                    print(widget.studentsList[index].userId);
-                  });
-                  _dashBoardFeed(widget.parentId,
-                      widget.studentsList[index].userId.toString());
-                }),
-          ),
+          // CarouselSlider.builder(
+          //   itemCount: widget.studentsList.length,
+          //   itemBuilder: (context, index, realIndex) {
+          //     final name = widget.studentsList[index].name;
+          //     final classofstd = widget.studentsList[index].studentDetailClass;
+          //     final batchofstd = widget.studentsList[index].batch;
+          //     final imgUrl =
+          //         'https://teamsqa3000.educore.guru${widget.studentsList[index].photo}';
+          //     return nameCard(
+          //         studentName: name.toString(),
+          //         photourl: imgUrl,
+          //         grade: batchofstd.toString(),
+          //         classofstd: classofstd.toString());
+          //   },
+          //   options: CarouselOptions(
+          //       height: 170,
+          //       //enlargeCenterPage: true,
+          //       viewportFraction: 1,
+          //       enableInfiniteScroll: false,
+          //       onPageChanged: (index, reason) async {
+          //         setState(() {
+          //           _activeindex = index;
+          //           print(widget.parentId);
+          //           print(widget.studentsList[index].userId);
+          //         });
+          //         _dashBoardFeed(widget.parentId,
+          //             widget.studentsList[index].userId.toString());
+          //       }),
+          // ),
           // _isloading
           //     ? shimmerLoader()
           //     : Container(
@@ -148,121 +157,121 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget nameCard(
-          {required String studentName,
-          required String photourl,
-          required String grade,
-          required String classofstd}) =>
-      Container(
-        width: 1.sw - 40,
-        height: 200,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        //margin: EdgeInsets.symmetric(horizontal: 20),
-        margin: EdgeInsets.only(bottom: 5),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 0),
-                blurRadius: 1,
-                spreadRadius: 0),
-            BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 2),
-                blurRadius: 6,
-                spreadRadius: 0),
-            // BoxShadow(
-            //     color: Colors.black12,
-            //     offset: Offset(0, 10),
-            //     blurRadius: 20,
-            //     spreadRadius: 0)
-          ],
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: Color(0xff8829e1),
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.white,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(60)),
-                  child: CachedNetworkImage(
-                    imageUrl: photourl,
-                    placeholder: (context, url) => SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) => Image.asset(
-                      'assets/images/userImage.png',
-                      width: 45,
-                      height: 45,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            AutoSizeText(
-              studentName,
-              maxLines: 1,
-              style: TextStyle(
-                  color: Color(0xff8829e1),
-                  fontFamily: 'Axiforma',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Grade',
-                  style: TextStyle(
-                      color: Color(0xffcd758e),
-                      fontFamily: 'Axiforma',
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  classofstd,
-                  style: TextStyle(
-                      color: Color(0xffcd758e),
-                      fontFamily: 'Axiforma',
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  grade,
-                  style: TextStyle(
-                      color: Color(0xffcd758e),
-                      fontFamily: 'Axiforma',
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 6,
-            ),
-            buildIndicator()
-          ],
-        ),
-      );
-
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-        activeIndex: _activeindex,
-        count: widget.studentsList.length,
-        effect: SlideEffect(dotWidth: 9, dotHeight: 9),
-      );
+  // Widget nameCard(
+  //         {required String studentName,
+  //         required String photourl,
+  //         required String grade,
+  //         required String classofstd}) =>
+  //     Container(
+  //       width: 1.sw - 40,
+  //       height: 200,
+  //       padding: EdgeInsets.symmetric(vertical: 15),
+  //       //margin: EdgeInsets.symmetric(horizontal: 20),
+  //       margin: EdgeInsets.only(bottom: 5),
+  //       decoration: BoxDecoration(
+  //         boxShadow: [
+  //           BoxShadow(
+  //               color: Colors.black12,
+  //               offset: Offset(0, 0),
+  //               blurRadius: 1,
+  //               spreadRadius: 0),
+  //           BoxShadow(
+  //               color: Colors.black12,
+  //               offset: Offset(0, 2),
+  //               blurRadius: 6,
+  //               spreadRadius: 0),
+  //           // BoxShadow(
+  //           //     color: Colors.black12,
+  //           //     offset: Offset(0, 10),
+  //           //     blurRadius: 20,
+  //           //     spreadRadius: 0)
+  //         ],
+  //         borderRadius: BorderRadius.circular(20),
+  //         color: Colors.white,
+  //       ),
+  //       child: Column(
+  //         children: [
+  //           CircleAvatar(
+  //             radius: 28,
+  //             backgroundColor: Color(0xff8829e1),
+  //             child: CircleAvatar(
+  //               radius: 25,
+  //               backgroundColor: Colors.white,
+  //               child: ClipRRect(
+  //                 borderRadius: BorderRadius.all(Radius.circular(60)),
+  //                 child: CachedNetworkImage(
+  //                   imageUrl: photourl,
+  //                   placeholder: (context, url) => SizedBox(
+  //                     width: 20,
+  //                     height: 20,
+  //                     child: CircularProgressIndicator(),
+  //                   ),
+  //                   errorWidget: (context, url, error) => Image.asset(
+  //                     'assets/images/userImage.png',
+  //                     width: 45,
+  //                     height: 45,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: 5,
+  //           ),
+  //           AutoSizeText(
+  //             studentName,
+  //             maxLines: 1,
+  //             style: TextStyle(
+  //                 color: Color(0xff8829e1),
+  //                 fontFamily: 'Axiforma',
+  //                 fontSize: 14.sp,
+  //                 fontWeight: FontWeight.w500),
+  //           ),
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Text(
+  //                 'Grade',
+  //                 style: TextStyle(
+  //                     color: Color(0xffcd758e),
+  //                     fontFamily: 'Axiforma',
+  //                     fontSize: 10.sp,
+  //                     fontWeight: FontWeight.w500),
+  //               ),
+  //               SizedBox(
+  //                 width: 5,
+  //               ),
+  //               Text(
+  //                 classofstd,
+  //                 style: TextStyle(
+  //                     color: Color(0xffcd758e),
+  //                     fontFamily: 'Axiforma',
+  //                     fontSize: 10.sp,
+  //                     fontWeight: FontWeight.w500),
+  //               ),
+  //               Text(
+  //                 grade,
+  //                 style: TextStyle(
+  //                     color: Color(0xffcd758e),
+  //                     fontFamily: 'Axiforma',
+  //                     fontSize: 10.sp,
+  //                     fontWeight: FontWeight.w500),
+  //               ),
+  //             ],
+  //           ),
+  //           SizedBox(
+  //             height: 6,
+  //           ),
+  //           buildIndicator()
+  //         ],
+  //       ),
+  //     );
+  //
+  // Widget buildIndicator() => AnimatedSmoothIndicator(
+  //       activeIndex: _activeindex,
+  //       count: widget.studentsList.length,
+  //       effect: SlideEffect(dotWidth: 9, dotHeight: 9),
+  //     );
 
   Widget shimmerLoader() => Shimmer.fromColors(
         baseColor: Color(0xffcda4de),

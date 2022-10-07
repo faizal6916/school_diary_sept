@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import '../Provider/user_provider.dart';
 import '../Models/circular_model.dart';
+import '../Widgets/circular_widget.dart';
 
 class CircularScreen extends StatefulWidget {
   final String? parentId;
@@ -75,11 +76,17 @@ class _CircularScreenState extends State<CircularScreen> {
               itemCount: 5, itemBuilder: (ctx, _) => shimmerLoader())
           : ListView.builder(
               itemCount: _ciculars.length,
-              itemBuilder: (ctx, index) => circularShowWidget(
-                  date: _ciculars[index].dateAdded!,
-                  title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _c),
-
-      ),
+              // itemBuilder: (ctx, index) => circularShowWidget(
+              //     date: _ciculars[index].dateAdded!,
+              //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
+              itemBuilder: (ctx, index) => CircularWidget(
+                childId: widget.childId,
+                  cicularTitle: _ciculars[index].title,
+                  circularDesc: _ciculars[index].description,
+                  circularDate: _ciculars[index].dateAdded,
+                  senderName: _ciculars[index].senderName,
+                  attachment: _ciculars[index].attachments),
+            ),
     );
   }
 
@@ -95,7 +102,13 @@ class _CircularScreenState extends State<CircularScreen> {
         ),
       );
 
-  Widget circularShowWidget({DateTime? date, String? title, String? desc, String? sender, List<String>? attachment }) => Padding(
+  Widget circularShowWidget(
+          {DateTime? date,
+          String? title,
+          String? desc,
+          String? sender,
+          List<Detail>? attachment}) =>
+      Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
@@ -105,7 +118,7 @@ class _CircularScreenState extends State<CircularScreen> {
               padding: EdgeInsets.all(15),
               // margin: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                 // border: Border(bottom: BorderSide(width: 1,color: ColorUtil.borderSep.withOpacity(0.1))),
+                  // border: Border(bottom: BorderSide(width: 1,color: ColorUtil.borderSep.withOpacity(0.1))),
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
                       topLeft: Radius.circular(10)),
@@ -160,7 +173,6 @@ class _CircularScreenState extends State<CircularScreen> {
                 ],
               ),
             ),
-
             Container(
               width: 1.sw,
               height: 200,
@@ -182,12 +194,13 @@ class _CircularScreenState extends State<CircularScreen> {
               child: Column(
                 children: [
                   Text(desc!),
-                  Expanded(child: ListView.builder(
-                      itemCount: attachment!.isEmpty? 0 : attachment.length,
-                      itemBuilder: (ctx,i)=>Text('atta$i'))),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount:
+                              attachment!.isEmpty ? 0 : attachment.length,
+                          itemBuilder: (ctx, i) => Text('atta$i'))),
                   Text(sender!)
                 ],
-
               ),
             )
           ],

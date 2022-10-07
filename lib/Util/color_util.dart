@@ -16,4 +16,7 @@ class ColorUtil {
   static const blue = Color(0xff35378c);
   static const mainBg = Color(0xffe5e4f2);
   static const borderSep = Color(0xff3f526d);
+  static const attachmentColor = Color(0xff25dbdc);
+  static const shareColor = Color(0xff6891fc);
+  static const green = Color(0xff26de81);
 }
