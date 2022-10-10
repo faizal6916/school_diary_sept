@@ -19,4 +19,6 @@ class ColorUtil {
   static const attachmentColor = Color(0xff25dbdc);
   static const shareColor = Color(0xff6891fc);
   static const green = Color(0xff26de81);
+  static const greybg = Colors.grey;
+  static const circularRed = Color(0xfffc5c65);
 }

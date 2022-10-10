@@ -3,7 +3,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_diary_sept_13/Screens/about_screen.dart';
 import 'package:school_diary_sept_13/Screens/assignment_screen.dart';
+import 'package:school_diary_sept_13/Screens/calendar_screen.dart';
+import 'package:school_diary_sept_13/Screens/downloads.dart';
+import 'package:school_diary_sept_13/Screens/fee_screen.dart';
+import 'package:school_diary_sept_13/Screens/profile_screen.dart';
+import 'package:school_diary_sept_13/Screens/report_screen.dart';
 import 'package:school_diary_sept_13/Screens/ticket_screen.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -75,12 +81,36 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Assignment',
         'centre': true,
       },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
+      {
+        'page': CalendarScreen(),
+        'title': 'Calendar',
+        'centre': true
+      },
+      {
+        'page': FeeScreen(),
+        'title': 'Fee Details',
+        'centre': true
+      },
+      {
+        'page':ReportMainScreen(),
+        'title': 'Assessments',
+        'centre': true
+      },
+      {
+        'page': AboutScreen(),
+        'title': 'About Us',
+        'centre': true
+      },
+      {
+        'page': DownloadScreen(),
+        'title': 'Downloads',
+        'centre': true
+      },
+      {
+        'page': ProfileScreen(),
+        'title': 'Profile',
+        'centre': true
+      },
       {
         'page': TicketScreen(),
         'title': 'Ticket',
@@ -93,173 +123,68 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _pageSwitching(int pageIndex){
-    switch(_seletedPageIndex){
-      case 0:{
-       // print(0);
-        print(_students[pageIndex].userId);
-        setState((){
-          _pages = [
-            {
-              'page': DashboardScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                // studentsList: _userdata.data!.data![0].studentDetails!,
-                childId: _students[pageIndex].userId!,
-              ),
-              'title': 'dashboard',
-              'centre': false,
-            },
-            {
-              'page': CircularScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                childId: _students[pageIndex].userId,
-                acadYear: _students[pageIndex].academicYear,
-              ),
-              'title': 'Circular',
-              'centre': true,
-            },
-            {
-              'page': AssignmentScreen(),
-              'title': 'Assignment',
-              'centre': true,
-            },
-            {},
-            {},
-            {},
-            {},
-            {},
-            {
-              'page': TicketScreen(),
-              'title': 'Ticket',
-              'centre': true
-            }
-          ];
-        });
-      }
-      break;
-      case 1:{
-        // print(1);
-        Navigator.of(context).pop();
-        print(_students[pageIndex].userId);
-        setState((){
-          _pages = [
-            {
-              'page': DashboardScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-               // studentsList: _userdata.data!.data![0].studentDetails!,
-                childId: _students[pageIndex].userId!,
-              ),
-              'title': 'dashboard',
-              'centre': false,
-            },
-            {
-              'page': CircularScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                childId: _students[pageIndex].userId,
-                acadYear: _students[pageIndex].academicYear,
-              ),
-              'title': 'Circular',
-              'centre': true,
-            },
-            {
-              'page': AssignmentScreen(),
-              'title': 'Assignment',
-              'centre': true,
-            },
-            {},
-            {},
-            {},
-            {},
-            {},
-            {
-              'page': TicketScreen(),
-              'title': 'Ticket',
-              'centre': true
-            }
-          ];
-        });
-      }
-      break;
-      case 2:
-        setState((){
-          _pages = [
-            {
-              'page': DashboardScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                // studentsList: _userdata.data!.data![0].studentDetails!,
-                childId: _students[pageIndex].userId!,
-              ),
-              'title': 'dashboard',
-              'centre': false,
-            },
-            {
-              'page': CircularScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                childId: _students[pageIndex].userId,
-                acadYear: _students[pageIndex].academicYear,
-              ),
-              'title': 'Circular',
-              'centre': true,
-            },
-            {
-              'page': AssignmentScreen(),
-              'title': 'Assignment',
-              'centre': true,
-            },
-            {},
-            {},
-            {},
-            {},
-            {},
-            {
-              'page': TicketScreen(),
-              'title': 'Ticket',
-              'centre': true
-            }
-          ];
-        });
-        break;
-      case 8:
-        setState((){
-          _pages = [
-            {
-              'page': DashboardScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                // studentsList: _userdata.data!.data![0].studentDetails!,
-                childId: _students[pageIndex].userId!,
-              ),
-              'title': 'dashboard',
-              'centre': false,
-            },
-            {
-              'page': CircularScreen(
-                parentId: _userdata.data!.data![0].id.toString(),
-                childId: _students[pageIndex].userId,
-                acadYear: _students[pageIndex].academicYear,
-              ),
-              'title': 'Circular',
-              'centre': true,
-            },
-            {
-              'page': AssignmentScreen(),
-              'title': 'Assignment',
-              'centre': true,
-            },
-            {},
-            {},
-            {},
-            {},
-            {},
-            {
-              'page': TicketScreen(),
-              'title': 'Ticket',
-              'centre': true
-            }
-          ];
-        });
-        break;
-      default:
-        print(2);
-    }
+    setState((){
+      _pages = [
+        {
+          'page': DashboardScreen(
+            parentId: _userdata.data!.data![0].id.toString(),
+            // studentsList: _userdata.data!.data![0].studentDetails!,
+            childId: _students[pageIndex].userId!,
+          ),
+          'title': 'dashboard',
+          'centre': false,
+        },
+        {
+          'page': CircularScreen(
+            parentId: _userdata.data!.data![0].id.toString(),
+            childId: _students[pageIndex].userId,
+            acadYear: _students[pageIndex].academicYear,
+          ),
+          'title': 'Circular',
+          'centre': true,
+        },
+        {
+          'page': AssignmentScreen(),
+          'title': 'Assignment',
+          'centre': true,
+        },
+        {
+          'page': CalendarScreen(),
+          'title': 'Calendar',
+          'centre': true
+        },
+        {
+          'page': FeeScreen(),
+          'title': 'Fee Details',
+          'centre': true
+        },
+        {
+          'page':ReportMainScreen(),
+          'title': 'Assessments',
+          'centre': true
+        },
+        {
+          'page': AboutScreen(),
+          'title': 'About Us',
+          'centre': true
+        },
+        {
+          'page': DownloadScreen(),
+          'title': 'Downloads',
+          'centre': true
+        },
+        {
+          'page': ProfileScreen(),
+          'title': 'Profile',
+          'centre': true
+        },
+        {
+          'page': TicketScreen(),
+          'title': 'Ticket',
+          'centre': true
+        }
+      ];
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -993,6 +918,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Card(
             child: ListTile(
               onTap: (){
+                Navigator.of(context).pop();
                 _pageSwitching(index);
                 // switch(_seletedPageIndex){
                 //   case 0:{
