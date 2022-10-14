@@ -21,4 +21,11 @@ class ColorUtil {
   static const green = Color(0xff26de81);
   static const greybg = Colors.grey;
   static const circularRed = Color(0xfffc5c65);
+  static const shimmerBaseColor = Color(0xffcda4de);
+  static const shimmerHglt = Color(0xffc3d0be);
+  static const eventIndiColor = Color(0xfffed330);
+  static const indicatorBlack = Color(0xff343434);
+  static const examIndiColor = Color(0xff5fd2d0);
+  static const absentIndiColor = Color(0xfffc5c65);
+  static const totalDaysIndicator = Color(0xff6e6e6e);
 }

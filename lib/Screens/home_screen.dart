@@ -82,7 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
         'centre': true,
       },
       {
-        'page': CalendarScreen(),
+        'page': CalendarScreen(
+          schoolId: _userdata.data!.data![0].schoolId,
+          childId: _userdata.data!.data![0].studentDetails!.first.userId,
+          acdYr: _userdata.data!.data![0].studentDetails!.first.academicYear,
+        ),
         'title': 'Calendar',
         'centre': true
       },
@@ -149,7 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
           'centre': true,
         },
         {
-          'page': CalendarScreen(),
+          'page': CalendarScreen(
+            schoolId: _userdata.data!.data![0].schoolId,
+            childId: _students[pageIndex].userId,
+            acdYr: _students[pageIndex].academicYear,
+          ),
           'title': 'Calendar',
           'centre': true
         },

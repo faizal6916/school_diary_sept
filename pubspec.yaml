@@ -52,6 +52,7 @@ dependencies:
   external_path: ^1.0.3
   open_file_safe: ^3.2.3
   percent_indicator: ^4.2.2
+  table_calendar: ^3.0.7
 
 
 
