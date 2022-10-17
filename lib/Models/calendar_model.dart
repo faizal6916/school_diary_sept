@@ -118,11 +118,13 @@ class CalendarClass {
 
 }
 
-enum EventNameElement { PRESENT, ABSENT, EVENTS }
+enum EventNameElement { PRESENT, ABSENT,HOLIDAY, EVENTS , EXAM}
 
 final eventNameElementValues = EnumValues({
   "Absent": EventNameElement.ABSENT,
+  "Holiday": EventNameElement.HOLIDAY,
   "Events": EventNameElement.EVENTS,
+  "Exam": EventNameElement.EXAM,
   "Present": EventNameElement.PRESENT
 });
 

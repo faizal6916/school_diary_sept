@@ -28,4 +28,9 @@ class ColorUtil {
   static const examIndiColor = Color(0xff5fd2d0);
   static const absentIndiColor = Color(0xfffc5c65);
   static const totalDaysIndicator = Color(0xff6e6e6e);
+  static const tabIndicator = Color(0xff34378b);
+  static const tabUnselected = Color(0xFF414D55);
+  static const eventYellow = Color(0xfff7d794);
+  static const eventDate = Color(0xffd39a23);
+  static const calendarFont = Color(0xff5c5c5c);
 }

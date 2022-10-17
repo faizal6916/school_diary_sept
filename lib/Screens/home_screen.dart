@@ -39,7 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _seletedPageIndex = 0;
   List<StudentDetail> _students = [];
   var _activeindex = 0;
-  var userId;
+ // var userId;
+  var _selectedChild;
   @override
   void initState() {
     // TODO: implement initState
@@ -57,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print('did change dependencies called');
     _userdata = ModalRoute.of(context)!.settings.arguments as Users;
     print(_userdata.data!.data![0].username);
+    _selectedChild = _userdata.data!.data![0].studentDetails!.first.userId!;
     _pages = [
       {
         'page': DashboardScreen(
@@ -128,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _pageSwitching(int pageIndex){
     setState((){
+      _selectedChild = _students[pageIndex].userId!;
       _pages = [
         {
           'page': DashboardScreen(
@@ -965,6 +968,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     print(2);
                 // }
               },
+              tileColor: _selectedChild == _students[index].userId ? ColorUtil.greybg : ColorUtil.white,
               leading: CircleAvatar(
                 radius: 25,
               ),
