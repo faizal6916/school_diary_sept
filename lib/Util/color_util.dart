@@ -33,4 +33,5 @@ class ColorUtil {
   static const eventYellow = Color(0xfff7d794);
   static const eventDate = Color(0xffd39a23);
   static const calendarFont = Color(0xff5c5c5c);
+  static const bg = Color(0xffececf9);
 }

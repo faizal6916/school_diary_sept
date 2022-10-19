@@ -121,4 +121,89 @@ class UserProvider with ChangeNotifier {
    }
   }
 
+  Future<dynamic> getPublishedReport(String schoolId,String childId,String acadYear) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.reportPublished}';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String,Map<String,String>> apiBody = {
+        "args": {
+          "user_id": childId,
+          "schoolId": schoolId,
+          "passedSelectedYear": acadYear
+        }
+      };
+      var request = http.Request('POST',Uri.parse(url));
+      request.body=(json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<dynamic> getExams(String schoolId,String acadYear,String currId,String batchId,String stdId,String sessionId,String clsId) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.exams}';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String,String> apiBody = {
+        "school_id": schoolId,
+        "academic_year": acadYear,
+        "curriculum_id": currId,
+        "batch_id": batchId,
+        "student_id": stdId,
+        "session_id": sessionId,
+        "class_id": clsId
+      };
+      var request = http.Request('POST',Uri.parse(url));
+      request.body=(json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<dynamic> getHallticket(String stdId) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.hallTicket}';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String,String> apiBody = {
+        "child_id": stdId
+      };
+      var request = http.Request('POST',Uri.parse(url));
+      request.body=(json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+  }
+
 }

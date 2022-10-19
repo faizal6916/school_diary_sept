@@ -98,7 +98,16 @@ class _HomeScreenState extends State<HomeScreen> {
         'centre': true
       },
       {
-        'page':ReportMainScreen(),
+        'page':ReportMainScreen(
+          usrId: _userdata.data!.data![0].id,
+          schoolId: _userdata.data!.data![0].schoolId,
+          studId: _userdata.data!.data![0].studentDetails!.first.userId,
+          acadYear: _userdata.data!.data![0].studentDetails!.first.academicYear,
+          batchId: _userdata.data!.data![0].studentDetails!.first.batchId,
+          classId: _userdata.data!.data![0].studentDetails!.first.classId,
+          curriculumId: _userdata.data!.data![0].studentDetails!.first.curriculumId,
+          sessionId: _userdata.data!.data![0].studentDetails!.first.sessionId,
+        ),
         'title': 'Assessments',
         'centre': true
       },
@@ -170,7 +179,16 @@ class _HomeScreenState extends State<HomeScreen> {
           'centre': true
         },
         {
-          'page':ReportMainScreen(),
+          'page':ReportMainScreen(
+            usrId: _userdata.data!.data![0].id,
+            schoolId: _userdata.data!.data![0].schoolId,
+            studId: _students[pageIndex].userId,
+            acadYear: _students[pageIndex].academicYear,
+            batchId: _students[pageIndex].batchId,
+            classId: _students[pageIndex].classId,
+            curriculumId: _students[pageIndex].curriculumId,
+            sessionId: _students[pageIndex].sessionId,
+          ),
           'title': 'Assessments',
           'centre': true
         },
