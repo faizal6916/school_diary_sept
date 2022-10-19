@@ -93,7 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
         'centre': true
       },
       {
-        'page': FeeScreen(),
+        'page': FeeScreen(
+          admnNo: _userdata.data!.data![0].studentDetails!.first.admissionNumber,
+          dataToken: _userdata.data!.data![0].token,
+        ),
         'title': 'Fee Details',
         'centre': true
       },
@@ -174,7 +177,10 @@ class _HomeScreenState extends State<HomeScreen> {
           'centre': true
         },
         {
-          'page': FeeScreen(),
+          'page': FeeScreen(
+            admnNo: _students[pageIndex].admissionNumber,
+            dataToken: _userdata.data!.data![0].token,
+          ),
           'title': 'Fee Details',
           'centre': true
         },

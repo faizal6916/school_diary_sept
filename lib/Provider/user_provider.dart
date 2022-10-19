@@ -206,4 +206,31 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  Future<dynamic> getFeeDetail(String admnNo,String dataToken) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.feeDetails}';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String,String> apiBody = {
+        "school_data_url": "https://sqa.docme.online/bm-school/api/app",
+        "admn_no": admnNo,
+        "school_data_token": "7a9d733269d23bc35b04b56dc855d330",
+        "version": "1.0.3"
+      };
+      var request = http.Request('POST',Uri.parse(url));
+      request.body=(json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+  }
 }

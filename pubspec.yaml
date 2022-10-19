@@ -53,6 +53,7 @@ dependencies:
   open_file_safe: ^3.2.3
   percent_indicator: ^4.2.2
   table_calendar: ^3.0.7
+  dotted_border: ^2.0.0+2
 
 
 

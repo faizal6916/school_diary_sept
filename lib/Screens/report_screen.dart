@@ -51,7 +51,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
           .getPublishedReport(schoolId, childId, acadYear);
-     // print(resp.runtimeType);
+      // print(resp.runtimeType);
       report.clear();
       print('report card length ---------->${report.length}');
       print('staus code-------------->${resp['status']['code']}');
@@ -61,20 +61,20 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
         });
         print('its working');
         print(resp['data']['details']['arrayToClient']);
-      //  _report = Report.fromJson(resp);
+        //  _report = Report.fromJson(resp);
         //print(_report.data!.message);
         //_arrayToclient = _report.data!.details!.arrayToClient;
-       reporFrom = resp['data']['details']['arrayToClient'];
-      //   resp['data']['details']['arrayToClient'].forEach((one){
-      //     print(one);
-      //   });
-         print(reporFrom);
-      //   reporFrom.sort((a,b){
-      //       DateTime aa = a['last_updated'];
-      //       DateTime bb = b['last_updated'];
-      //       return -1 * aa.compareTo(bb);
-      //   });
-        reporFrom.sort((a,b){
+        reporFrom = resp['data']['details']['arrayToClient'];
+        //   resp['data']['details']['arrayToClient'].forEach((one){
+        //     print(one);
+        //   });
+        print(reporFrom);
+        //   reporFrom.sort((a,b){
+        //       DateTime aa = a['last_updated'];
+        //       DateTime bb = b['last_updated'];
+        //       return -1 * aa.compareTo(bb);
+        //   });
+        reporFrom.sort((a, b) {
           DateTime aa = DateFormat('yyyy-M-d').parse(a['last_updated']);
           DateTime bb = DateFormat('yyyy-M-d').parse(b['last_updated']);
           return -1 * aa.compareTo(bb);
@@ -111,14 +111,17 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
       }
     } catch (e) {}
   }
-  _getExam(String schoolId,String acadYear,String currId,String batchId,String stdId,String sessionId,String clsId) async {
+
+  _getExam(String schoolId, String acadYear, String currId, String batchId,
+      String stdId, String sessionId, String clsId) async {
     try {
       setState(() {
         reporFrom = [];
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
-          .getExams(schoolId, acadYear, currId, batchId, stdId, sessionId, clsId);
+          .getExams(
+              schoolId, acadYear, currId, batchId, stdId, sessionId, clsId);
       // print(resp.runtimeType);
       report.clear();
       print('report card length ---------->${report.length}');
@@ -180,7 +183,8 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
       }
     } catch (e) {}
   }
-  _getHallTicket( String childId) async {
+
+  _getHallTicket(String childId) async {
     try {
       setState(() {
         reporFrom = [];
@@ -249,13 +253,21 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
       }
     } catch (e) {}
   }
+
   void selectedWid(int actIndex) {
     switch (actIndex) {
       case 1:
         _getReport(widget.schoolId!, widget.studId!, widget.acadYear!);
         break;
       case 2:
-        _getExam(widget.schoolId!, widget.acadYear!, widget.curriculumId!, widget.batchId!, widget.studId!, widget.sessionId!, widget.classId!);
+        _getExam(
+            widget.schoolId!,
+            widget.acadYear!,
+            widget.curriculumId!,
+            widget.batchId!,
+            widget.studId!,
+            widget.sessionId!,
+            widget.classId!);
         break;
       case 3:
         _getHallTicket(widget.studId!);
@@ -290,10 +302,12 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           padding: EdgeInsets.symmetric(horizontal: 15),
           // color: Colors.green,
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15))),
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            ),
+          ),
           child: Row(
             children: [
               tabItem('Reports', 1),
