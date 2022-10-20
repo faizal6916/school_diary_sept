@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
 
 class FeePending extends StatefulWidget {
@@ -36,8 +37,8 @@ class _FeePendingState extends State<FeePending> {
   }
     String dueAmt(String keyy){
     if(widget.feeDetail!.containsKey(keyy)){
-      print('OK');
-      print(keyy);
+     // print('OK');
+      //print(keyy);
       return widget.feeDetail![keyy]['demanded_amount'].toString();
     }else{
       return ' ';
@@ -45,8 +46,8 @@ class _FeePendingState extends State<FeePending> {
   }
   String paidAmt(String keyy){
     if(widget.feeDetail!.containsKey(keyy)){
-      print('OK');
-      print(keyy);
+      //print('OK');
+      //print(keyy);
       return widget.feeDetail![keyy]['paid_amount'].toString();
     }else{
       return ' ';
@@ -69,10 +70,10 @@ class _FeePendingState extends State<FeePending> {
     keyList.clear();
     details();
 
-    print('length ${widget.feeDetail!.length}');
+    //print('length ${widget.feeDetail!.length}');
     widget.feeDetail!.forEach((key, value) {
-      print('keee----->$value');
-      print(value.runtimeType);
+      // print('keee----->$value');
+      // print(value.runtimeType);
       // print(value[0]['balance_amount']);
      // keyList.addAll(key);
     });
@@ -112,43 +113,51 @@ class _FeePendingState extends State<FeePending> {
       child: Column(
 
         children: [
-          Container(
-            width: 1.sw,
+          GestureDetector(
+            onTap: (){
+              setState((){
+                _isExpanded = !_isExpanded;
+              });
+            },
+            child: Container(
+              width: 1.sw,
 
-            height: 180,
-            decoration: BoxDecoration(
-               //color: Colors.red,
+              height: 180,
+              decoration: BoxDecoration(
+                 //color: Colors.red,
 
-                borderRadius: BorderRadius.circular(15)
-            ),
-            child: Column(
-              children: [
-                Container(
-                  width: 1.sw,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          topLeft: Radius.circular(15)
-                      )
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: 1.sw,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(15),
+                            topLeft: Radius.circular(15)
+                        )
+                    ),
+                    child: Center(child: Text('${widget.feeMonth}',style: TextStyle(
+                        color:  Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Montserrat",
+                        //fontStyle:  FontStyle.normal,
+                        fontSize: 16.sp
+                    ))),
                   ),
-                  child: Center(child: Text('${widget.feeMonth}',style: TextStyle(
-                      color:  Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Montserrat",
-                      //fontStyle:  FontStyle.normal,
-                      fontSize: 16.sp
-                  ))),
-                ),
-                feePendingTab('Amount Due', 'AED  ${widget.amountdue}'),
-                feePendingTab('Amount Paid','AED  ${widget.amountPaid}'),
-                feePendingTab('Balance',    'AED  ${widget.balance}'),
-                feePendingTab('Due Date',    '${widget.duedate}'),
-                Image.asset('assets/images/down_arrow.png',width: 20,height: 20,)
-              ],
+                  feePendingTab('Amount Due', 'AED  ${widget.amountdue}'),
+                  feePendingTab('Amount Paid','AED  ${widget.amountPaid}'),
+                  feePendingTab('Balance',    'AED  ${widget.balance}'),
+                  feePendingTab('Due Date',    '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.duedate!))}'),
+                  _isExpanded ? Image.asset('assets/images/up_arrow.png',width: 20,height: 20,) : Image.asset('assets/images/down_arrow.png',width: 20,height: 20,)
+                ],
+              ),
             ),
           ),
+          if(_isExpanded)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 15),
             child: Stack(
@@ -312,7 +321,7 @@ class _FeePendingState extends State<FeePending> {
               ],
             ),
           ),
-
+          if(_isExpanded)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
             child: DottedBorder(

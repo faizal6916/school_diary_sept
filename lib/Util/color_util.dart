@@ -39,4 +39,5 @@ class ColorUtil {
   static const feeblue = Color(0xff2884d5);
   static const feebluelt = Color(0x192884d5);
   static const feetitle = Color(0xff5558ff);
+  static const paidBor = Color(0xff19a2a0);
 }

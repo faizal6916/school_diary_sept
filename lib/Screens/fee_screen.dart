@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:school_diary_sept_13/Widgets/feePaid.dart';
 import 'package:school_diary_sept_13/Widgets/feePending.dart';
 
 import '../Models/fee_model.dart';
@@ -29,10 +30,14 @@ class _FeeScreenState extends State<FeeScreen> {
   var _isloading = false;
   var fee = FeeDetails();
   List<dynamic> feeDe = [];
+  Map<String, dynamic> feePaid = {};
   List<FeeTotalDetails>? pending = [];
+  List<String> voucherList = [];
   _getFee(String admnNo, String dataToken) async {
     try {
       setState(() {
+        feeDe.clear();
+        feePaid.clear();
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
@@ -45,11 +50,16 @@ class _FeeScreenState extends State<FeeScreen> {
         });
         print('its working');
         print(resp['data']['message']);
-       // fee = FeeDetails.fromJson(resp);
-       // print(fee.data!.details!.first.feeStatus);
+        // fee = FeeDetails.fromJson(resp);
+        // print(fee.data!.details!.first.feeStatus);
         //pending = fee.data!.details;
         feeDe = resp['data']['details'];
-       // print('length of pending ---------->${pending!.length}');
+        feePaid = resp['data']['fee_paid_data'];
+        voucherList = feePaid.keys.toList();
+        //print(resp['data']['fee_paid_data'].runtimeType);
+        print('length of fee paid------${feePaid.length}');
+        //print('length of fee paid------${feePaid.length}');
+        // print('length of pending ---------->${pending!.length}');
         setState(() {
           //_ciculars = _circularList.data!.details!;
         });
@@ -59,6 +69,40 @@ class _FeeScreenState extends State<FeeScreen> {
         });
       }
     } catch (e) {}
+  }
+  String paidAmout(String keyy){
+    if(feePaid.containsKey(keyy)){
+      // print('OK');
+      //print(keyy);
+      return feePaid[keyy]['voucher_total_amount'].toString();
+    }else{
+      return ' ';
+    }
+  }
+  String transDate(String keyy){
+    if(feePaid.containsKey(keyy)){
+      // print('OK');
+      //print(keyy);
+      return feePaid[keyy]['transaction_date'].toString();
+    }else{
+      return ' ';
+    }
+  }
+
+  List<dynamic> getDetailedFee(String keyy){
+    if(feePaid.containsKey(keyy)){
+      // print('OK');
+      //print(keyy);
+      return feePaid[keyy]['details'];
+    }else{
+      return [];
+    }
+  }
+  @override
+  void didUpdateWidget(covariant FeeScreen oldWidget) {
+    _getFee(widget.admnNo!, widget.dataToken!);
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -109,7 +153,17 @@ class _FeeScreenState extends State<FeeScreen> {
                             ),
                           )
                         : Text('no'))
-                    : Text('gg'))
+                    : voucherList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: voucherList.length,
+                            itemBuilder: (ctx, i) => FeePaid(
+                              detailList: getDetailedFee(voucherList[i]),
+                              transactionDate: transDate(voucherList[i]),
+                              voucherNo: voucherList[i],
+                              totalAmount: paidAmout(voucherList[i],
+                              ),
+                            ))
+                        : Text('no'))
       ],
     );
   }
@@ -159,7 +213,6 @@ class _FeeScreenState extends State<FeeScreen> {
           ),
         ),
       );
-
 
   // Widget exp(Map<dynamic,dynamic> amap) {
   //   amap.map((key, value){
