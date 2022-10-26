@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:open_file_safe/open_file_safe.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -200,7 +201,7 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
                 ):  InkWell(
                     onTap: (){
                       //openFile(url: '${ApiConstants.downloadUrl}${widget.attUrl}',filename: '${widget.circularTitle}_${widget.childId}_${widget.attUrl!.split('/').last}');
-                      downloadFile('${ApiConstants.downloadUrl}${widget.attUrl}', '${widget.circularTitle}_${widget.childId}_${widget.attUrl!.split('/').last}');
+                      downloadFile('${ApiConstants.downloadUrl}${widget.attUrl}', '${widget.circularTitle}_${widget.childId}_${DateFormat('dd-MM-yyyy').format(DateTime.now())}_${widget.attUrl!.split('/').last}');
                     },
                     child: Icon(Icons.arrow_circle_down,color: Colors.white,))
               ],

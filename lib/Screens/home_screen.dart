@@ -125,7 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
         'centre': true
       },
       {
-        'page': ProfileScreen(),
+        'page': ProfileScreen(
+          address: _userdata.data!.data![0].address,
+          emailId: _userdata.data!.data![0].username,
+          mobileNo: _userdata.data!.data![0].mobile,
+          username: _userdata.data!.data![0].name,
+          studentList: _userdata.data!.data![0].studentDetails,
+        ),
         'title': 'Profile',
         'centre': true
       },
@@ -209,7 +215,13 @@ class _HomeScreenState extends State<HomeScreen> {
           'centre': true
         },
         {
-          'page': ProfileScreen(),
+          'page': ProfileScreen(
+            address: _userdata.data!.data![0].address,
+            emailId: _userdata.data!.data![0].username,
+            mobileNo: _userdata.data!.data![0].mobile,
+            username: _userdata.data!.data![0].name,
+            studentList: _userdata.data!.data![0].studentDetails,
+          ),
           'title': 'Profile',
           'centre': true
         },
@@ -1076,13 +1088,20 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                name,
-                style: TextStyle(
-                    color: Color(0xff517bfa),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Axiforma',
-                    fontSize: 15.sp),
+              SizedBox(
+                width: 180,
+                child: AutoSizeText(
+                  //'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
+                  //maxLines: 2,
+                  name,
+                  maxFontSize: 14,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Color(0xff517bfa),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Axiforma',
+                      fontSize: 15.sp),
+                ),
               ),
               Text(
                 email,

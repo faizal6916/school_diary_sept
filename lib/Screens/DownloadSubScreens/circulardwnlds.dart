@@ -33,6 +33,8 @@ class _CircularDownloadsState extends State<CircularDownloads> {
     return _isloading ?  Text('No downloads in circular'):ListView.builder(itemBuilder: (ctx,i)=>CircularDwnldWidget(
 filePath: circlars[i].path,
       title: circlars[i].title,
+      date: circlars[i].date,
+      type: 'Circular',
     ),itemCount: circlars.length,) ;
   }
 }

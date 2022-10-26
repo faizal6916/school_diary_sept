@@ -40,4 +40,9 @@ class ColorUtil {
   static const feebluelt = Color(0x192884d5);
   static const feetitle = Color(0xff5558ff);
   static const paidBor = Color(0xff19a2a0);
+  static const profName = Color(0xff517bfa);
+  static const studName = Color(0xff8829e1);
+  static const subBlue =  Color(0xff778beb);
+  static const subGold = Color(0xfff19065);
+  static const downloadClr = Color(0xff787878);
 }

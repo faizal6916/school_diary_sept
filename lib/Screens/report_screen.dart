@@ -7,7 +7,10 @@ import 'package:school_diary_sept_13/Screens/ReportSubScreen/hall_ticket_screen.
 import 'package:school_diary_sept_13/Screens/ReportSubScreen/report_main_screen.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
 import 'package:school_diary_sept_13/Util/spinkit.dart';
+import 'package:school_diary_sept_13/Widgets/cat4widget.dart';
+import 'package:school_diary_sept_13/Widgets/hallTicketWidget.dart';
 import 'package:school_diary_sept_13/Widgets/report_widget.dart';
+import '../Models/hallTicket_model.dart';
 import '../Models/report_model.dart';
 import '../Provider/user_provider.dart';
 
@@ -43,6 +46,8 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
   List<ArrayToClient>? _arrayToclient;
   List<Widget> report = [];
   var reporFrom;
+  var htData = HtModel();
+  List<HallTicketData>? hallTickets = [];
   _getReport(String schoolId, String childId, String acadYear) async {
     try {
       setState(() {
@@ -82,10 +87,26 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
         reporFrom!.forEach((one) {
           print(one['name']);
           print(one['last_updated']);
-          report.add(EachReport(
-            title: one['name'].toString(),
-            date: one['last_updated'].toString(),
-          ));
+          if (one['name'] == 'CAT-4') {
+            report.add(CatFour(
+              title: one['name'].toString(),
+              date: one['last_updated'].toString(),
+            ));
+          } else if (one['name'] == 'Assets') {
+            report.add(CatFour(
+              title: one['name'].toString(),
+              date: one['last_updated'].toString(),
+            ));
+          } else {
+            report.add(EachReport(
+              title: one['name'].toString(),
+              date: one['last_updated'].toString(),
+              reportConsoleId: one['report_console_id'].toString(),
+              studId: widget.studId,
+              schoolId: widget.schoolId,
+              acdYear: widget.acadYear,
+            ));
+          }
         });
         //print('length of arr------------->${_arrayToclient!.length}');
         // _arrayToclient!.sort((a,b){
@@ -187,65 +208,23 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
   _getHallTicket(String childId) async {
     try {
       setState(() {
-        reporFrom = [];
+
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
           .getHallticket(childId);
       // print(resp.runtimeType);
-      report.clear();
-      print('report card length ---------->${report.length}');
-      print('staus code-------------->${resp['status']['code']}');
+      //report.clear();
+      hallTickets!.clear();
       if (resp['status']['code'] == 200) {
         setState(() {
           _isloading = false;
         });
-        print('its working');
-        print('staus code-------------->${resp['data']['message']}');
-        // print(resp['data']['details']['arrayToClient']);
-        // //  _report = Report.fromJson(resp);
-        // //print(_report.data!.message);
-        // //_arrayToclient = _report.data!.details!.arrayToClient;
-        // reporFrom = resp['data']['details']['arrayToClient'];
-        // //   resp['data']['details']['arrayToClient'].forEach((one){
-        // //     print(one);
-        // //   });
-        // print(reporFrom);
-        // //   reporFrom.sort((a,b){
-        // //       DateTime aa = a['last_updated'];
-        // //       DateTime bb = b['last_updated'];
-        // //       return -1 * aa.compareTo(bb);
-        // //   });
-        // reporFrom.sort((a,b){
-        //   DateTime aa = DateFormat('yyyy-M-d').parse(a['last_updated']);
-        //   DateTime bb = DateFormat('yyyy-M-d').parse(b['last_updated']);
-        //   return -1 * aa.compareTo(bb);
-        // });
-        // reporFrom!.forEach((one) {
-        //   print(one['name']);
-        //   print(one['last_updated']);
-        //   report.add(EachReport(
-        //     title: one['name'].toString(),
-        //     date: one['last_updated'].toString(),
-        //   ));
-        // });
-        //print('length of arr------------->${_arrayToclient!.length}');
-        // _arrayToclient!.sort((a,b){
-        //   DateTime aa = a.lastUpdated!;
-        //   DateTime bb = b.lastUpdated!;
-        //   return -1 * aa.compareTo(bb);
-        // });
-        // _arrayToclient!.forEach((atc) {
-        //   report.add(EachReport(
-        //     title: atc.name,
-        //     date: atc.lastUpdated,
-        //   ));
-        // });
-        // _circularList = Circular.fromJson(resp);
-        //print(_circularList.data!.details!.first.title);
-        setState(() {
-          //_ciculars = _circularList.data!.details!;
-        });
+
+        htData = HtModel.fromJson(resp);
+        hallTickets = htData.data!.htData;
+        //print('hall ticket length---->${htData.data!.htData!.length}');
+        //print('hall ticket runtype---->${htData.data!.htData!.runtimeType}');
       } else {
         setState(() {
           _isloading = false;
@@ -293,6 +272,9 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -323,11 +305,20 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           child: _isloading
               ? ListView.builder(
                   itemCount: 4, itemBuilder: (ctx, _) => skeleton)
-              : report.isNotEmpty
-                  ? ListView(
-                      children: report,
-                    )
-                  : Center(child: Text('No Reports Available')),
+              : (selectedTab == 1)
+                  ? report.isNotEmpty
+                      ? ListView(
+                          addAutomaticKeepAlives: true,
+                          children: report,
+                        )
+                      : Center(child: Text('No Reports Available'))
+                  : (selectedTab == 2)
+                      ? Text('Exams')
+                      : (selectedTab == 3)
+                          ? hallTickets!.isNotEmpty? ListView.builder(
+            itemCount: hallTickets!.length,
+              itemBuilder: (ctx,ind)=>HallTicketWidget(url: hallTickets![ind].pdf,date: hallTickets![ind].gneratedOn,title: hallTickets![ind].examName,childId: widget.studId),) : Center(child: Text('No HallTickets Available'))
+                          : Text('kk'),
         )
       ],
     );

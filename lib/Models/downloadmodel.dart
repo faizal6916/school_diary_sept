@@ -8,6 +8,7 @@ class DownloadModel {
  DownloadModel.map({String? filename,String? filePath}){
     title = filename!.split('_')[0];
     childId = filename.split('_')[1];
+    date = filename.split('_')[2];
     path = filePath;
  }
 }

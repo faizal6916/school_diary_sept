@@ -9,4 +9,5 @@ class ApiConstants {
   static const exams = '/v0/educare/activity_reports';
   static const hallTicket = '/v1/get_hall_ticket';
   static const feeDetails = '/v0/parent/portal/fee';
+  static const detailedReport = '/v0/reportcards/published/getReportCardPublished';
 }

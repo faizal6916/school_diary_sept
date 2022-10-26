@@ -6,7 +6,9 @@ import 'package:school_diary_sept_13/Util/color_util.dart';
 class CircularDwnldWidget extends StatelessWidget {
   final String? title;
   final String? filePath;
-  const CircularDwnldWidget({Key? key, this.title, this.filePath})
+  final String? type;
+  final String? date;
+  const CircularDwnldWidget({Key? key, this.title, this.filePath,this.type,this.date})
       : super(key: key);
 
   @override
@@ -61,11 +63,14 @@ class CircularDwnldWidget extends StatelessWidget {
                   ),
                   child: Center(
                       child: Text(
-                    'Circular',
+                    //'Circular',
+                        type!,
                     style: TextStyle(color: ColorUtil.white),
                   )),
                 ),
-                Text('date',
+                Text(
+                    //'date',
+                  date!,
                     style: TextStyle(
                         color: ColorUtil.greybg,
                         fontWeight: FontWeight.w400,

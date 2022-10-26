@@ -233,4 +233,44 @@ class UserProvider with ChangeNotifier {
       print(e);
     }
   }
+
+  Future<dynamic> getDetailedReport(String consoleId,String schlId,String stdId) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.detailedReport}';
+    print(url);
+    try{
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String,Map<String,dynamic>> apiBody = {
+        "args": {
+          "FILE_UPLOAD_URL": "https://teamsqa4000.educore.guru",
+          "SITE_URL": "https://teamsqa3000.educore.guru",
+          "asset_format": false,
+          "clientFileServer": "https://teamsqa4000.educore.guru",
+          "forCT": false,
+          "is_consolidated": false,
+          "kb_consolidatedFlag": false,
+          "pdfFalg": false,
+          "rc_id": consoleId,
+          "school_id": schlId,
+          "studentId": stdId,
+          "template_view": "cbse",
+          "yearFromClient": "2022-2023",
+          "minimum_details": true
+        }
+      };
+      var request = http.Request('POST',Uri.parse(url));
+      request.body=(json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    }catch(e){
+      print(e);
+    }
+  }
 }

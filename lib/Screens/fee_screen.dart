@@ -132,38 +132,56 @@ class _FeeScreenState extends State<FeeScreen> {
             children: [tabItem('Pending', 1), tabItem('Paid', 2)],
           ),
         ),
-        Container(
-            width: 1.sw,
-            height: 1.sh - 260,
-            color: ColorUtil.bg.withOpacity(0.6),
-            child: _isloading
-                ? ListView.builder(
+        Stack(
+          children: [
+            Container(
+                width: 1.sw,
+                height: 1.sh - 260,
+                padding: EdgeInsets.only(bottom: (selectedTab == 1)? 70:0),
+                color: ColorUtil.bg.withOpacity(0.6),
+                child: _isloading
+                    ? ListView.builder(
                     itemCount: 4, itemBuilder: (ctx, _) => skeleton)
-                : selectedTab == 1
+                    : selectedTab == 1
                     ? (feeDe.isNotEmpty
-                        ? ListView.builder(
-                            itemCount: feeDe.length,
-                            itemBuilder: (ctx, i) => FeePending(
-                              amountdue: feeDe[i]['total_demanded'],
-                              feeMonth: feeDe[i]['fee_month'],
-                              amountPaid: feeDe[i]['total_paid'],
-                              balance: feeDe[i]['balance'],
-                              duedate: feeDe[i]['fee_last_date'],
-                              feeDetail: feeDe[i]['details'],
-                            ),
-                          )
-                        : Text('no'))
+                    ? ListView.builder(
+                  itemCount: feeDe.length,
+                  itemBuilder: (ctx, i) => FeePending(
+                    amountdue: feeDe[i]['total_demanded'],
+                    feeMonth: feeDe[i]['fee_month'],
+                    amountPaid: feeDe[i]['total_paid'],
+                    balance: feeDe[i]['balance'],
+                    duedate: feeDe[i]['fee_last_date'],
+                    feeDetail: feeDe[i]['details'],
+                  ),
+                )
+                    : Text('no'))
                     : voucherList.isNotEmpty
-                        ? ListView.builder(
-                            itemCount: voucherList.length,
-                            itemBuilder: (ctx, i) => FeePaid(
-                              detailList: getDetailedFee(voucherList[i]),
-                              transactionDate: transDate(voucherList[i]),
-                              voucherNo: voucherList[i],
-                              totalAmount: paidAmout(voucherList[i],
-                              ),
-                            ))
-                        : Text('no'))
+                    ? ListView.builder(
+                    itemCount: voucherList.length,
+                    itemBuilder: (ctx, i) => FeePaid(
+                      detailList: getDetailedFee(voucherList[i]),
+                      transactionDate: transDate(voucherList[i]),
+                      voucherNo: voucherList[i],
+                      totalAmount: paidAmout(voucherList[i],
+                      ),
+                    ))
+                    : Text('no')),
+            if(selectedTab == 1)
+              Positioned(
+              bottom: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: ColorUtil.feegreen,
+                      minimumSize: Size(1.sw - 30, 50)
+                    ),
+                      onPressed: (){}, child: Text('MAKE PAYMENT')),
+                )),
+
+          ],
+        )
       ],
     );
   }
