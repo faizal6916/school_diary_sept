@@ -9,6 +9,7 @@ class DownloadModel {
     title = filename!.split('_')[0];
     childId = filename.split('_')[1];
     date = filename.split('_')[2];
+    type = filename.split('_').last.split('.')[0];
     path = filePath;
  }
 }

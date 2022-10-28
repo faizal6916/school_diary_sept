@@ -72,33 +72,33 @@ class _DownloadScreenState extends State<DownloadScreen> with TickerProviderStat
               ],
             ),
           ),
-          Container(
-            color: Colors.grey.shade200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Filter',
-                  style: TextStyle(
-                    color: Color(0xff6e6e6e),
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Axiforma',
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                PopupMenuButton<FilterMenuItem>(
-                  onSelected: (item) => onSelected(context, item),
-                  icon: Icon(Icons.arrow_drop_down),
-                  itemBuilder: (context) => [
-                    ...FilterMenu.theFilter.map(buildItem).toList(),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   color: Colors.grey.shade200,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       Text(
+          //         'Filter',
+          //         style: TextStyle(
+          //           color: Color(0xff6e6e6e),
+          //           fontSize: 12.sp,
+          //           fontWeight: FontWeight.w400,
+          //           fontFamily: 'Axiforma',
+          //         ),
+          //       ),
+          //       SizedBox(
+          //         width: 5,
+          //       ),
+          //       PopupMenuButton<FilterMenuItem>(
+          //         onSelected: (item) => onSelected(context, item),
+          //         icon: Icon(Icons.arrow_drop_down),
+          //         itemBuilder: (context) => [
+          //           ...FilterMenu.theFilter.map(buildItem).toList(),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Container(
             width: 1.sw,
             height: 1.sh -305,

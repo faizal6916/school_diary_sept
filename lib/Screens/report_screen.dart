@@ -8,6 +8,7 @@ import 'package:school_diary_sept_13/Screens/ReportSubScreen/report_main_screen.
 import 'package:school_diary_sept_13/Util/color_util.dart';
 import 'package:school_diary_sept_13/Util/spinkit.dart';
 import 'package:school_diary_sept_13/Widgets/cat4widget.dart';
+import 'package:school_diary_sept_13/Widgets/exam_widget.dart';
 import 'package:school_diary_sept_13/Widgets/hallTicketWidget.dart';
 import 'package:school_diary_sept_13/Widgets/report_widget.dart';
 import '../Models/hallTicket_model.dart';
@@ -137,15 +138,15 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
       String stdId, String sessionId, String clsId) async {
     try {
       setState(() {
-        reporFrom = [];
+       // reporFrom = [];
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
           .getExams(
               schoolId, acadYear, currId, batchId, stdId, sessionId, clsId);
       // print(resp.runtimeType);
-      report.clear();
-      print('report card length ---------->${report.length}');
+
+
       print('staus code-------------->${resp['status']['code']}');
       if (resp['status']['code'] == 200) {
         setState(() {
@@ -153,6 +154,8 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
         });
         print('its working');
         print('staus code-------------->${resp['data']['message']}');
+        print('--------------response----------');
+        print(resp['data']['data']['published_completed']);
         // print(resp['data']['details']['arrayToClient']);
         // //  _report = Report.fromJson(resp);
         // //print(_report.data!.message);
@@ -313,7 +316,11 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                         )
                       : Center(child: Text('No Reports Available'))
                   : (selectedTab == 2)
-                      ? Text('Exams')
+                      ? Column(
+    children: [
+      ExamWidget()
+    ],
+    )
                       : (selectedTab == 3)
                           ? hallTickets!.isNotEmpty? ListView.builder(
             itemCount: hallTickets!.length,

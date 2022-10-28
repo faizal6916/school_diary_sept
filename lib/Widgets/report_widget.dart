@@ -24,17 +24,18 @@ class EachReport extends StatefulWidget {
 class _EachReportState extends State<EachReport> {
   var _isloading = false;
   var isCalled = false;
+  var _isFetched = false;
   Map<String,dynamic> detailedMark = {};
   List<String> subject = [];
   var _isExpanded = false;
-  _getReport(String consoleId,String schlId,String stdId) async {
+  _getReport(String consoleId,String schlId,String stdId,bool mndet) async {
     try {
       setState(() {
         //reporFrom = [];
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
-          .getDetailedReport(consoleId, schlId, stdId);
+          .getDetailedReport(consoleId, schlId, stdId,mndet);
       // print(resp.runtimeType);
       //report.clear();
      // print('report card length ---------->${report.length}');
@@ -62,6 +63,8 @@ class _EachReportState extends State<EachReport> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -70,7 +73,7 @@ class _EachReportState extends State<EachReport> {
           onTap: (){
             setState((){
               if(!isCalled){
-                _getReport(widget.reportConsoleId!, widget.schoolId!, widget.studId!);
+                _getReport(widget.reportConsoleId!, widget.schoolId!, widget.studId!,true);
               }else{
                 _isExpanded = !_isExpanded;
               }
@@ -130,6 +133,10 @@ class _EachReportState extends State<EachReport> {
         DetailedReport(
           subjects: subject,
           detailedList: detailedMark,
+          rcId: widget.reportConsoleId,
+          schlId: widget.schoolId,
+          stdId: widget.studId,
+          title: widget.title,
         ):Container()
       ],
     );

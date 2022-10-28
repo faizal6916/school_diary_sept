@@ -166,7 +166,8 @@ class UserProvider with ChangeNotifier {
         "batch_id": batchId,
         "student_id": stdId,
         "session_id": sessionId,
-        "class_id": clsId
+        "class_id": clsId,
+        "orgin": "educare"
       };
       var request = http.Request('POST',Uri.parse(url));
       request.body=(json.encode(apiBody));
@@ -234,7 +235,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<dynamic> getDetailedReport(String consoleId,String schlId,String stdId) async {
+  Future<dynamic> getDetailedReport(String consoleId,String schlId,String stdId,bool mndet) async {
     var url = '${ApiConstants.baseUrl}${ApiConstants.detailedReport}';
     print(url);
     try{
@@ -258,7 +259,7 @@ class UserProvider with ChangeNotifier {
           "studentId": stdId,
           "template_view": "cbse",
           "yearFromClient": "2022-2023",
-          "minimum_details": true
+          "minimum_details": mndet
         }
       };
       var request = http.Request('POST',Uri.parse(url));
