@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:school_diary_sept_13/Screens/AFL_Screen.dart';
 import 'package:school_diary_sept_13/Screens/ReportSubScreen/exam_main_screen.dart';
 import 'package:school_diary_sept_13/Screens/ReportSubScreen/hall_ticket_screen.dart';
 import 'package:school_diary_sept_13/Screens/ReportSubScreen/report_main_screen.dart';
@@ -14,6 +15,7 @@ import 'package:school_diary_sept_13/Widgets/report_widget.dart';
 import '../Models/hallTicket_model.dart';
 import '../Models/report_model.dart';
 import '../Provider/user_provider.dart';
+import '../Models/published_exam_model.dart';
 
 class ReportMainScreen extends StatefulWidget {
   final String? usrId;
@@ -44,11 +46,21 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
   var selectedTab = 1;
   var _isloading = false;
   var _report = Report();
+  var _isAfl = false;
   List<ArrayToClient>? _arrayToclient;
   List<Widget> report = [];
   var reporFrom;
+  var published;
   var htData = HtModel();
   List<HallTicketData>? hallTickets = [];
+  List<Published> pExams = [];
+  var pubExams = Published();
+  List<Color> _clrs = [
+    ColorUtil.circularBg,
+    ColorUtil.examText,
+    ColorUtil.eventYellow,
+    ColorUtil.subGold
+  ];
   _getReport(String schoolId, String childId, String acadYear) async {
     try {
       setState(() {
@@ -153,9 +165,11 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           _isloading = false;
         });
         print('its working');
-        print('staus code-------------->${resp['data']['message']}');
-        print('--------------response----------');
-        print(resp['data']['data']['published_completed']);
+        print('-------------->${resp['data']['message']}');
+        //print('--------------response----------');
+        //print(resp['data']['data']['published_completed']);
+        published =  resp['data']['data']['published_completed'];
+        print('length of exam published --------->${published.length}');
         // print(resp['data']['details']['arrayToClient']);
         // //  _report = Report.fromJson(resp);
         // //print(_report.data!.message);
@@ -279,7 +293,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return _isAfl? AFLReport() :Column(
       children: [
         Container(
           width: 1.sw,
@@ -316,11 +330,18 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                         )
                       : Center(child: Text('No Reports Available'))
                   : (selectedTab == 2)
-                      ? Column(
-    children: [
-      ExamWidget()
-    ],
-    )
+                      ? published.isNotEmpty? ListView.builder(
+             itemCount: published.length,
+              itemBuilder: (ctx,index) => ExamWidget(
+
+                color: _clrs[index % 3],
+                date: published[index]['due_date'],
+                activityName: published[index]['activity_name'],
+                subName: published[index]['subject_name'],
+                themes: published[index]['theme_names'],
+                markObt: published[index]['mark'].toString(),
+                maxMark: published[index]['total_mark'].toString(),
+              )) : Text('No Exams Available')
                       : (selectedTab == 3)
                           ? hallTickets!.isNotEmpty? ListView.builder(
             itemCount: hallTickets!.length,

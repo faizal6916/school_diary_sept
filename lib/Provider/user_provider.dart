@@ -167,7 +167,7 @@ class UserProvider with ChangeNotifier {
         "student_id": stdId,
         "session_id": sessionId,
         "class_id": clsId,
-        "orgin": "educare"
+       // "orgin": "educare"
       };
       var request = http.Request('POST',Uri.parse(url));
       request.body=(json.encode(apiBody));
