@@ -7,6 +7,9 @@ import 'package:school_diary_sept_13/Util/color_util.dart';
 import '../Screens/home_screen.dart';
 
 class ExamWidget extends StatefulWidget {
+  final String? studId;
+  final String? schlId;
+  final String? qpId;
   final String? date;
   final String? subName;
   final String? activityName;
@@ -15,7 +18,7 @@ class ExamWidget extends StatefulWidget {
   final String? maxMark;
   final Color? color;
   final Function? aflOn;
-  const ExamWidget({Key? key,this.aflOn,this.color,this.date,this.maxMark,this.activityName,this.markObt,this.subName,this.themes}) : super(key: key);
+  const ExamWidget({Key? key,this.aflOn,this.color,this.date,this.maxMark,this.activityName,this.markObt,this.subName,this.themes,this.studId,this.qpId,this.schlId}) : super(key: key);
 
   @override
   State<ExamWidget> createState() => _ExamWidgetState();
@@ -84,9 +87,15 @@ class _ExamWidgetState extends State<ExamWidget> {
                 fontStyle:  FontStyle.normal,
                 fontSize: 15.sp
             )),
-                        GestureDetector(
+                        (widget.markObt.toString() == 'null')? Text('Not Attended'):   GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AFLReport()));
+                            Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AFLReport(
+                              qpId: widget.qpId,
+                              studId: widget.studId,
+                              schlId: widget.schlId,
+                              nos: widget.maxMark,
+                              score: widget.markObt,
+                            )));
                           },
                           child: Row(
                             children: [

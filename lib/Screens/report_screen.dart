@@ -333,7 +333,9 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                       ? published.isNotEmpty? ListView.builder(
              itemCount: published.length,
               itemBuilder: (ctx,index) => ExamWidget(
-
+                schlId: widget.schoolId,
+                studId: widget.studId,
+                qpId: published[index]['_id'],
                 color: _clrs[index % 3],
                 date: published[index]['due_date'],
                 activityName: published[index]['activity_name'],

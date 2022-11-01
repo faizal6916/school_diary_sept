@@ -10,4 +10,5 @@ class ApiConstants {
   static const hallTicket = '/v1/get_hall_ticket';
   static const feeDetails = '/v0/parent/portal/fee';
   static const detailedReport = '/v0/reportcards/published/getReportCardPublished';
+  static const aflReport = '/v0/assesment-report/activity/student/report';
 }
