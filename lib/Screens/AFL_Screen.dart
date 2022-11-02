@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
+import 'package:school_diary_sept_13/Widgets/afl_remark.dart';
 import 'package:school_diary_sept_13/Widgets/question_analysis.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../Models/barchart.dart';
 import '../Provider/user_provider.dart';
+import '../Util/spinkit.dart';
 
 class AFLReport extends StatefulWidget {
   final String? studId;
@@ -143,6 +145,7 @@ class _AFLReportState extends State<AFLReport> {
     'Activity Report',
   ];
   String dropdownvalue = 'Analysis';
+  var _selection = 'Analysis';
   @override
   void initState() {
     _getAFLReport(widget.studId!, widget.qpId!, widget.schlId!);
@@ -328,37 +331,45 @@ class _AFLReportState extends State<AFLReport> {
                       ),
                       Stack(
                         children: [
-                          Container(
-                            width: 1.sw / 2 - 40,
-                            height: 50,
-                            //color: Colors.red,
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                // border: Border(bottom: BorderSide(color: Colors.black26)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: const Color(0x78aeaed8),
-                                      offset: Offset(0, 10),
-                                      blurRadius: 32,
-                                      spreadRadius: 0)
+                          GestureDetector(
+                            onTap: (){
+                              setState((){
+                                _selection = 'Remarks';
+                              });
+
+                            },
+                            child: Container(
+                              width: 1.sw / 2 - 40,
+                              height: 50,
+                              //color: Colors.red,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  // border: Border(bottom: BorderSide(color: Colors.black26)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: const Color(0x78aeaed8),
+                                        offset: Offset(0, 10),
+                                        blurRadius: 32,
+                                        spreadRadius: 0)
+                                  ],
+                                  color: Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image(
+                                      image:
+                                          AssetImage('assets/images/remark.png')),
+                                  Text('Remarks'),
+                                  Transform.rotate(
+                                      angle: 180 * math.pi / 180,
+                                      child: Icon(
+                                        Icons.arrow_back_ios_new,
+                                        size: 14,
+                                      ))
                                 ],
-                                color: Colors.white),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image(
-                                    image:
-                                        AssetImage('assets/images/remark.png')),
-                                Text('Remarks'),
-                                Transform.rotate(
-                                    angle: 180 * math.pi / 180,
-                                    child: Icon(
-                                      Icons.arrow_back_ios_new,
-                                      size: 14,
-                                    ))
-                              ],
+                              ),
                             ),
                           ),
                           Positioned(
@@ -367,7 +378,7 @@ class _AFLReportState extends State<AFLReport> {
                               width: 1.sw / 2 - 40,
                               height: 6,
                               decoration: BoxDecoration(
-                                  color: ColorUtil.tabIndicator,
+                                  color:(_selection == 'Remarks')? ColorUtil.tabIndicator:ColorUtil.white,
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(15),
                                       bottomRight: Radius.circular(15))),
@@ -382,30 +393,39 @@ class _AFLReportState extends State<AFLReport> {
                     children: [
                       Stack(
                         children: [
-                          Container(
-                            width: 1.sw / 2 - 40,
-                            height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            // color: Colors.red,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: const Color(0x78aeaed8),
-                                      offset: Offset(0, 10),
-                                      blurRadius: 32,
-                                      spreadRadius: 0)
+                          GestureDetector(
+                            onTap: (){
+                              setState((){
+                               // dropdownvalue = 'Question';
+                                _selection = 'Question';
+
+                              });
+                            },
+                            child: Container(
+                              width: 1.sw / 2 - 40,
+                              height: 50,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              // color: Colors.red,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: const Color(0x78aeaed8),
+                                        offset: Offset(0, 10),
+                                        blurRadius: 32,
+                                        spreadRadius: 0)
+                                  ],
+                                  color: Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image(
+                                      image: AssetImage(
+                                          'assets/images/question.png')),
+                                  Text('Question Analysis'),
                                 ],
-                                color: Colors.white),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image(
-                                    image: AssetImage(
-                                        'assets/images/question.png')),
-                                Text('Question Analysis'),
-                              ],
+                              ),
                             ),
                           ),
                           Positioned(
@@ -414,7 +434,7 @@ class _AFLReportState extends State<AFLReport> {
                               width: 1.sw / 2 - 40,
                               height: 6,
                               decoration: BoxDecoration(
-                                  color: ColorUtil.tabIndicator,
+                                  color: (_selection == 'Question')?ColorUtil.tabIndicator:ColorUtil.white,
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(15),
                                       bottomRight: Radius.circular(15))),
@@ -467,7 +487,8 @@ class _AFLReportState extends State<AFLReport> {
                                     print(value);
                                     setState(() {
                                       dropdownvalue = value!;
-                                      print(dropdownvalue);
+                                      // print(dropdownvalue);
+                                      _selection = value;
                                     });
                                   }),
                             ),
@@ -490,229 +511,232 @@ class _AFLReportState extends State<AFLReport> {
              // margin: EdgeInsets.symmetric(vertical: 20),
               // color: Colors.red,
               child: _isloading
-                  ? Text('loading......')
+                  ? ListView.builder(
+                  itemCount: 4, itemBuilder: (ctx, _) => skeleton)
                   :ListView(
                 children: [
-                  Text('Analysis'),
+                  (_selection == 'Question')?Text('Question Analysis'):(_selection == 'Remarks')? Text('Remarks') : Text('Analysis'),
                   SizedBox(
                     height: 15,
                   ),
-                   Container(
-                          width: 1.sw,
-                          height: 250,
-                     margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: const Color(0x78aeaed8),
-                                  offset: Offset(0, 10),
-                                  blurRadius: 32,
-                                  spreadRadius: 0)
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: SfCartesianChart(
-                            // palette: <Color>[
-                            //   Colors.teal,
-                            //   Colors.orange,
-                            //   Colors.brown
-                            // ],
-
-                            title: ChartTitle(
-                                text: 'Score Comparison',
-                                alignment: ChartAlignment.near,
-                                textStyle: TextStyle(
-                                  fontFamily: 'Axiforma',
-                                  color: Color(0xff090909),
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.normal,
-                                )),
-                            primaryXAxis: CategoryAxis(),
-                            primaryYAxis: NumericAxis(
-                                minimum: 0, maximum: 100, interval: 25),
-                            tooltipBehavior: TooltipBehavior(enable: true,),
-                            series: <ChartSeries<ChartData, String>>[
-                              ColumnSeries<ChartData, String>(
-                                width: 0.4,
-                                dataSource: _chData,
-                                xValueMapper: (ChartData data, _) => data.xaxis,
-                                yValueMapper: (ChartData data, _) => data.yaxis,
-                                name: 'Average',
-                                // color: Color.fromRGBO(8, 142, 255, 1),
-                                pointColorMapper: (ChartData data, _) =>
-                                    data.colr,
-                              ),
-                            ],
-                          ),
-                        ),
-                  Container(
-                    width: 1.sw,
-                    height: 250,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: const Color(0x78aeaed8),
-                            offset: Offset(0, 10),
-                            blurRadius: 32,
-                            spreadRadius: 0)
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(width: 20,),
-                            Text('Student Vs Theme Average',style: TextStyle(
-                              fontFamily: 'Axiforma',
-                              color: Color(0xff090909),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                            ),),
-                          ],
-                        ),
-                        Container(width: 1.sw,child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(width: 5,),
-                            Container(width: 30,height: 20,color: Colors.blue,),
-                            Text('Student Avg'),
-                            SizedBox(width: 25,),
-                            Container(width: 30,height: 20,color: Colors.red,),
-                            Text('Class Avg'),
-                             SizedBox(width: 50,),
-
-                          ],
-                        ),),
-
-                        SizedBox(
-                          height: 200,
-                          child: SfCartesianChart(
-
-                            palette: <Color>[
-                              Colors.blue,
-                              Colors.red,
-
-                            ],
-                           zoomPanBehavior: ZoomPanBehavior(
-                            enablePanning: true,
-                          ),
-                            // title: ChartTitle(
-                            //     text: 'Student Vs Theme Average',
-                            //     alignment: ChartAlignment.near,
-                            //     textStyle: TextStyle(
-                            //       fontFamily: 'Axiforma',
-                            //       color: Color(0xff090909),
-                            //       fontSize: 12,
-                            //       fontWeight: FontWeight.w500,
-                            //       fontStyle: FontStyle.normal,
-                            //     )),
-                            primaryXAxis: CategoryAxis(
-                               visibleMinimum: 0,
-                              visibleMaximum: 0.28
-                            ),
-                            primaryYAxis: NumericAxis(
-                                minimum: 0, maximum: 100, interval: 20,),
-                            tooltipBehavior: TooltipBehavior(enable: true),
-                            series: <ChartSeries<ComparisonChart, String>>[
-                              ColumnSeries<ComparisonChart, String>(
-
-                                width: 0.5,
-                                dataSource: _compData,
-                                xValueMapper: (ComparisonChart data, _) => data.xaxis,
-                                yValueMapper: (ComparisonChart data, _) => data.y1,
-                               name: 'Average',
-                                // color: Color.fromRGBO(8, 142, 255, 1),
-                                // pointColorMapper: (ChartData data, _) =>
-                                // data.colr,
-                              ),
-                              ColumnSeries<ComparisonChart, String>(
-                                width: 0.5,
-                                dataSource: _compData,
-                                xValueMapper: (ComparisonChart data, _) => data.xaxis,
-                                yValueMapper: (ComparisonChart data, _) => data.y2,
-                                //name: 'Gold',
-                                // color: Color.fromRGBO(8, 142, 255, 1),
-                                // pointColorMapper: (ChartData data, _) =>
-                                // data.colr,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 1.sw,
-                    height: 250,
-                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: const Color(0x78aeaed8),
-                            offset: Offset(0, 10),
-                            blurRadius: 32,
-                            spreadRadius: 0)
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: SfCartesianChart(
-                      // palette: <Color>[
-                      //   Colors.teal,
-                      //   Colors.orange,
-                      //   Colors.brown
-                      // ],
-
-                      title: ChartTitle(
-                          text: 'Activity Report: Time Elapsed',
-                          alignment: ChartAlignment.near,
-                          textStyle: TextStyle(
-                            fontFamily: 'Axiforma',
-                            color: Color(0xff090909),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                          )),
-                      zoomPanBehavior: ZoomPanBehavior(
-                        enablePanning: true,
-                      ),
-                      primaryXAxis: CategoryAxis(
-                          visibleMinimum: 0,
-                          visibleMaximum: 5,
-                         title: AxisTitle(text: 'Questions',textStyle: TextStyle(fontSize: 10.sp))
-                         // labelIntersectAction: AxisLabelIntersectAction.multipleRows
-                      ),
-                      primaryYAxis: NumericAxis(
-                          minimum: 0, maximum: 4, interval: 1,title: AxisTitle(text: 'Time Elapsed For The Student',textStyle: TextStyle(fontSize: 10.sp))),
-                      tooltipBehavior: TooltipBehavior(enable: true,),
-                      series: <ChartSeries<ChartData, String>>[
-                        LineSeries(  dataSource: _timeElapsed,
-                          xValueMapper: (ChartData data, _) => data.xaxis,
-                          yValueMapper: (ChartData data, _) => data.yaxis,),
-                        ColumnSeries<ChartData, String>(
-                          width: 0.4,
-                          dataSource: _timeElapsed,
-                          xValueMapper: (ChartData data, _) => data.xaxis,
-                          yValueMapper: (ChartData data, _) => data.yaxis,
-                          name: 'Time',
-                          // color: Color.fromRGBO(8, 142, 255, 1),
-                          pointColorMapper: (ChartData data, _) =>
-                          data.colr,
-                        ),
-
-                      ],
-                    ),
-                  ),
+                  ...mainTree(_selection)
+                  //  Container(
+                  //         width: 1.sw,
+                  //         height: 250,
+                  //    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  //         padding: EdgeInsets.symmetric(horizontal: 10),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //           boxShadow: [
+                  //             BoxShadow(
+                  //                 color: const Color(0x78aeaed8),
+                  //                 offset: Offset(0, 10),
+                  //                 blurRadius: 32,
+                  //                 spreadRadius: 0)
+                  //           ],
+                  //           color: Colors.white,
+                  //         ),
+                  //         child: SfCartesianChart(
+                  //           // palette: <Color>[
+                  //           //   Colors.teal,
+                  //           //   Colors.orange,
+                  //           //   Colors.brown
+                  //           // ],
+                  //
+                  //           title: ChartTitle(
+                  //               text: 'Score Comparison',
+                  //               alignment: ChartAlignment.near,
+                  //               textStyle: TextStyle(
+                  //                 fontFamily: 'Axiforma',
+                  //                 color: Color(0xff090909),
+                  //                 fontSize: 13.sp,
+                  //                 fontWeight: FontWeight.w700,
+                  //                 fontStyle: FontStyle.normal,
+                  //               )),
+                  //           primaryXAxis: CategoryAxis(),
+                  //           primaryYAxis: NumericAxis(
+                  //               minimum: 0, maximum: 100, interval: 25),
+                  //           tooltipBehavior: TooltipBehavior(enable: true,),
+                  //           series: <ChartSeries<ChartData, String>>[
+                  //             ColumnSeries<ChartData, String>(
+                  //               width: 0.4,
+                  //               dataSource: _chData,
+                  //               xValueMapper: (ChartData data, _) => data.xaxis,
+                  //               yValueMapper: (ChartData data, _) => data.yaxis,
+                  //               name: 'Average',
+                  //               // color: Color.fromRGBO(8, 142, 255, 1),
+                  //               pointColorMapper: (ChartData data, _) =>
+                  //                   data.colr,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  // Container(
+                  //   width: 1.sw,
+                  //   height: 250,
+                  //   padding: EdgeInsets.symmetric(horizontal: 10),
+                  //   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //           color: const Color(0x78aeaed8),
+                  //           offset: Offset(0, 10),
+                  //           blurRadius: 32,
+                  //           spreadRadius: 0)
+                  //     ],
+                  //     color: Colors.white,
+                  //   ),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           SizedBox(width: 20,),
+                  //           Text('Student Vs Theme Average',style: TextStyle(
+                  //             fontFamily: 'Axiforma',
+                  //             color: Color(0xff090909),
+                  //             fontSize: 14.sp,
+                  //             fontWeight: FontWeight.w700,
+                  //             fontStyle: FontStyle.normal,
+                  //           ),),
+                  //         ],
+                  //       ),
+                  //       Container(width: 1.sw,child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //         children: [
+                  //           SizedBox(width: 5,),
+                  //           Container(width: 30,height: 20,color: Colors.blue,),
+                  //           Text('Student Avg'),
+                  //           SizedBox(width: 25,),
+                  //           Container(width: 30,height: 20,color: Colors.red,),
+                  //           Text('Class Avg'),
+                  //            SizedBox(width: 50,),
+                  //
+                  //         ],
+                  //       ),),
+                  //
+                  //       SizedBox(
+                  //         height: 200,
+                  //         child: SfCartesianChart(
+                  //
+                  //           palette: <Color>[
+                  //             Colors.blue,
+                  //             Colors.red,
+                  //
+                  //           ],
+                  //          zoomPanBehavior: ZoomPanBehavior(
+                  //           enablePanning: true,
+                  //         ),
+                  //           // title: ChartTitle(
+                  //           //     text: 'Student Vs Theme Average',
+                  //           //     alignment: ChartAlignment.near,
+                  //           //     textStyle: TextStyle(
+                  //           //       fontFamily: 'Axiforma',
+                  //           //       color: Color(0xff090909),
+                  //           //       fontSize: 12,
+                  //           //       fontWeight: FontWeight.w500,
+                  //           //       fontStyle: FontStyle.normal,
+                  //           //     )),
+                  //           primaryXAxis: CategoryAxis(
+                  //              visibleMinimum: 0,
+                  //             visibleMaximum: 0.28
+                  //           ),
+                  //           primaryYAxis: NumericAxis(
+                  //               minimum: 0, maximum: 100, interval: 20,),
+                  //           tooltipBehavior: TooltipBehavior(enable: true),
+                  //           series: <ChartSeries<ComparisonChart, String>>[
+                  //             ColumnSeries<ComparisonChart, String>(
+                  //
+                  //               width: 0.5,
+                  //               dataSource: _compData,
+                  //               xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                  //               yValueMapper: (ComparisonChart data, _) => data.y1,
+                  //              name: 'Average',
+                  //               // color: Color.fromRGBO(8, 142, 255, 1),
+                  //               // pointColorMapper: (ChartData data, _) =>
+                  //               // data.colr,
+                  //             ),
+                  //             ColumnSeries<ComparisonChart, String>(
+                  //               width: 0.5,
+                  //               dataSource: _compData,
+                  //               xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                  //               yValueMapper: (ComparisonChart data, _) => data.y2,
+                  //               //name: 'Gold',
+                  //               // color: Color.fromRGBO(8, 142, 255, 1),
+                  //               // pointColorMapper: (ChartData data, _) =>
+                  //               // data.colr,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Container(
+                  //   width: 1.sw,
+                  //   height: 250,
+                  //   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  //   padding: EdgeInsets.symmetric(horizontal: 10),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //           color: const Color(0x78aeaed8),
+                  //           offset: Offset(0, 10),
+                  //           blurRadius: 32,
+                  //           spreadRadius: 0)
+                  //     ],
+                  //     color: Colors.white,
+                  //   ),
+                  //   child: SfCartesianChart(
+                  //     // palette: <Color>[
+                  //     //   Colors.teal,
+                  //     //   Colors.orange,
+                  //     //   Colors.brown
+                  //     // ],
+                  //
+                  //     title: ChartTitle(
+                  //         text: 'Activity Report: Time Elapsed',
+                  //         alignment: ChartAlignment.near,
+                  //         textStyle: TextStyle(
+                  //           fontFamily: 'Axiforma',
+                  //           color: Color(0xff090909),
+                  //           fontSize: 13.sp,
+                  //           fontWeight: FontWeight.w700,
+                  //           fontStyle: FontStyle.normal,
+                  //         )),
+                  //     zoomPanBehavior: ZoomPanBehavior(
+                  //       enablePanning: true,
+                  //     ),
+                  //     primaryXAxis: CategoryAxis(
+                  //         visibleMinimum: 0,
+                  //         visibleMaximum: 5,
+                  //        title: AxisTitle(text: 'Questions',textStyle: TextStyle(fontSize: 10.sp))
+                  //        // labelIntersectAction: AxisLabelIntersectAction.multipleRows
+                  //     ),
+                  //     primaryYAxis: NumericAxis(
+                  //         minimum: 0, maximum: 4, interval: 1,title: AxisTitle(text: 'Time Elapsed For The Student',textStyle: TextStyle(fontSize: 10.sp))),
+                  //     tooltipBehavior: TooltipBehavior(enable: true,),
+                  //     series: <ChartSeries<ChartData, String>>[
+                  //       LineSeries(  dataSource: _timeElapsed,
+                  //         xValueMapper: (ChartData data, _) => data.xaxis,
+                  //         yValueMapper: (ChartData data, _) => data.yaxis,),
+                  //       ColumnSeries<ChartData, String>(
+                  //         width: 0.4,
+                  //         dataSource: _timeElapsed,
+                  //         xValueMapper: (ChartData data, _) => data.xaxis,
+                  //         yValueMapper: (ChartData data, _) => data.yaxis,
+                  //         name: 'Time',
+                  //         // color: Color.fromRGBO(8, 142, 255, 1),
+                  //         pointColorMapper: (ChartData data, _) =>
+                  //         data.colr,
+                  //       ),
+                  //
+                  //     ],
+                  //   ),
+                  // ),
+                  // QuestionAnalysis()
                 ],
               ),
             ),
@@ -720,5 +744,683 @@ class _AFLReportState extends State<AFLReport> {
         ],
       ),
     );
+  }
+  List<Widget> mainTree(String type){
+    switch(type){
+       case 'Analysis':
+        return [
+          Container(
+            width: 1.sw,
+            height: 250,
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: SfCartesianChart(
+              // palette: <Color>[
+              //   Colors.teal,
+              //   Colors.orange,
+              //   Colors.brown
+              // ],
+
+              title: ChartTitle(
+                  text: 'Score Comparison',
+                  alignment: ChartAlignment.near,
+                  textStyle: TextStyle(
+                    fontFamily: 'Axiforma',
+                    color: Color(0xff090909),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  )),
+              primaryXAxis: CategoryAxis(),
+              primaryYAxis: NumericAxis(
+                  minimum: 0, maximum: 100, interval: 25),
+              tooltipBehavior: TooltipBehavior(enable: true,),
+              series: <ChartSeries<ChartData, String>>[
+                ColumnSeries<ChartData, String>(
+                  width: 0.4,
+                  dataSource: _chData,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,
+                  name: 'Average',
+                  // color: Color.fromRGBO(8, 142, 255, 1),
+                  pointColorMapper: (ChartData data, _) =>
+                  data.colr,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 1.sw,
+            height: 250,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    Text('Student Vs Theme Average',style: TextStyle(
+                      fontFamily: 'Axiforma',
+                      color: Color(0xff090909),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.normal,
+                    ),),
+                  ],
+                ),
+                Container(width: 1.sw,child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(width: 5,),
+                    Container(width: 30,height: 20,color: Colors.blue,),
+                    Text('Student Avg'),
+                    SizedBox(width: 25,),
+                    Container(width: 30,height: 20,color: Colors.red,),
+                    Text('Class Avg'),
+                    SizedBox(width: 50,),
+
+                  ],
+                ),),
+
+                SizedBox(
+                  height: 200,
+                  child: SfCartesianChart(
+
+                    palette: <Color>[
+                      Colors.blue,
+                      Colors.red,
+
+                    ],
+                    zoomPanBehavior: ZoomPanBehavior(
+                      enablePanning: true,
+                    ),
+                    // title: ChartTitle(
+                    //     text: 'Student Vs Theme Average',
+                    //     alignment: ChartAlignment.near,
+                    //     textStyle: TextStyle(
+                    //       fontFamily: 'Axiforma',
+                    //       color: Color(0xff090909),
+                    //       fontSize: 12,
+                    //       fontWeight: FontWeight.w500,
+                    //       fontStyle: FontStyle.normal,
+                    //     )),
+                    primaryXAxis: CategoryAxis(
+                        visibleMinimum: 0,
+                        visibleMaximum: 0.28
+                    ),
+                    primaryYAxis: NumericAxis(
+                      minimum: 0, maximum: 100, interval: 20,),
+                    tooltipBehavior: TooltipBehavior(enable: true),
+                    series: <ChartSeries<ComparisonChart, String>>[
+                      ColumnSeries<ComparisonChart, String>(
+
+                        width: 0.5,
+                        dataSource: _compData,
+                        xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                        yValueMapper: (ComparisonChart data, _) => data.y1,
+                        name: 'Average',
+                        // color: Color.fromRGBO(8, 142, 255, 1),
+                        // pointColorMapper: (ChartData data, _) =>
+                        // data.colr,
+                      ),
+                      ColumnSeries<ComparisonChart, String>(
+                        width: 0.5,
+                        dataSource: _compData,
+                        xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                        yValueMapper: (ComparisonChart data, _) => data.y2,
+                        //name: 'Gold',
+                        // color: Color.fromRGBO(8, 142, 255, 1),
+                        // pointColorMapper: (ChartData data, _) =>
+                        // data.colr,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 1.sw,
+            height: 250,
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: SfCartesianChart(
+              // palette: <Color>[
+              //   Colors.teal,
+              //   Colors.orange,
+              //   Colors.brown
+              // ],
+
+              title: ChartTitle(
+                  text: 'Activity Report: Time Elapsed',
+                  alignment: ChartAlignment.near,
+                  textStyle: TextStyle(
+                    fontFamily: 'Axiforma',
+                    color: Color(0xff090909),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  )),
+              zoomPanBehavior: ZoomPanBehavior(
+                enablePanning: true,
+              ),
+              primaryXAxis: CategoryAxis(
+                  visibleMinimum: 0,
+                  visibleMaximum: 5,
+                  title: AxisTitle(text: 'Questions',textStyle: TextStyle(fontSize: 10.sp))
+                // labelIntersectAction: AxisLabelIntersectAction.multipleRows
+              ),
+              primaryYAxis: NumericAxis(
+                  minimum: 0, maximum: 4, interval: 1,title: AxisTitle(text: 'Time Elapsed For The Student',textStyle: TextStyle(fontSize: 10.sp))),
+              tooltipBehavior: TooltipBehavior(enable: true,),
+              series: <ChartSeries<ChartData, String>>[
+                LineSeries(  dataSource: _timeElapsed,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,),
+                ColumnSeries<ChartData, String>(
+                  width: 0.4,
+                  dataSource: _timeElapsed,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,
+                  name: 'Time',
+                  // color: Color.fromRGBO(8, 142, 255, 1),
+                  pointColorMapper: (ChartData data, _) =>
+                  data.colr,
+                ),
+
+              ],
+            ),
+          ),
+          QuestionAnalysis()
+        ];
+        //break;
+        case 'Score Comparison':
+         return [
+           Container(
+             width: 1.sw,
+             height: 250,
+             margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+             padding: EdgeInsets.symmetric(horizontal: 10),
+             decoration: BoxDecoration(
+               borderRadius: BorderRadius.all(Radius.circular(10)),
+               boxShadow: [
+                 BoxShadow(
+                     color: const Color(0x78aeaed8),
+                     offset: Offset(0, 10),
+                     blurRadius: 32,
+                     spreadRadius: 0)
+               ],
+               color: Colors.white,
+             ),
+             child: SfCartesianChart(
+               // palette: <Color>[
+               //   Colors.teal,
+               //   Colors.orange,
+               //   Colors.brown
+               // ],
+
+               title: ChartTitle(
+                   text: 'Score Comparison',
+                   alignment: ChartAlignment.near,
+                   textStyle: TextStyle(
+                     fontFamily: 'Axiforma',
+                     color: Color(0xff090909),
+                     fontSize: 13.sp,
+                     fontWeight: FontWeight.w700,
+                     fontStyle: FontStyle.normal,
+                   )),
+               primaryXAxis: CategoryAxis(),
+               primaryYAxis: NumericAxis(
+                   minimum: 0, maximum: 100, interval: 25),
+               tooltipBehavior: TooltipBehavior(enable: true,),
+               series: <ChartSeries<ChartData, String>>[
+                 ColumnSeries<ChartData, String>(
+                   width: 0.4,
+                   dataSource: _chData,
+                   xValueMapper: (ChartData data, _) => data.xaxis,
+                   yValueMapper: (ChartData data, _) => data.yaxis,
+                   name: 'Average',
+                   // color: Color.fromRGBO(8, 142, 255, 1),
+                   pointColorMapper: (ChartData data, _) =>
+                   data.colr,
+                 ),
+               ],
+             ),
+           ),
+         ];
+      case 'Topic Analysis':
+        return [
+        Container(
+          width: 1.sw,
+          height: 250,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0x78aeaed8),
+                  offset: Offset(0, 10),
+                  blurRadius: 32,
+                  spreadRadius: 0)
+            ],
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SizedBox(width: 20,),
+                  Text('Student Vs Theme Average',style: TextStyle(
+                    fontFamily: 'Axiforma',
+                    color: Color(0xff090909),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  ),),
+                ],
+              ),
+              Container(width: 1.sw,child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(width: 5,),
+                  Container(width: 30,height: 20,color: Colors.blue,),
+                  Text('Student Avg'),
+                  SizedBox(width: 25,),
+                  Container(width: 30,height: 20,color: Colors.red,),
+                  Text('Class Avg'),
+                  SizedBox(width: 50,),
+
+                ],
+              ),),
+
+              SizedBox(
+                height: 200,
+                child: SfCartesianChart(
+
+                  palette: <Color>[
+                    Colors.blue,
+                    Colors.red,
+
+                  ],
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePanning: true,
+                  ),
+                  // title: ChartTitle(
+                  //     text: 'Student Vs Theme Average',
+                  //     alignment: ChartAlignment.near,
+                  //     textStyle: TextStyle(
+                  //       fontFamily: 'Axiforma',
+                  //       color: Color(0xff090909),
+                  //       fontSize: 12,
+                  //       fontWeight: FontWeight.w500,
+                  //       fontStyle: FontStyle.normal,
+                  //     )),
+                  primaryXAxis: CategoryAxis(
+                      visibleMinimum: 0,
+                      visibleMaximum: 0.28
+                  ),
+                  primaryYAxis: NumericAxis(
+                    minimum: 0, maximum: 100, interval: 20,),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <ChartSeries<ComparisonChart, String>>[
+                    ColumnSeries<ComparisonChart, String>(
+
+                      width: 0.5,
+                      dataSource: _compData,
+                      xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                      yValueMapper: (ComparisonChart data, _) => data.y1,
+                      name: 'Average',
+                      // color: Color.fromRGBO(8, 142, 255, 1),
+                      // pointColorMapper: (ChartData data, _) =>
+                      // data.colr,
+                    ),
+                    ColumnSeries<ComparisonChart, String>(
+                      width: 0.5,
+                      dataSource: _compData,
+                      xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                      yValueMapper: (ComparisonChart data, _) => data.y2,
+                      //name: 'Gold',
+                      // color: Color.fromRGBO(8, 142, 255, 1),
+                      // pointColorMapper: (ChartData data, _) =>
+                      // data.colr,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        ];
+      case 'Activity Report':
+        return [
+          Container(
+            width: 1.sw,
+            height: 250,
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: SfCartesianChart(
+              // palette: <Color>[
+              //   Colors.teal,
+              //   Colors.orange,
+              //   Colors.brown
+              // ],
+
+              title: ChartTitle(
+                  text: 'Activity Report: Time Elapsed',
+                  alignment: ChartAlignment.near,
+                  textStyle: TextStyle(
+                    fontFamily: 'Axiforma',
+                    color: Color(0xff090909),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  )),
+              zoomPanBehavior: ZoomPanBehavior(
+                enablePanning: true,
+              ),
+              primaryXAxis: CategoryAxis(
+                  visibleMinimum: 0,
+                  visibleMaximum: 5,
+                  title: AxisTitle(text: 'Questions',textStyle: TextStyle(fontSize: 10.sp))
+                // labelIntersectAction: AxisLabelIntersectAction.multipleRows
+              ),
+              primaryYAxis: NumericAxis(
+                  minimum: 0, maximum: 4, interval: 1,title: AxisTitle(text: 'Time Elapsed For The Student',textStyle: TextStyle(fontSize: 10.sp))),
+              tooltipBehavior: TooltipBehavior(enable: true,),
+              series: <ChartSeries<ChartData, String>>[
+                LineSeries(  dataSource: _timeElapsed,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,),
+                ColumnSeries<ChartData, String>(
+                  width: 0.4,
+                  dataSource: _timeElapsed,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,
+                  name: 'Time',
+                  // color: Color.fromRGBO(8, 142, 255, 1),
+                  pointColorMapper: (ChartData data, _) =>
+                  data.colr,
+                ),
+
+              ],
+            ),
+          ),
+        ];
+      case 'Question':
+        return [
+          QuestionAnalysis(),
+        ];
+      case 'Remarks':
+        return [
+         AFLRemark(),
+        ];
+      default:
+        return [
+          Container(
+            width: 1.sw,
+            height: 250,
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: SfCartesianChart(
+              // palette: <Color>[
+              //   Colors.teal,
+              //   Colors.orange,
+              //   Colors.brown
+              // ],
+
+              title: ChartTitle(
+                  text: 'Score Comparison',
+                  alignment: ChartAlignment.near,
+                  textStyle: TextStyle(
+                    fontFamily: 'Axiforma',
+                    color: Color(0xff090909),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  )),
+              primaryXAxis: CategoryAxis(),
+              primaryYAxis: NumericAxis(
+                  minimum: 0, maximum: 100, interval: 25),
+              tooltipBehavior: TooltipBehavior(enable: true,),
+              series: <ChartSeries<ChartData, String>>[
+                ColumnSeries<ChartData, String>(
+                  width: 0.4,
+                  dataSource: _chData,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,
+                  name: 'Average',
+                  // color: Color.fromRGBO(8, 142, 255, 1),
+                  pointColorMapper: (ChartData data, _) =>
+                  data.colr,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 1.sw,
+            height: 250,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    Text('Student Vs Theme Average',style: TextStyle(
+                      fontFamily: 'Axiforma',
+                      color: Color(0xff090909),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.normal,
+                    ),),
+                  ],
+                ),
+                Container(width: 1.sw,child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(width: 5,),
+                    Container(width: 30,height: 20,color: Colors.blue,),
+                    Text('Student Avg'),
+                    SizedBox(width: 25,),
+                    Container(width: 30,height: 20,color: Colors.red,),
+                    Text('Class Avg'),
+                    SizedBox(width: 50,),
+
+                  ],
+                ),),
+
+                SizedBox(
+                  height: 200,
+                  child: SfCartesianChart(
+
+                    palette: <Color>[
+                      Colors.blue,
+                      Colors.red,
+
+                    ],
+                    zoomPanBehavior: ZoomPanBehavior(
+                      enablePanning: true,
+                    ),
+                    // title: ChartTitle(
+                    //     text: 'Student Vs Theme Average',
+                    //     alignment: ChartAlignment.near,
+                    //     textStyle: TextStyle(
+                    //       fontFamily: 'Axiforma',
+                    //       color: Color(0xff090909),
+                    //       fontSize: 12,
+                    //       fontWeight: FontWeight.w500,
+                    //       fontStyle: FontStyle.normal,
+                    //     )),
+                    primaryXAxis: CategoryAxis(
+                        visibleMinimum: 0,
+                        visibleMaximum: 0.28
+                    ),
+                    primaryYAxis: NumericAxis(
+                      minimum: 0, maximum: 100, interval: 20,),
+                    tooltipBehavior: TooltipBehavior(enable: true),
+                    series: <ChartSeries<ComparisonChart, String>>[
+                      ColumnSeries<ComparisonChart, String>(
+
+                        width: 0.5,
+                        dataSource: _compData,
+                        xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                        yValueMapper: (ComparisonChart data, _) => data.y1,
+                        name: 'Average',
+                        // color: Color.fromRGBO(8, 142, 255, 1),
+                        // pointColorMapper: (ChartData data, _) =>
+                        // data.colr,
+                      ),
+                      ColumnSeries<ComparisonChart, String>(
+                        width: 0.5,
+                        dataSource: _compData,
+                        xValueMapper: (ComparisonChart data, _) => data.xaxis,
+                        yValueMapper: (ComparisonChart data, _) => data.y2,
+                        //name: 'Gold',
+                        // color: Color.fromRGBO(8, 142, 255, 1),
+                        // pointColorMapper: (ChartData data, _) =>
+                        // data.colr,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 1.sw,
+            height: 250,
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x78aeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
+              ],
+              color: Colors.white,
+            ),
+            child: SfCartesianChart(
+              // palette: <Color>[
+              //   Colors.teal,
+              //   Colors.orange,
+              //   Colors.brown
+              // ],
+
+              title: ChartTitle(
+                  text: 'Activity Report: Time Elapsed',
+                  alignment: ChartAlignment.near,
+                  textStyle: TextStyle(
+                    fontFamily: 'Axiforma',
+                    color: Color(0xff090909),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  )),
+              zoomPanBehavior: ZoomPanBehavior(
+                enablePanning: true,
+              ),
+              primaryXAxis: CategoryAxis(
+                  visibleMinimum: 0,
+                  visibleMaximum: 5,
+                  title: AxisTitle(text: 'Questions',textStyle: TextStyle(fontSize: 10.sp))
+                // labelIntersectAction: AxisLabelIntersectAction.multipleRows
+              ),
+              primaryYAxis: NumericAxis(
+                  minimum: 0, maximum: 4, interval: 1,title: AxisTitle(text: 'Time Elapsed For The Student',textStyle: TextStyle(fontSize: 10.sp))),
+              tooltipBehavior: TooltipBehavior(enable: true,),
+              series: <ChartSeries<ChartData, String>>[
+                LineSeries(  dataSource: _timeElapsed,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,),
+                ColumnSeries<ChartData, String>(
+                  width: 0.4,
+                  dataSource: _timeElapsed,
+                  xValueMapper: (ChartData data, _) => data.xaxis,
+                  yValueMapper: (ChartData data, _) => data.yaxis,
+                  name: 'Time',
+                  // color: Color.fromRGBO(8, 142, 255, 1),
+                  pointColorMapper: (ChartData data, _) =>
+                  data.colr,
+                ),
+
+              ],
+            ),
+          ),
+          QuestionAnalysis()
+        ];
+    }
   }
 }

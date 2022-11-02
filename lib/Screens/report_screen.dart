@@ -169,6 +169,9 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
         //print('--------------response----------');
         //print(resp['data']['data']['published_completed']);
         published =  resp['data']['data']['published_completed'];
+        if(published == null){
+          published = [];
+        }
         print('length of exam published --------->${published.length}');
         // print(resp['data']['details']['arrayToClient']);
         // //  _report = Report.fromJson(resp);
@@ -343,7 +346,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                 themes: published[index]['theme_names'],
                 markObt: published[index]['mark'].toString(),
                 maxMark: published[index]['total_mark'].toString(),
-              )) : Text('No Exams Available')
+              )) : Center(child: Text('No Exams Available'))
                       : (selectedTab == 3)
                           ? hallTickets!.isNotEmpty? ListView.builder(
             itemCount: hallTickets!.length,
