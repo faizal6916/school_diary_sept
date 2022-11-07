@@ -5,13 +5,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
 
 class QuestionAnalysis extends StatefulWidget {
-  const QuestionAnalysis({Key? key}) : super(key: key);
+  final String? question;
+  final String? questType;
+  final String? rightAnswer;
+  final String? studAnswer;
+  final String? torf;
+  final String? studScore;
+  final String? maxScore;
+  final String? studPerc;
+  final String? maxPerc;
+  const QuestionAnalysis({
+    Key? key,
+    this.studScore,
+    this.studAnswer,
+    this.rightAnswer,
+    this.questType,
+    this.question,
+    this.maxScore,
+    this.torf,
+    this.studPerc,
+    this.maxPerc,
+  }) : super(key: key);
 
   @override
   State<QuestionAnalysis> createState() => _QuestionAnalysisState();
 }
 
-class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProviderStateMixin {
+class _QuestionAnalysisState extends State<QuestionAnalysis>
+    with TickerProviderStateMixin {
   var _isExpanded = false;
   var _height = 250.0;
   Duration _myduration = Duration(seconds: 1);
@@ -25,20 +46,22 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
       });
     });
   }
- @override
+
+  @override
   void initState() {
     // TODO: implement initState
-   // _controller = AnimationController(
-   //   vsync: this,
-   //   duration: Duration(milliseconds: 200),
-   // );
-   //
-   // _myAnimation = CurvedAnimation(
-   //     curve: Curves.linear,
-   //     parent: _controller!
-   // );
+    // _controller = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(milliseconds: 200),
+    // );
+    //
+    // _myAnimation = CurvedAnimation(
+    //     curve: Curves.linear,
+    //     parent: _controller!
+    // );
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -48,13 +71,13 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
             _isExpanded = !_isExpanded;
             print(_isExpanded);
             if (_isExpanded) {
-            //  _controller!.forward();
+              //  _controller!.forward();
               setState(() {
-                _height = 300.0;
+                _height = 300.0 + (widget.rightAnswer!.length);
               });
               _complete();
             } else {
-             // _controller!.reverse();
+              // _controller!.reverse();
               setState(() {
                 _height = 250.0;
                 _doneDur = false;
@@ -65,7 +88,9 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
             duration: _myduration,
             curve: Curves.fastOutSlowIn,
             width: 1.sw,
-            height: _height,
+            height: _height +
+                (widget.question!.length - 100) +
+                (widget.studAnswer!.length+30),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             margin: EdgeInsets.only(top: 30, bottom: 50, left: 10, right: 10),
             // color: Colors.red,
@@ -85,7 +110,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: Text(
-                    'short answer',
+                    widget.questType!,
                     style: TextStyle(
                       fontFamily: 'Axiforma',
                       color: Color(0xff979797),
@@ -113,13 +138,13 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
                       //height: 70,
                       //color: Colors.blue,
                       child: AutoSizeText(
-                        'QUUUUUUUUUUUUUUUUU gjhggggggggggggggggggggggg HHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH',
+                        widget.question!,
                         style: TextStyle(
                             color: const Color(0xff363636),
                             fontWeight: FontWeight.w400,
                             fontFamily: "Axiforma",
                             fontStyle: FontStyle.normal,
-                            fontSize: 12.sp),
+                            fontSize: 14.sp),
                       ),
                     ),
                   ],
@@ -147,7 +172,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Students Response',
+                            'Student Response',
                             style: TextStyle(
                               color: Color(0xff1eb1ae),
                               fontSize: 14.sp,
@@ -155,7 +180,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
                             ),
                           ),
                           Text(
-                            'A',
+                            widget.studAnswer!,
                             style: TextStyle(
                               color: Color(0xff818181),
                               fontSize: 14.sp,
@@ -197,7 +222,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
                                   ),
                                 ),
                                 Text(
-                                  'A',
+                                  widget.rightAnswer!,
                                   style: TextStyle(
                                     color: Color(0xff818181),
                                     fontSize: 14.sp,
@@ -210,12 +235,16 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
                         ],
                       )
                     : SizedBox(),
+                SizedBox(height: 6,),
                 Row(
                   children: [
                     SizedBox(
                       width: 1.sw - 70,
                     ),
-                   Transform.rotate(angle: _doneDur? (180 * math.pi/180):0,child: Icon(Icons.arrow_drop_down),)
+                    Transform.rotate(
+                      angle: _doneDur ? (180 * math.pi / 180) : 0,
+                      child: Icon(Icons.arrow_drop_down),
+                    )
                   ],
                 )
               ],
@@ -224,43 +253,92 @@ class _QuestionAnalysisState extends State<QuestionAnalysis> with TickerProvider
         ),
         Positioned(
             right: 20,
-            child: Container(
-              width: 60,
-              height: 60,
-              padding: EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                  color: ColorUtil.green,
-                  borderRadius: BorderRadius.circular(60)),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //SizedBox(height: 5,),
-                  Text(
-                    'mark',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontFamily: 'Axiforma',
-                      fontWeight: FontWeight.w700,
-                    ),
+            child: Row(
+              children: [
+                Container(
+                  width: 70,
+                  height: 50,
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: ColorUtil.green,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //SizedBox(height: 5,),
+                      Text(
+                        '${widget.studPerc!} %'
+                        ,
+                        style: TextStyle(
+                            color: ColorUtil.white,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Axiforma",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 10.0),
+                      ),
+                      // Container(
+                      //   width: 40,
+                      //   height: 3,
+                      //   color: Colors.white,
+                      // ),
+                      //Divider(thickness: 2,indent: 5,endIndent: 5,),
+                      Text(
+                        'Student',
+                        style: TextStyle(
+                            color: ColorUtil.white,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Axiforma",
+                            //fontStyle:  FontStyle.normal,
+                            fontSize: 10),
+                      )
+                    ],
                   ),
-                  Container(
-                    width: 40,
-                    height: 3,
-                    color: Colors.white,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  width: 70,
+                  height: 50,
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: ColorUtil.markYellow,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //SizedBox(height: 5,),
+                      Text(
+                        '${widget.maxPerc!} %'
+                        ,
+                        style: TextStyle(
+                            color: ColorUtil.white,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Axiforma",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0),
+                      ),
+                      // Container(
+                      //   width: 40,
+                      //   height: 3,
+                      //   color: Colors.white,
+                      // ),
+                      //Divider(thickness: 2,indent: 5,endIndent: 5,),
+                      Text(
+                        'Class',
+                        style: TextStyle(
+                            color: ColorUtil.white,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Axiforma",
+                            //fontStyle:  FontStyle.normal,
+                            fontSize: 10),
+                      )
+                    ],
                   ),
-                  //Divider(thickness: 2,indent: 5,endIndent: 5,),
-                  Text(
-                    'max',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontFamily: 'Axiforma',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             )),
       ],
     );

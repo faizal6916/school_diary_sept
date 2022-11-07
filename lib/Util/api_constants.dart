@@ -11,4 +11,7 @@ class ApiConstants {
   static const feeDetails = '/v0/parent/portal/fee';
   static const detailedReport = '/v0/reportcards/published/getReportCardPublished';
   static const aflReport = '/v0/assesment-report/activity/student/report';
+  static const notification = '/v0/notifications/page/details';
+  static const googleLogin = "/v0/educare_login_google";
+  static const changePassword = "/v0/educare/change_password";
 }

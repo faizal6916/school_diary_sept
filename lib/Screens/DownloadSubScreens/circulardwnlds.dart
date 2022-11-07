@@ -30,7 +30,7 @@ class _CircularDownloadsState extends State<CircularDownloads> {
   }
   @override
   Widget build(BuildContext context) {
-    return _isloading ?  Text('No downloads in circular'):ListView.builder(itemBuilder: (ctx,i)=>CircularDwnldWidget(
+    return circlars.isEmpty ?  Center(child: Text('No downloads in circular')):ListView.builder(itemBuilder: (ctx,i)=>CircularDwnldWidget(
 filePath: circlars[i].path,
       title: circlars[i].title,
       date: circlars[i].date,

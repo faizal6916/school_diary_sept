@@ -55,6 +55,9 @@ dependencies:
   table_calendar: ^3.0.7
   dotted_border: ^2.0.0+2
   syncfusion_flutter_charts: ^20.3.52
+  google_sign_in: ^5.4.2
+  shared_preferences: ^2.0.15
+
 
 
 

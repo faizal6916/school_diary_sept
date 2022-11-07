@@ -8,6 +8,7 @@ import 'package:school_diary_sept_13/Widgets/question_analysis.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../Models/barchart.dart';
+import '../Models/question_model.dart';
 import '../Provider/user_provider.dart';
 import '../Util/spinkit.dart';
 
@@ -28,7 +29,9 @@ class _AFLReportState extends State<AFLReport> {
   List<ChartData> _chData = [];
   List<ComparisonChart> _compData = [];
   List<ChartData> _timeElapsed = [];
+  List<QuestionAnswer> _questionData = [];
   var _isloading = false;
+  var _remedial;
   _getAFLReport(String stdId, String qpId, String schlId) async {
     try {
       setState(() {
@@ -43,7 +46,33 @@ class _AFLReportState extends State<AFLReport> {
         setState(() {
           _isloading = false;
         });
-        print(resp['data']['details']['response']['tm_elapsed']);
+
+        _remedial = resp['data']['details']['response']['studentScore']['comment'];
+
+        print(_remedial);
+     //   print(resp['data']['details']['response']['getAllstudentMCQ']);
+        resp['data']['details']['response']['getAllstudentMCQ'].forEach((que){
+          print(que['question'].toString());
+          print(que['type']);
+          print(que['right_answer']['tag']);
+          print(que['student_response']['score']);
+          print(que['correct_answer']['flag']);
+          print(que['student_score_percent']['score']);
+          print(que['class_percent']['score']);
+
+          
+           _questionData.add(QuestionAnswer(
+             studPerc: que['student_score_percent']['score'].toString(),
+             classPerc: que['class_percent']['score'].toString() ,
+             question: que['question'].toString(),
+             questType: que['type'].toString(),
+             rightAnswer: que['right_answer']['tag'].toString(),
+             studAnswer:que['student_response']['score'].toString(),
+             maxScore:que['question_mark'].toString(),
+             studScore: que['actual_score'].toString(),
+             trueOrfalse: que['correct_answer']['flag'].toString()
+           ));
+        });
         // print(resp['data']['details']['response']['studentAverageHighest'][0]
         //     .length);
         // print(resp['data']['details']['response']['studentAverageHighest'][1]
@@ -95,8 +124,8 @@ class _AFLReportState extends State<AFLReport> {
           // print(resp['data']['details']['response']['studentAndBatcAvgPerTheme'][i][2].runtimeType);
           _compData.add(ComparisonChart(
             xaxis: resp['data']['details']['response']['studentAndBatcAvgPerTheme'][i][0],
-            y1:resp['data']['details']['response']['studentAndBatcAvgPerTheme'][i][1],
-            y2: resp['data']['details']['response']['studentAndBatcAvgPerTheme'][i][2]
+            y1:double.parse(resp['data']['details']['response']['studentAndBatcAvgPerTheme'][i][1].toString()),
+            y2: double.parse(resp['data']['details']['response']['studentAndBatcAvgPerTheme'][i][2].toString())
           ));
         }
         print('length of compdata------->${_compData.length}');
@@ -259,7 +288,7 @@ class _AFLReportState extends State<AFLReport> {
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "Axiforma",
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 18.0),
+                                            fontSize: 12.0),
                                       ),
                                       Text(
                                         '/',
@@ -965,7 +994,7 @@ class _AFLReportState extends State<AFLReport> {
               ],
             ),
           ),
-          QuestionAnalysis()
+          ..._questionData.map((quest) => QuestionAnalysis(question: quest.question,questType: quest.questType,studScore: quest.studScore,studAnswer: quest.studAnswer,maxScore: quest.maxScore,rightAnswer: quest.rightAnswer,torf: quest.trueOrfalse,studPerc: quest.studPerc,maxPerc: quest.classPerc,)).toList(),
         ];
         //break;
         case 'Score Comparison':
@@ -1195,11 +1224,13 @@ class _AFLReportState extends State<AFLReport> {
         ];
       case 'Question':
         return [
-          QuestionAnalysis(),
+          //QuestionAnalysis(),
+
+          ..._questionData.map((quest) => QuestionAnalysis(question: quest.question,questType: quest.questType,studScore: quest.studScore,studAnswer: quest.studAnswer,maxScore: quest.maxScore,rightAnswer: quest.rightAnswer,torf: quest.trueOrfalse,studPerc: quest.studPerc,maxPerc: quest.classPerc,)).toList(),
         ];
       case 'Remarks':
         return [
-         AFLRemark(),
+         AFLRemark(remedial: _remedial.toString()),
         ];
       default:
         return [
@@ -1419,7 +1450,7 @@ class _AFLReportState extends State<AFLReport> {
               ],
             ),
           ),
-          QuestionAnalysis()
+          ..._questionData.map((quest) => QuestionAnalysis(question: quest.question,questType: quest.questType,studScore: quest.studScore,studAnswer: quest.studAnswer,maxScore: quest.maxScore,rightAnswer: quest.rightAnswer,torf: quest.trueOrfalse,studPerc: quest.studPerc,maxPerc: quest.classPerc,)).toList(),
         ];
     }
   }

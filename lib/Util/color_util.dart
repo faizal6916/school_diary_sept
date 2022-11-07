@@ -45,6 +45,7 @@ class ColorUtil {
   static const subBlue =  Color(0xff778beb);
   static const subGold = Color(0xfff19065);
   static const downloadClr = Color(0xff787878);
+  static const markYellow = Color(0xfffed330);
   // static const co =Color(0xFFaa1a13);
   // static const co2 =Color(0xFFeab10e);
 }

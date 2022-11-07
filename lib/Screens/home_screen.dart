@@ -8,11 +8,14 @@ import 'package:school_diary_sept_13/Screens/assignment_screen.dart';
 import 'package:school_diary_sept_13/Screens/calendar_screen.dart';
 import 'package:school_diary_sept_13/Screens/downloads.dart';
 import 'package:school_diary_sept_13/Screens/fee_screen.dart';
+import 'package:school_diary_sept_13/Screens/notif_screen.dart';
 import 'package:school_diary_sept_13/Screens/profile_screen.dart';
 import 'package:school_diary_sept_13/Screens/report_screen.dart';
+import 'package:school_diary_sept_13/Screens/reset_password.dart';
 import 'package:school_diary_sept_13/Screens/ticket_screen.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Provider/user_provider.dart';
 
@@ -20,6 +23,7 @@ import '../Models/user_model.dart';
 import '../Screens/dashboard.dart';
 import '../Screens/circular_screen.dart';
 import '../Util/api_constants.dart';
+import 'login_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -79,7 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
         'centre': true,
       },
       {
-        'page': AssignmentScreen(),
+        'page': AssignmentScreen(
+          parentId: _userdata.data!.data![0].id.toString(),
+          childId: _userdata.data!.data![0].studentDetails!.first.userId,
+          acadYear: _userdata.data!.data![0].studentDetails!.first.academicYear,
+        ),
         'title': 'Assignment',
         'centre': true,
       },
@@ -139,6 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
         'page': TicketScreen(),
         'title': 'Ticket',
         'centre': true
+      },
+      {
+        'page': ResetPassword(email: _userdata.data!.data![0].username),
+        'title': 'Reset Password',
+        'centre': true
       }
     ];
     _students = _userdata.data!.data![0].studentDetails!;
@@ -169,7 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
           'centre': true,
         },
         {
-          'page': AssignmentScreen(),
+          'page': AssignmentScreen(
+            parentId: _userdata.data!.data![0].id.toString(),
+            childId: _students[pageIndex].userId,
+            acadYear: _students[pageIndex].academicYear,
+          ),
           'title': 'Assignment',
           'centre': true,
         },
@@ -229,6 +246,13 @@ class _HomeScreenState extends State<HomeScreen> {
           'page': TicketScreen(),
           'title': 'Ticket',
           'centre': true
+        },
+        {
+          'page': ResetPassword(
+            email: _userdata.data!.data![0].username,
+          ),
+          'title': 'Reset Password',
+          'centre': true
         }
       ];
     });
@@ -240,6 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //var singleUser = UserDetails.fromJson(data as );
     return Scaffold(
       key: _key,
+      endDrawer: NotifWidget(parentId: _userdata.data!.data![0].id),
       drawer: Drawer(
         child: Container(
           width: double.infinity,
@@ -386,6 +411,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: [
                                         ElevatedButton(
                                           onPressed: () async {
+                                            final prefs = await SharedPreferences.getInstance();
+                                         var sta1 =   await prefs.remove('loginResp');
+                                         var sta2 =   await prefs.remove('isLogged');
+                                         //print('---$sta1----$sta2');
+                                         if(sta1 == true && sta2 == true){
+                                           Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+                                         }
                                             setState((){
                                               //isLoading = true;
                                             });
@@ -457,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: _drawerItem(
                                 imgLoc: 'assets/images/Unlock@2x.png.png',
                                 menuTitle: 'Reset Password',
-                                menuIndex: 9)),
+                                menuIndex: 10)),
                         // InkWell(
                         //   onTap: () {
                         //     Navigator.of(context).pop();
@@ -503,6 +535,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 width: 1.sw,
                 height: 280,
+
               ),
               customAppBar(
 
@@ -714,6 +747,7 @@ class _HomeScreenState extends State<HomeScreen> {
         width: 1.sw,
         height: isCentre ? 90 : 120,
         decoration: BoxDecoration(
+          //color: ColorUtil.mainBg,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(15),
             bottomRight: Radius.circular(15),

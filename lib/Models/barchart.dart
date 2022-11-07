@@ -10,6 +10,6 @@ class ChartData{
 class ComparisonChart {
   ComparisonChart({this.xaxis,this.y1,this.y2});
   final String? xaxis;
-  final int? y1;
-  final int? y2;
+  final double? y1;
+  final double? y2;
 }

@@ -69,7 +69,9 @@ class _CircularScreenState extends State<CircularScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 1.sh - 190,
+      height: 1.sh - 180,
+     // padding: EdgeInsets.only(bottom: 20),
+      //margin: EdgeInsets.only(bottom: 20),
       color: ColorUtil.mainBg,
       child: _isloading
           ? ListView.builder(

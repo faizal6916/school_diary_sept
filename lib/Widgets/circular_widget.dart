@@ -90,7 +90,7 @@ class _CircularWidgetState extends State<CircularWidget> {
   //
   //
   // }
-  DateFormat _examformatter = DateFormat('dd MMMM');
+  DateFormat _examformatter = DateFormat('dd MMM');
   var _isOpen = false;
   // var _isDownloading = false;
   // var _isDownloaded = false;
@@ -146,11 +146,30 @@ class _CircularWidgetState extends State<CircularWidget> {
                       color: ColorUtil.blue,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    child: Center(
-                        child: Text(
-                      _examformatter.format(widget.circularDate!),
-                      style: TextStyle(color: ColorUtil.white, fontSize: 12.sp),
-                    )),
+                    child: Column(
+                      children: [
+                        Text(
+                          _examformatter.format(widget.circularDate!).split(' ')[0],
+                          style: TextStyle(
+                              color:  Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "Roboto",
+                              fontStyle:  FontStyle.normal,
+                              fontSize: 20.0
+                          ),
+                        ),
+                        Text(
+                          _examformatter.format(widget.circularDate!).split(' ')[1].toUpperCase(),
+                          style:  TextStyle(
+                              color:  Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle:  FontStyle.normal,
+                              fontSize: 15.0
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     width: 10,

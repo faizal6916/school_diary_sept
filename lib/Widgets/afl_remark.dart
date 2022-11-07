@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AFLRemark extends StatelessWidget {
-  const AFLRemark({Key? key}) : super(key: key);
+  final String? remedial;
+  const AFLRemark({Key? key,this.remedial}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 1.sw,
-      height: 550,
+      //height: 550,
       // color: Colors.blue,
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       margin: EdgeInsets.only(top: 0, bottom: 50, left: 10, right: 10),
       // color: Colors.red,
       decoration: BoxDecoration(
@@ -55,18 +56,30 @@ class AFLRemark extends StatelessWidget {
           SizedBox(height: 10,),
           Container(
             width: 1.sw,
-            height: 200,
+           // height: 200,
             //color: Colors.blue,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
-                      Radius.circular(17)
+                      Radius.circular(10)
                   ),
                   border: Border.all(
                       color:  Color(0xff707070),
                       width: 1
                   ),
-                  color: Colors.white
-              )
+                  color: Colors.white,
+
+              ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(remedial!,style: TextStyle(
+                  color:  const Color(0xff363636),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Axiforma",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.sp
+              ),),
+             // child: Text('hgsddddddddddddddddddd dsghhhhhhhhhhhhhhhhhhhhhhhhhhhhh sdghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhj sjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjd sjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj shgddddddddddddddddddgsdhhhhhhhhhhhh'),
+            ),
           ),
           SizedBox(height: 10,),
           Container(
@@ -99,18 +112,29 @@ class AFLRemark extends StatelessWidget {
           SizedBox(height: 10,),
           Container(
             width: 1.sw,
-            height: 200,
+            //height: 200,
             //color: Colors.blue,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
-                      Radius.circular(17)
+                      Radius.circular(10)
                   ),
                   border: Border.all(
                       color: const Color(0xff707070),
                       width: 1
                   ),
                   color: Colors.white
-              )
+              ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              //child: Text('jhsdgjghdhsghdsg jhadgshdsh ajghsjdhdsahssdag agdsjjjjjjjjj'),
+              child: Text('',style: TextStyle(
+                  color:  const Color(0xff363636),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Axiforma",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.sp
+              ),)
+            ),
           )
         ],
       ),

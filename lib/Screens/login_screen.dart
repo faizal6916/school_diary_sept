@@ -1,10 +1,14 @@
 
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Util/color_util.dart';
 import '../Models/login_model.dart';
 import '../Models/user_model.dart';
@@ -21,11 +25,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+    scopes: <String>[
+      'email',
+     // 'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
   final _passwordFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _loginCred = Login(username: '',password: '');
   var _isLoading = false;
   var _user = Users();
+  String? userEmail;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -53,6 +66,9 @@ class _LoginScreenState extends State<LoginScreen> {
           setState((){
             _isLoading = false;
           });
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('loginResp', json.encode(resp));
+          prefs.setBool('isLogged', true);
         _user =  Users.fromJson(resp);
           // _user = Users(
           //   status: resp['status'] as Map<String,dynamic>,
@@ -75,7 +91,45 @@ class _LoginScreenState extends State<LoginScreen> {
       print('empty');
     }
   }
+  Future<void> _handleSignIn() async {
+    try {
+      var account = await _googleSignIn.signIn();
+      print("Account: ${account!.email}");
+      userEmail = account.email;
+      print(userEmail);
+      if(userEmail!.length == 0){
+        print('Invalid Email');
+      }else{
+        doGoogleSignIn(userEmail!);
+      }
+     // validateGoogleSignIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+  doGoogleSignIn(String email) async{
+    try{
+      var resp = await Provider.of<UserProvider>(context,listen: false).googleLogin(email);
+      print(resp.runtimeType);
+      //print('staus code-------------->${resp['status']['code']}');
+      if(resp['status']['code'] == 200){
+        setState((){
+          _isLoading = false;
+        });
+        _user =  Users.fromJson(resp);
+        // _user = Users(
+        //   status: resp['status'] as Map<String,dynamic>,
+        //   data: resp['data']
+        // );
+        print(_user.status!.code);
+        //print('ok');
+        Navigator.of(context).pushNamed(HomeScreen.routeName,arguments: _user);
+      }
 
+    }catch(e){
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -123,30 +177,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 0.02.sh,
                     ),
-                    Container(
-                      width: 278,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Color(0xff518EF8))),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 0.2.sw,
-                          ),
-                          Image(
-                              image: AssetImage('assets/images/Googleicon.png')),
-                          SizedBox(
-                            width: 0.05.sw,
-                          ),
-                          Text(
-                            'Google',
-                            style: TextStyle(
-                                color: ColorUtil.navyBlue,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16.sp),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: _handleSignIn,
+                      child: Container(
+                        width: 278,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(color: Color(0xff518EF8))),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 0.2.sw,
+                            ),
+                            Image(
+                                image: AssetImage('assets/images/Googleicon.png')),
+                            SizedBox(
+                              width: 0.05.sw,
+                            ),
+                            Text(
+                              'Google',
+                              style: TextStyle(
+                                  color: ColorUtil.navyBlue,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -166,49 +223,51 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.all(25.0),
                       child: Form(
                         key: _form,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              decoration: InputDecoration(
-                                  labelText: 'Email or Mobile no',
-                                  icon: Icon(Icons.person_outlined),),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Email or Mobile no',
+                                    icon: Icon(Icons.person_outlined),),
 
-                              textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context)
-                                    .requestFocus(_passwordFocusNode);
-                              },
-                              validator: (value){
-                                if(value!.isEmpty){
-                                  return 'Please Enter Email or Mobile No';
-                                }
-                                return null;
-                              },
-                              onSaved: (value){
-                                _loginCred = Login(username: value.toString(), password: _loginCred.password);
-                              },
-                            ),
-                            SizedBox(
-                              height: 0.015.sh,
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  icon: Icon(Icons.lock_open_outlined)),
-                              textInputAction: TextInputAction.done,
-                              focusNode: _passwordFocusNode,
-                              onSaved: (value){
-                                _loginCred = Login(username: _loginCred.username, password: value.toString());
-                              },
-                              validator: (value){
-                                if(value!.isEmpty){
-                                  return 'Please Enter the Password';
-                                }
-                                return null;
-                              },
-                              onFieldSubmitted: (_) => _saveForm(),
-                            )
-                          ],
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_passwordFocusNode);
+                                },
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return 'Please Enter Email or Mobile No';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value){
+                                  _loginCred = Login(username: value.toString(), password: _loginCred.password);
+                                },
+                              ),
+                              SizedBox(
+                                height: 0.015.sh,
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Password',
+                                    icon: Icon(Icons.lock_open_outlined)),
+                                textInputAction: TextInputAction.done,
+                                focusNode: _passwordFocusNode,
+                                onSaved: (value){
+                                  _loginCred = Login(username: _loginCred.username, password: value.toString());
+                                },
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return 'Please Enter the Password';
+                                  }
+                                  return null;
+                                },
+                                onFieldSubmitted: (_) => _saveForm(),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
