@@ -14,4 +14,6 @@ class ApiConstants {
   static const notification = '/v0/notifications/page/details';
   static const googleLogin = "/v0/educare_login_google";
   static const changePassword = "/v0/educare/change_password";
+  static const forgetPassword = "/v1/forgot_password";
+  static const getReceiptByEmail = "https://bmark.nimsuae.com/api/App";
 }

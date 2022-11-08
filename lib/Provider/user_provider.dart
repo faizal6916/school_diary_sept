@@ -395,4 +395,58 @@ class UserProvider with ChangeNotifier {
       print(e);
     }
   }
+
+
+  Future<dynamic> forgetPassword(String email) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.forgetPassword}';
+    print(url);
+    try {
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String, String> apiBody = {"username": email};
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getReceipt(
+      String parentEmail, String admnNo, String voucher) async {
+    var url = '${ApiConstants.getReceiptByEmail}';
+    print(url);
+    try {
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String, String> apiBody = {
+        "action": "sentVoucherEmail",
+        "parent_email": parentEmail,
+        "admn_no": admnNo,
+        "token": "62224dd5b782f8505456a0b33b0d0061",
+        "voucher_code": voucher
+      };
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      //print(json.decode(respString));
+      return json.decode(respString);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

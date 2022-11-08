@@ -17,7 +17,7 @@ class DashboardScreen extends StatefulWidget {
   final String childId;
   //final List<StudentDetail> studentsList;
   const DashboardScreen(
-      {Key? key, required this.parentId,required this.childId})
+      {Key? key, required this.parentId, required this.childId})
       : super(key: key);
 
   @override
@@ -62,6 +62,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _dashBoardFeed(widget.parentId, widget.childId);
     super.didChangeDependencies();
   }
+
   @override
   void didUpdateWidget(covariant DashboardScreen oldWidget) {
     print('dashboard didupdate');
@@ -125,7 +126,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               : _items.isEmpty
                   ? Text('No dashboard feed')
                   : Container(
-                      height: 1.sh / 2 ,
+                      height: 1.sh / 2,
                       child: ListView.builder(
                           itemCount: _items.length,
                           itemBuilder: (ctx, index) {
@@ -144,10 +145,81 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   date: _items[index].feedDate);
                             }
                             if (_items[index].type == 'Report_card') {
-                              return report(title: _items[index].title,date: _items[index].feedDate);
+                              return report(
+                                  title: _items[index].title,
+                                  date: _items[index].feedDate);
                             }
                             if (_items[index].type == 'Assignment') {
-                              return assignment(title: _items[index].title,date: _items[index].feedDate);
+                              return assignment(
+                                  title: _items[index].title,
+                                  date: _items[index].feedDate);
+                            }
+                            if (_items[index].type == 'Attendance') {
+                              return Container(
+                                width: 1.sw,
+                                height: 100,
+                                margin: EdgeInsets.symmetric(horizontal: 20),
+padding: EdgeInsets.symmetric(horizontal: 5),
+                                //color: Colors.red,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: const Color(0xccaeaed8),
+                                        offset: Offset(0, 10),
+                                        blurRadius: 32,
+                                        spreadRadius: 0)
+                                  ],
+                                  color: const Color(0xfff5f5f5),
+                                  
+                                ),
+
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Stack(
+                                      children: [
+
+                                        Container(
+                                          width: 60,
+                                          height: 60,
+                                        //  color: Colors.red,
+                                          decoration: BoxDecoration(
+                                              color: Colors.red,
+                                            borderRadius: BorderRadius.circular(60)
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 5,
+                                          child: Container(
+                                            width: 10,
+                                            height: 10,
+
+                                            decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.circular(60)
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                            width: 1.sw-120,
+                                            height: 40,
+                                            child: AutoSizeText(_items[index].title!,maxLines:2,style: TextStyle(fontSize: 14),)),
+                                        SizedBox(
+                                            width: 1.sw-120,
+                                            height: 40,
+                                            child: AutoSizeText(_items[index].title!,maxLines:2,style: TextStyle(fontSize: 14),)),
+                                      ],
+                                    )
+
+                                  ],
+                                ),
+                              );
                             }
                             return Container();
                           }),
@@ -279,7 +351,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           width: 1.sw,
-          height: 1.sh / 2 ,
+          height: 1.sh / 2,
           decoration: BoxDecoration(
               color: Colors.grey, borderRadius: BorderRadius.circular(10)),
         ),
@@ -374,10 +446,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title.toString(),style: TextStyle(
-                          color: ColorUtil.circularText,
-                          fontWeight: FontWeight.w700
-                        ),),
+                        Text(
+                          title.toString(),
+                          style: TextStyle(
+                              color: ColorUtil.circularText,
+                              fontWeight: FontWeight.w700),
+                        ),
                         Text(
                           desc.toString(),
                         ),
@@ -391,11 +465,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('updated On',style: datelabelStyle,),
-                SizedBox(width: 5,),
-                Icon(Icons.calendar_month_outlined,color: ColorUtil.dateColor.withOpacity(0.5),),
-                SizedBox(width: 2,),
-                Text(_circFormatter.format(date!),style: dateTextStyle,)
+                Text(
+                  'updated On',
+                  style: datelabelStyle,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Icon(
+                  Icons.calendar_month_outlined,
+                  color: ColorUtil.dateColor.withOpacity(0.5),
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                Text(
+                  _circFormatter.format(date!),
+                  style: dateTextStyle,
+                )
               ],
             )
           ],
@@ -487,10 +574,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 Container(
-                    width: 1.sw - 150,
-                    child: Text(
-                     title.toString(),
-                    ),)
+                  width: 1.sw - 150,
+                  child: Text(
+                    title.toString(),
+                  ),
+                )
               ],
             ),
             SizedBox(
@@ -499,11 +587,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('Published Date',style: datelabelStyle,),
-                SizedBox(width: 5,),
-                Icon(Icons.calendar_month_outlined,color: ColorUtil.dateColor.withOpacity(0.5),),
-                SizedBox(width: 2,),
-                Text(_examformatter.format(date!),style: dateTextStyle,)
+                Text(
+                  'Published Date',
+                  style: datelabelStyle,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Icon(
+                  Icons.calendar_month_outlined,
+                  color: ColorUtil.dateColor.withOpacity(0.5),
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                Text(
+                  _examformatter.format(date!),
+                  style: dateTextStyle,
+                )
               ],
             )
           ],
@@ -596,10 +697,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 Container(
-                    width: 1.sw - 150,
-                    child: Text(
-                     title.toString(),
-                    ),)
+                  width: 1.sw - 150,
+                  child: Text(
+                    title.toString(),
+                  ),
+                )
               ],
             ),
             SizedBox(
@@ -608,11 +710,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('Published Date',style: datelabelStyle,),
-                SizedBox(width: 5,),
-                Icon(Icons.calendar_month_outlined,color: ColorUtil.dateColor.withOpacity(0.5),),
-                SizedBox(width: 2,),
-                Text(_circFormatter.format(date!),style: dateTextStyle,)
+                Text(
+                  'Published Date',
+                  style: datelabelStyle,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Icon(
+                  Icons.calendar_month_outlined,
+                  color: ColorUtil.dateColor.withOpacity(0.5),
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                Text(
+                  _circFormatter.format(date!),
+                  style: dateTextStyle,
+                )
               ],
             )
           ],
@@ -625,65 +740,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
           String? desc,
           String? status,
           DateTime? date}) =>
-      Container(
-        width: 1.sw,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        //margin: EdgeInsets.only(bottom: 5),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 0),
-                blurRadius: 1,
-                spreadRadius: 0),
-            BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 2),
-                blurRadius: 6,
-                spreadRadius: 0),
-            // BoxShadow(
-            //     color: Colors.black12,
-            //     offset: Offset(0, 10),
-            //     blurRadius: 20,
-            //     spreadRadius: 0)
-          ],
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 90,
-                  height: 25,
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                      color: ColorUtil.examBg,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: ColorUtil.examText, width: 2)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.border_color_outlined,
-                        color: ColorUtil.examText,
-                        size: 18,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'Exam',
-                        style: TextStyle(color: ColorUtil.examText),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
+      InkWell(
+        onTap: () {
+          print('exam');
+        },
+        child: Container(
+          width: 1.sw,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          //margin: EdgeInsets.only(bottom: 5),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 0),
+                  blurRadius: 1,
+                  spreadRadius: 0),
+              BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 2),
+                  blurRadius: 6,
+                  spreadRadius: 0),
+              // BoxShadow(
+              //     color: Colors.black12,
+              //     offset: Offset(0, 10),
+              //     blurRadius: 20,
+              //     spreadRadius: 0)
+            ],
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
                     width: 90,
                     height: 25,
                     padding: EdgeInsets.symmetric(horizontal: 8),
@@ -692,77 +785,115 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         borderRadius: BorderRadius.circular(20),
                         border:
                             Border.all(color: ColorUtil.examText, width: 2)),
-                    child: Center(child: Text(status.toString()))),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.white,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(60)),
-                    child: CachedNetworkImage(
-                      imageUrl: photoUrl.toString(),
-                      placeholder: (context, url) => SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) => Image.asset(
-                        'assets/images/userImage.png',
-                        width: 45,
-                        height: 45,
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.border_color_outlined,
+                          color: ColorUtil.examText,
+                          size: 18,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Exam',
+                          style: TextStyle(color: ColorUtil.examText),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                      width: 90,
+                      height: 25,
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                          color: ColorUtil.examBg,
+                          borderRadius: BorderRadius.circular(20),
+                          border:
+                              Border.all(color: ColorUtil.examText, width: 2)),
+                      child: Center(child: Text(status.toString()))),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.white,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(60)),
+                      child: CachedNetworkImage(
+                        imageUrl: photoUrl.toString(),
+                        placeholder: (context, url) => SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/images/userImage.png',
+                          width: 45,
+                          height: 45,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                    width: 1.sw - 150,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title.toString(),
-                          style: TextStyle(
-                              color: ColorUtil.examText,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          desc.toString(),
-                        ),
-                      ],
-                    ))
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text('Exam Date',style: datelabelStyle,),
-                SizedBox(width: 5,),
-                Icon(Icons.calendar_month_outlined,color: ColorUtil.dateColor.withOpacity(0.5),),
-                SizedBox(width: 2,),
-                Text(_examformatter.format(date!),style: dateTextStyle,)
-              ],
-            )
-          ],
+                  Container(
+                      width: 1.sw - 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title.toString(),
+                            style: TextStyle(
+                                color: ColorUtil.examText,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            desc.toString(),
+                          ),
+                        ],
+                      ))
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Exam Date',
+                    style: datelabelStyle,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Icon(
+                    Icons.calendar_month_outlined,
+                    color: ColorUtil.dateColor.withOpacity(0.5),
+                  ),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Text(
+                    _examformatter.format(date!),
+                    style: dateTextStyle,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       );
-  var dateTextStyle = TextStyle(
-    color: ColorUtil.dateColor.withOpacity(0.6),
-    fontSize: 11
-  );
+  var dateTextStyle =
+      TextStyle(color: ColorUtil.dateColor.withOpacity(0.6), fontSize: 11);
   var datelabelStyle = TextStyle(
       color: ColorUtil.dateColor.withOpacity(0.5),
       fontSize: 11,
-      fontStyle: FontStyle.italic
-  );
+      fontStyle: FontStyle.italic);
 }

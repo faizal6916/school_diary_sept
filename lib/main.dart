@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './Screens/splash_screen.dart';
 import './Provider/user_provider.dart';
 import './Screens/home_screen.dart';
+import './Screens/forget_password.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
           home: SplashScreen(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
-            HomeScreen.routeName: (ctx) => HomeScreen()
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+            ForgetPassword.routeName: (ctx) =>ForgetPassword()
           },
         ),
       ),

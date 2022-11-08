@@ -15,6 +15,7 @@ import '../Models/user_model.dart';
 import '../Provider/user_provider.dart';
 import '../Util/spinkit.dart';
 import '../Screens/home_screen.dart';
+import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login-screen';
@@ -273,24 +274,35 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          width: 0.13.sw,
+                        InkWell(
+                          onTap: (){
+                            Navigator.of(context).pushNamed(ForgetPassword.routeName);
+                          },
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 0.13.sw,
+                              ),
+                              Icon(
+                                Icons.lock_open,
+                                color: ColorUtil.lightPurple,
+                              ),
+                              SizedBox(
+                                width: 0.02.sw,
+                              ),
+                              Text(
+                                'Forgot Password',
+                                style: TextStyle(
+                                    fontSize: 10.sp,
+                                    color: Color(0xff8A8CBD),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            ],
+                          ),
                         ),
-                        Icon(
-                          Icons.lock_open,
-                          color: ColorUtil.lightPurple,
-                        ),
-                        SizedBox(
-                          width: 0.02.sw,
-                        ),
-                        Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                              fontSize: 10.sp,
-                              color: Color(0xff8A8CBD),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Montserrat'),
-                        ),
+
+
                         SizedBox(
                           width: 0.22.sw,
                         ),
