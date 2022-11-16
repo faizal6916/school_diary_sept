@@ -58,6 +58,7 @@ class DashboardItem {
     this.circularId,
     this.description,
     this.file,
+    this.assignId
   });
 
   String? type;
@@ -70,6 +71,7 @@ class DashboardItem {
   DateTime? feedDate;
   String? circularId;
   String? description;
+  String? assignId;
   String? file;
 
   factory DashboardItem.fromJson(Map<String, dynamic> json) => DashboardItem(
@@ -82,6 +84,7 @@ class DashboardItem {
     studentId: json["student_id"] == null ? null : json["student_id"],
     feedDate: DateTime.parse(json["feed_date"]),
     circularId: json["circular_id"] == null ? null : json["circular_id"],
+    assignId: json["assignment_id"] == null ? null : json["assignment_id"],
     description: json["description"] == null ? null : json["description"],
     file: json["file"] == null ? null : json["file"],
   );

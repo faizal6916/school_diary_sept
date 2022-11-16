@@ -52,13 +52,13 @@ class _AFLReportState extends State<AFLReport> {
         print(_remedial);
      //   print(resp['data']['details']['response']['getAllstudentMCQ']);
         resp['data']['details']['response']['getAllstudentMCQ'].forEach((que){
-          print(que['question'].toString());
-          print(que['type']);
-          print(que['right_answer']['tag']);
-          print(que['student_response']['score']);
-          print(que['correct_answer']['flag']);
-          print(que['student_score_percent']['score']);
-          print(que['class_percent']['score']);
+          // print(que['question'].toString());
+          // print(que['type']);
+          // print(que['right_answer']['tag']);
+          // print(que['student_response']['score']);
+          // print(que['correct_answer']['flag']);
+          // print(que['student_score_percent']['score']);
+          // print(que['class_percent']['score']);
 
           
            _questionData.add(QuestionAnswer(
@@ -73,44 +73,45 @@ class _AFLReportState extends State<AFLReport> {
              trueOrfalse: que['correct_answer']['flag'].toString()
            ));
         });
-        // print(resp['data']['details']['response']['studentAverageHighest'][0]
-        //     .length);
-        // print(resp['data']['details']['response']['studentAverageHighest'][1]
-        //     .length);
-        // print(
-        //     resp['data']['details']['response']['studentAverageHighest'][0][1]);
-        // print(
-        //     resp['data']['details']['response']['studentAverageHighest'][1][0]);
-        // print(resp['data']['details']['response']['studentAverageHighest'][1][0]
-        //     .runtimeType);
-        // print(
-        //     resp['data']['details']['response']['studentAverageHighest'][1][1]);
-        // print(resp['data']['details']['response']['studentAverageHighest'][1][1]
-        //     .runtimeType);
+        print(resp['data']['details']['response']['studentAverageHighest'][0]
+            .length);
+        print(resp['data']['details']['response']['studentAverageHighest'][1]
+            .length);
+        print(
+            resp['data']['details']['response']['studentAverageHighest'][0][1]);
+        print(
+            resp['data']['details']['response']['studentAverageHighest'][1][0]);
+        print(resp['data']['details']['response']['studentAverageHighest'][1][0]
+            .runtimeType);
+        print(
+            resp['data']['details']['response']['studentAverageHighest'][1][1]);
+        print(resp['data']['details']['response']['studentAverageHighest'][1][1]
+            .runtimeType);
 
-        _chData = [
-          ChartData(
-              xaxis: resp['data']['details']['response']
-                  ['studentAverageHighest'][1][0],
-              yaxis:(resp['data']['details']['response']
-              ['studentAverageHighest'][1][1]==0)? 0.0: resp['data']['details']['response']
-                  ['studentAverageHighest'][1][1],
-              colr: ColorUtil.green),
-          ChartData(
-              xaxis: resp['data']['details']['response']
-                  ['studentAverageHighest'][2][0],
-              yaxis:(resp['data']['details']['response']
-              ['studentAverageHighest'][2][1]==0)?0.0: resp['data']['details']['response']
-                  ['studentAverageHighest'][2][1],
-              colr: ColorUtil.eventYellow),
-          ChartData(
-              xaxis: resp['data']['details']['response']
-                  ['studentAverageHighest'][3][0],
-              yaxis:(resp['data']['details']['response']
-              ['studentAverageHighest'][3][1]==0)?0.0: resp['data']['details']['response']
-                  ['studentAverageHighest'][3][1],
-              colr: ColorUtil.green),
-        ];
+        // _chData = [
+        //   ChartData(
+        //       xaxis: resp['data']['details']['response']
+        //           ['studentAverageHighest'][1][0],
+        //       yaxis:(resp['data']['details']['response']
+        //       ['studentAverageHighest'][1][1]==0)? 0.0: resp['data']['details']['response']
+        //           ['studentAverageHighest'][1][1],
+        //       colr: ColorUtil.green),
+        //   ChartData(
+        //       xaxis: resp['data']['details']['response']
+        //           ['studentAverageHighest'][2][0],
+        //       yaxis:(resp['data']['details']['response']
+        //       ['studentAverageHighest'][2][1]==0)?0.0: resp['data']['details']['response']
+        //           ['studentAverageHighest'][2][1],
+        //       colr: ColorUtil.eventYellow),
+        //   ChartData(
+        //       xaxis: resp['data']['details']['response']
+        //           ['studentAverageHighest'][3][0],
+        //       yaxis:(resp['data']['details']['response']
+        //       ['studentAverageHighest'][3][1]==0)?0.0: resp['data']['details']['response']
+        //           ['studentAverageHighest'][3][1],
+        //       colr: ColorUtil.green),
+        // ];
+        _chData = [ChartData(colr: ColorUtil.green,yaxis: double.parse(resp['data']['details']['response']['studentAverageHighest'][1][1].toString()),xaxis: resp['data']['details']['response']['studentAverageHighest'][1][0].toString(),),ChartData(colr: ColorUtil.eventYellow,yaxis: double.parse(resp['data']['details']['response']['studentAverageHighest'][2][1].toString()),xaxis: resp['data']['details']['response']['studentAverageHighest'][2][0].toString(),),ChartData(colr: ColorUtil.green,yaxis: double.parse(resp['data']['details']['response']['studentAverageHighest'][3][1].toString()),xaxis: resp['data']['details']['response']['studentAverageHighest'][3][0].toString(),)];
         print(_chData.length);
         for(int i =0; i<resp['data']['details']['response']['studentAndBatcAvgPerTheme'].length;i++){
           if(i==0){

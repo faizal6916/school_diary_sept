@@ -102,11 +102,17 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           print(one['last_updated']);
           if (one['name'] == 'CAT-4') {
             report.add(CatFour(
+              url: one['document'],
+              type: 'Cat4',
+              childId: widget.usrId,
               title: one['name'].toString(),
               date: one['last_updated'].toString(),
             ));
           } else if (one['name'] == 'Assets') {
             report.add(CatFour(
+              url: one['assets_doc'],
+              type: 'Cat4',
+              childId: widget.usrId,
               title: one['name'].toString(),
               date: one['last_updated'].toString(),
             ));

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:school_diary_sept_13/Util/color_util.dart';
 import 'package:school_diary_sept_13/Util/spinkit.dart';
 
 import '../Provider/user_provider.dart';
@@ -21,12 +22,12 @@ class _ResetPasswordState extends State<ResetPassword> {
   TextEditingController _newPassword = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
   var _isloading = false;
-  void _showToast(BuildContext context, String errText) {
+  void _showToast(BuildContext context, String errText,Color color) {
     final scaffold = Scaffold.of(context);
     scaffold.showSnackBar(
       SnackBar(
         content: Text(errText),
-        backgroundColor: Colors.red,
+        backgroundColor: color,
         margin: EdgeInsets.all(8),
         behavior: SnackBarBehavior.floating,
       ),
@@ -37,28 +38,34 @@ class _ResetPasswordState extends State<ResetPassword> {
     try {
       setState(() {
         _isloading = true;
+
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
           .resetPassword(usename, currentPass, newPass);
       print(resp.runtimeType);
       print('staus code-------------->${resp['status']['code']}');
       if (resp['status']['code'] == 200) {
+
+        print(resp['data']['message']);
+        _showToast(context, resp['data']['message'],ColorUtil.green);
         setState(() {
           _isloading = false;
+          _currentPassword.clear();
+          _newPassword.clear();
+          _confirmPassword.clear();
         });
-        print('its working');
         // _assignList = Assignment.fromJson(resp);
         // _assignments = _assignList.data!.details!;
         // _circularList = Circular.fromJson(resp);
         //print(_circularList.data!.details!.first.title);
-        setState(() {
-          // _ciculars = _circularList.data!.details!;
-        });
+        // setState(() {
+        //   // _ciculars = _circularList.data!.details!;
+        // });
       } else if (resp['status']['code'] == 400) {
         setState(() {
           _isloading = false;
         });
-        _showToast(context, resp['error']['message']);
+        _showToast(context, resp['error']['message'],Colors.red);
       } else {
         setState(() {
           _isloading = false;
@@ -166,21 +173,21 @@ class _ResetPasswordState extends State<ResetPassword> {
                     if (_currentPassword.value == null ||
                         _currentPassword.value.text.isEmpty) {
                       print('current password nil');
-                      _showToast(context, 'Please Enter the current password');
+                      _showToast(context, 'Please Enter the current password',Colors.red);
                     } else if (_newPassword.value == null ||
                         _newPassword.value.text.isEmpty) {
-                      _showToast(context, 'Please Enter the new password');
+                      _showToast(context, 'Please Enter the new password',Colors.red);
                     } else if (_newPassword.value.text ==
                         _currentPassword.value.text) {
                       _showToast(context,
-                          'Current password and New password should not be same');
+                          'Current password and New password should not be same',Colors.red);
                     } else if (_confirmPassword.value == null ||
                         _confirmPassword.value.text.isEmpty) {
-                      _showToast(context, 'Please Enter the confirm password');
+                      _showToast(context, 'Please Enter the confirm password',Colors.red);
                     } else if (!(_newPassword.value.text ==
                         _confirmPassword.value.text)) {
                       _showToast(context,
-                          'Confirm password should match new password');
+                          'Confirm password should match new password',Colors.red);
                     } else {
                       print('validation success');
                       _restPassw(widget.email!, _currentPassword.value.text,

@@ -80,6 +80,8 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
         //     date: _ciculars[index].dateAdded!,
         //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
         itemBuilder: (ctx, index) => CircularWidget(
+          circId: _assignments[index].id,
+          typeCorA: 'Assignment',
             childId: widget.childId,
             cicularTitle: _assignments[index].title,
             circularDesc: _assignments[index].description,

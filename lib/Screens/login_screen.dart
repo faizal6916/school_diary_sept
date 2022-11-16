@@ -1,11 +1,14 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,6 +49,20 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordFocusNode.dispose();
     super.dispose();
   }
+  _deleteFolder() async{
+    if(await Permission.storage.request().isGranted){
+      final path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
+      var dir = await Directory('$path/SchoolDiary');
+
+      if(await dir.exists()){
+      print('directory exist');
+     // dir.delete(recursive: true);
+        dir.deleteSync(recursive: true);
+      }else{
+       print('dir not exist');
+      }
+    }
+  }
   Future<void> _saveForm()  async{
     var isValid = _form.currentState!.validate();
     if(!isValid){
@@ -56,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print(_loginCred.password);
     if(_loginCred.username.isNotEmpty && _loginCred.password.isNotEmpty){
       print('not empty');
+      _deleteFolder();
       setState((){
         _isLoading = true;
       });
@@ -78,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
            print(_user.status!.code);
           //print('ok');
           Navigator.of(context).pushNamed(HomeScreen.routeName,arguments: _user);
+        }else if(resp['status']['code'] == 400){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(resp['error']['message']),backgroundColor: Colors.red,));
         }
 
       }catch(e){

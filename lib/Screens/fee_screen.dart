@@ -13,12 +13,14 @@ import '../Util/color_util.dart';
 import '../Util/spinkit.dart';
 
 class FeeScreen extends StatefulWidget {
+  final String? parentEmail;
   final String? admnNo;
   final String? dataToken;
   const FeeScreen({
     Key? key,
     this.admnNo,
     this.dataToken,
+    this.parentEmail
   }) : super(key: key);
 
   @override
@@ -160,6 +162,8 @@ class _FeeScreenState extends State<FeeScreen> {
                     ? ListView.builder(
                     itemCount: voucherList.length,
                     itemBuilder: (ctx, i) => FeePaid(
+                      admsnNo: widget.admnNo,
+                      parentEmail: widget.parentEmail,
                       detailList: getDetailedFee(voucherList[i]),
                       transactionDate: transDate(voucherList[i]),
                       voucherNo: voucherList[i],

@@ -206,7 +206,7 @@ class _DetailedReportState extends State<DetailedReport> {
   Widget build(BuildContext context) {
     return Container(
       width: 1.sw,
-      height: 40 * double.parse(widget.subjects!.length.toString()) + 130,
+      height: 40 * double.parse(widget.subjects!.length.toString()) + 150,
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(

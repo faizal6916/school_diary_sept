@@ -13,11 +13,15 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:school_diary_sept_13/Util/api_constants.dart';
 import 'package:school_diary_sept_13/Widgets/attachment_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Util/color_util.dart';
 import '../Models/circular_model.dart';
 
 class CircularWidget extends StatefulWidget {
+  final String? circId;
+// final bool isOpen;
+  final String? typeCorA;
   final String? childId;
   final DateTime? circularDate;
   final String? cicularTitle;
@@ -26,6 +30,9 @@ class CircularWidget extends StatefulWidget {
   final List<String>? attachment;
   const CircularWidget(
       {Key? key,
+      //  this.isOpen = false,
+        this.circId,
+        this.typeCorA,
       this.childId,
       this.circularDate,
       this.cicularTitle,
@@ -92,10 +99,35 @@ class _CircularWidgetState extends State<CircularWidget> {
   // }
   DateFormat _examformatter = DateFormat('dd MMM');
   var _isOpen = false;
+  String? idFrDa;
+  //var _isOpen = false;
   // var _isDownloading = false;
   // var _isDownloaded = false;
   // var progressStr = "";
   // var progressPer = 0.0;
+
+  dashboardLoad() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? idfrom = prefs.getString('dashId');
+    idFrDa = idfrom;
+    print('dashboard id -----$idFrDa');
+    if(idFrDa == null) return;
+    if(idFrDa == widget.circId){
+      setState((){
+        _isOpen = true;
+      });
+      prefs.remove('dashId');
+    }
+  }
+
+  @override
+  void initState() {
+    dashboardLoad();
+    // print('iiiiiiiiiiii------${widget.isOpen}');
+    // _isOpen = widget.isOpen;
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     print('rebuild');
@@ -233,6 +265,7 @@ class _CircularWidgetState extends State<CircularWidget> {
                               // Text('atta$i-${widget.attachment![i]}'),
                           //attachment(widget.cicularTitle!,widget.attachment![i],i)
                           AttachmentWidget(
+                            type: widget.typeCorA,
                             childId: widget.childId,
                             attUrl: widget.attachment![i],
                             circularTitle: widget.cicularTitle!,

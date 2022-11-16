@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file_safe/open_file_safe.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:math' as math;
@@ -13,11 +14,12 @@ import '../Util/api_constants.dart';
 import '../Util/color_util.dart';
 
 class AttachmentWidget extends StatefulWidget {
+  final String? type;
   final int? totalAtt;
   final String? attUrl;
   final String? circularTitle;
   final String? childId;
-  const AttachmentWidget({Key? key,this.totalAtt,this.attUrl,this.childId,this.circularTitle}) : super(key: key);
+  const AttachmentWidget({Key? key,this.totalAtt,this.attUrl,this.childId,this.circularTitle,this.type}) : super(key: key);
 
   @override
   State<AttachmentWidget> createState() => _AttachmentWidgetState();
@@ -59,7 +61,7 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
      if (checkPermission == true) {
        final path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
        print('path-------->$path');
-       var dir = await Directory('$path/SchoolDiary/Circular');
+       var dir = await Directory('$path/SchoolDiary/${widget.type}');
        try{
          var files = dir.listSync();
          print(files.length);
@@ -90,18 +92,20 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
     OpenFile.open(file.path);
   }
   Future<File?> downloadFile(String url,String filename) async{
+    print(url);
     //final appStorage = await getApplicationDocumentsDirectory();
     if(await Permission.storage.request().isGranted){
       setState((){
         _isDownloading = true;
       });
       final path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
-      var dir = await Directory('$path/SchoolDiary/Circular');
+      var dir = await Directory('$path/SchoolDiary/${widget.type}');
+
       var file = File('/');
       if(await dir.exists()){
         file = File('${dir.path}/$filename');
       }else{
-        var dir = await Directory('$path/SchoolDiary/Circular').create(recursive: true);
+        var dir = await Directory('$path/SchoolDiary/${widget.type}').create(recursive: true);
         file = File('${dir.path}/$filename');
       }
       try{

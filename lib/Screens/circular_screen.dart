@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:school_diary_sept_13/Util/color_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import '../Provider/user_provider.dart';
@@ -10,10 +11,12 @@ import '../Models/circular_model.dart';
 import '../Widgets/circular_widget.dart';
 
 class CircularScreen extends StatefulWidget {
+  final bool? isClicked;
+  final String? circularId;
   final String? parentId;
   final String? childId;
   final String? acadYear;
-  const CircularScreen({Key? key, this.parentId, this.childId, this.acadYear})
+  const CircularScreen({Key? key,this.isClicked, this.parentId, this.childId, this.acadYear,this.circularId})
       : super(key: key);
 
   @override
@@ -25,6 +28,9 @@ class _CircularScreenState extends State<CircularScreen> {
   var _isloading = false;
   List<Detail> _ciculars = [];
   DateFormat _examformatter = DateFormat('dd MMMM');
+  var _isOpen = false;
+  var _isCheck = false;
+
   _getCircular(String parentId, String childId, String acadYear) async {
     try {
       setState(() {
@@ -35,14 +41,36 @@ class _CircularScreenState extends State<CircularScreen> {
       print(resp.runtimeType);
       print('staus code-------------->${resp['status']['code']}');
       if (resp['status']['code'] == 200) {
-        setState(() {
-          _isloading = false;
-        });
+
         print('its working');
         _circularList = Circular.fromJson(resp);
+        _ciculars = _circularList.data!.details!;
+        _isCheck = false;
         //print(_circularList.data!.details!.first.title);
+        // setState(() {
+        //   _ciculars = _circularList.data!.details!;
+        // });
+        print('cii from wid----${widget.circularId}');
+         if(_ciculars.isNotEmpty && (widget.circularId != null)){
+           print('cond true');
+           _circularList.data!.details!.forEach((cir) {
+             print('id from api---${cir.id}');
+             print('id from constructor---${widget.circularId}');
+             if(cir.id == widget.circularId){
+              print('enter co');
+              _isCheck = true;
+               // setState((){
+               //   _isCheck = true;
+               // });
+               print('isopen --->$_isCheck');
+             }
+
+           });
+         }else{
+           print('cond false');
+         }
         setState(() {
-          _ciculars = _circularList.data!.details!;
+          _isloading = false;
         });
       } else {
         setState(() {
@@ -51,6 +79,25 @@ class _CircularScreenState extends State<CircularScreen> {
       }
     } catch (e) {}
   }
+  // openCircular(){
+  //   _circularList.data!.details!.forEach((cir) {
+  //     print('id from api---${cir.id}');
+  //     print('id from constructor---${widget.circularId}');
+  //     if(cir.id == widget.circularId){
+  //
+  //       print('isopen --->$_isOpen');
+  //       setState((){
+  //         _isOpen = true;
+  //       });
+  //     }else{
+  //       setState((){
+  //         _isOpen = false;
+  //       });
+  //       print('isopen --->$_isOpen');
+  //     }
+  //   });
+  // }
+
 
   @override
   void didChangeDependencies() {
@@ -65,7 +112,13 @@ class _CircularScreenState extends State<CircularScreen> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
+ @override
+  void initState() {
 
+   // print(widget.isClicked);
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,6 +135,10 @@ class _CircularScreenState extends State<CircularScreen> {
               //     date: _ciculars[index].dateAdded!,
               //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
               itemBuilder: (ctx, index) => CircularWidget(
+                circId: _ciculars[index].id,
+               // isOpen: _isCheck,
+                //isOpen:( _ciculars[index].id == widget.circularId) ?true : false,
+                typeCorA: 'Circular',
                 childId: widget.childId,
                   cicularTitle: _ciculars[index].title,
                   circularDesc: _ciculars[index].description,

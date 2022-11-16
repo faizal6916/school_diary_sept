@@ -45,6 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
   var _activeindex = 0;
  // var userId;
   var _selectedChild;
+  String? circularId;
+  var childIndex;
+  bool isClicked = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -59,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   void didChangeDependencies() {
+    isClicked = false;
     print('did change dependencies called');
     _userdata = ModalRoute.of(context)!.settings.arguments as Users;
     print(_userdata.data!.data![0].username);
@@ -66,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages = [
       {
         'page': DashboardScreen(
+          dashSwitching: switchingFrDash,
           parentId: _userdata.data!.data![0].id.toString(),
           //studentsList: _userdata.data!.data![0].studentDetails!,
           childId: _userdata.data!.data![0].studentDetails!.first.userId!,
@@ -75,6 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       {
         'page': CircularScreen(
+         // isClicked: false,
+        //  circularId: null,
           parentId: _userdata.data!.data![0].id.toString(),
           childId: _userdata.data!.data![0].studentDetails!.first.userId,
           acadYear: _userdata.data!.data![0].studentDetails!.first.academicYear,
@@ -104,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'page': FeeScreen(
           admnNo: _userdata.data!.data![0].studentDetails!.first.admissionNumber,
           dataToken: _userdata.data!.data![0].token,
+          parentEmail: _userdata.data!.data![0].username,
         ),
         'title': 'Fee Details',
         'centre': true
@@ -160,11 +168,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _pageSwitching(int pageIndex){
+    _activeindex = pageIndex;
     setState((){
       _selectedChild = _students[pageIndex].userId!;
       _pages = [
         {
           'page': DashboardScreen(
+            dashSwitching: switchingFrDash,
             parentId: _userdata.data!.data![0].id.toString(),
             // studentsList: _userdata.data!.data![0].studentDetails!,
             childId: _students[pageIndex].userId!,
@@ -174,6 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         {
           'page': CircularScreen(
+          //  isClicked: isClicked,
+           // circularId: circularId,
             parentId: _userdata.data!.data![0].id.toString(),
             childId: _students[pageIndex].userId,
             acadYear: _students[pageIndex].academicYear,
@@ -256,6 +268,20 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       ];
     });
+  }
+  void switchingFrDash(int pageno,String id,bool isclicked) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('dashId', id);
+    // print(pageno);
+    // print('cirid in home---$id');
+    setState((){
+      circularId = id;
+
+      isClicked = isclicked;
+      _pageSwitching(_activeindex);
+      _seletedPageIndex = pageno;
+    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -551,11 +577,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CarouselSlider.builder(
                     itemCount: _students.length,
                     itemBuilder: (context, index, realIndex) {
-                      final name = _students[index].name;
-                      final classofstd = _students[index].studentDetailClass;
-                      final batchofstd = _students[index].batch;
+                      // final name = _students[index].name;
+                      // final classofstd = _students[index].studentDetailClass;
+                      // final batchofstd = _students[index].batch;
+                      // final imgUrl =
+                      //     'https://teamsqa3000.educore.guru${_students[index].photo}';
+                      final name = _students[_activeindex].name;
+                      final classofstd = _students[_activeindex].studentDetailClass;
+                      final batchofstd = _students[_activeindex].batch;
                       final imgUrl =
-                          'https://teamsqa3000.educore.guru${_students[index].photo}';
+                          'https://teamsqa3000.educore.guru${_students[_activeindex].photo}';
                       return nameCard(
                           studentName: name.toString(),
                           photourl: imgUrl,
@@ -566,7 +597,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 170,
                         //enlargeCenterPage: true,
                         viewportFraction: 1,
-                        enableInfiniteScroll: false,
+                        enableInfiniteScroll: true,
                         onPageChanged: (index, reason) async {
                           _activeindex = index;
                           _pageSwitching(_activeindex);
