@@ -377,7 +377,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 8,
+                height: 10,
               ),
               Text(
                 tabName,
@@ -391,7 +391,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                     fontSize: 14.sp),
               ),
               SizedBox(
-                height: 9,
+                height: 11,
               ),
               selectedTab == activeIndex
                   ? Container(

@@ -237,11 +237,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.w400,
                           color: ColorUtil.lightPurple),
                     ),
-                    SizedBox(
-                      height: 0.005.sh,
-                    ),
+                    // SizedBox(
+                    //   height: 0.005.sh,
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.all(25.0),
+                      padding: const EdgeInsets.only(top: 0,right: 25,left: 25,bottom: 15),
                       child: Form(
                         key: _form,
                         child: SingleChildScrollView(
@@ -343,8 +343,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 0.06.sh,
+                      height: 10,
                     ),
+                    // SizedBox(
+                    //   height: 0.06.sh,
+                    // ),
                     Row(
                       children: [
                         SizedBox(

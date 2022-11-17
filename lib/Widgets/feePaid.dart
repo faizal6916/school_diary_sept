@@ -326,7 +326,7 @@ class _FeePaidState extends State<FeePaid> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    maximumSize: Size(1.sw / 2 + 20, 40),
+                    maximumSize: Size(1.sw / 2 + 30, 40),
                     primary: ColorUtil.feegreen,
                   ),
                   onPressed: () {
@@ -337,7 +337,7 @@ class _FeePaidState extends State<FeePaid> {
                     children: [
                       Icon(Icons.mail_outline),
                       SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Text('Get Receipt By Email')
                     ],

@@ -35,12 +35,12 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
     with TickerProviderStateMixin {
   var _isExpanded = false;
   var _height = 250.0;
-  Duration _myduration = Duration(seconds: 1);
+  Duration _myduration = Duration(milliseconds: 800);
   var _doneDur = false;
   // Animation<double>? _myAnimation;
   // AnimationController? _controller;
   Future _complete() async {
-    Future.delayed(Duration(milliseconds: 900), () {
+    Future.delayed(Duration(milliseconds: 700), () {
       setState(() {
         _doneDur = true;
       });

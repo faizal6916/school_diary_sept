@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
       children: [
         Container(
           width: 1.sw,
-          height: 1.sh - 260,
+          height: 1.sh - 220,
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           //color: Colors.red,
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -94,7 +94,7 @@ class ProfileScreen extends StatelessWidget {
                             ],
                           ),
                           CircleAvatar(
-                            radius: 40,
+                            radius: 30,
                             backgroundColor: ColorUtil.studName,
                             child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(60)),
@@ -107,8 +107,8 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                                 errorWidget: (context, url, error) => Image.asset(
                                   'assets/images/userImage.png',
-                                  width: 72,
-                                  height: 72,
+                                  width: 50,
+                                  height: 50,
                                 ),
                               ),
                             ),
@@ -117,7 +117,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       Container(
                         width: 1.sw - 60,
-                        height: 1.sh / 4 + 80,
+                        height: 1.sh / 4 -30,
                         //color: Colors.red,
                         child: ListView.separated(
                           separatorBuilder: (ctx,i) => Divider(),

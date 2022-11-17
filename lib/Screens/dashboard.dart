@@ -127,7 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               : _items.isEmpty
                   ? Text('No dashboard feed')
                   : Container(
-                      height: 1.sh / 2,
+                      height: 1.sh - 400 ,
                       child: ListView.builder(
                           itemCount: _items.length,
                           itemBuilder: (ctx, index) {
@@ -416,7 +416,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           width: 1.sw,
-          height: 1.sh / 2,
+          height: 1.sh - 400,
           decoration: BoxDecoration(
               color: Colors.grey, borderRadius: BorderRadius.circular(10)),
         ),

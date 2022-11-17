@@ -453,7 +453,7 @@ class _AFLReportState extends State<AFLReport> {
                                   Image(
                                       image: AssetImage(
                                           'assets/images/question.png')),
-                                  Text('Question Analysis'),
+                                  Text('Question Analysis',style: TextStyle(fontSize: 12),),
                                 ],
                               ),
                             ),
