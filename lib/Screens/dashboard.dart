@@ -25,13 +25,15 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin{
   var _activeindex = 0;
   var _isloading = false;
   var _dashboardfeed = Dashboard();
   List<DashboardItem> _items = [];
   DateFormat _circFormatter = DateFormat('dd MMMM yyyy, hh:mm a');
   DateFormat _examformatter = DateFormat('dd MMMM yyyy');
+  Animation<Offset>? _slideTransition;
+  AnimationController? _controller;
   _dashBoardFeed(String parentId, String studId) async {
     try {
       setState(() {
@@ -50,12 +52,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
         setState(() {
           _items = _dashboardfeed.data!.data!;
         });
+        _controller!.forward();
       }
     } catch (e) {
       print(e);
     }
   }
-
+ @override
+  void initState() {
+    _controller = AnimationController(vsync: this,duration: Duration(milliseconds: 500));
+    _slideTransition = _controller!.drive(Tween(begin: Offset(-1.5, 0),end: Offset(0, 0)));
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   void didChangeDependencies() {
     print('dashboard didchangede');
@@ -74,6 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Column(
         children: [
@@ -430,133 +440,136 @@ class _DashboardScreenState extends State<DashboardScreen> {
           widget.dashSwitching(1,id,true);
         //  print('circular');
         },
-        child: Container(
-          width: 1.sw,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //margin: EdgeInsets.only(bottom: 5),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 0),
-                  blurRadius: 1,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              // BoxShadow(
-              //     color: Colors.black12,
-              //     offset: Offset(0, 10),
-              //     blurRadius: 20,
-              //     spreadRadius: 0)
-            ],
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 110,
-                height: 25,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                    color: ColorUtil.circularBg,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: ColorUtil.circularText, width: 2)),
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SlideTransition(
+          position: _slideTransition!,
+          child: Container(
+            width: 1.sw,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
+                    blurRadius: 1,
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6,
+                    spreadRadius: 0),
+                // BoxShadow(
+                //     color: Colors.black12,
+                //     offset: Offset(0, 10),
+                //     blurRadius: 20,
+                //     spreadRadius: 0)
+              ],
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 110,
+                  height: 25,
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: ColorUtil.circularBg,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: ColorUtil.circularText, width: 2)),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.campaign_outlined,
+                        color: ColorUtil.circularText,
+                        size: 18,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Circular',
+                        style: TextStyle(color: ColorUtil.circularText),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      Icons.campaign_outlined,
-                      color: ColorUtil.circularText,
-                      size: 18,
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                        child: CachedNetworkImage(
+                          imageUrl: photoUrl.toString(),
+                          placeholder: (context, url) => SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/userImage.png',
+                            width: 45,
+                            height: 45,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        width: 1.sw - 150,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title.toString(),
+                              style: TextStyle(
+                                  color: ColorUtil.circularText,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              desc.toString(),
+                            ),
+                          ],
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'updated On',
+                      style: datelabelStyle,
                     ),
                     SizedBox(
                       width: 5,
                     ),
+                    Icon(
+                      Icons.calendar_month_outlined,
+                      color: ColorUtil.dateColor.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
                     Text(
-                      'Circular',
-                      style: TextStyle(color: ColorUtil.circularText),
-                    ),
+                      _circFormatter.format(date!),
+                      style: dateTextStyle,
+                    )
                   ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(60)),
-                      child: CachedNetworkImage(
-                        imageUrl: photoUrl.toString(),
-                        placeholder: (context, url) => SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) => Image.asset(
-                          'assets/images/userImage.png',
-                          width: 45,
-                          height: 45,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                      width: 1.sw - 150,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title.toString(),
-                            style: TextStyle(
-                                color: ColorUtil.circularText,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            desc.toString(),
-                          ),
-                        ],
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'updated On',
-                    style: datelabelStyle,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    color: ColorUtil.dateColor.withOpacity(0.5),
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    _circFormatter.format(date!),
-                    style: dateTextStyle,
-                  )
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -568,123 +581,126 @@ class _DashboardScreenState extends State<DashboardScreen> {
           widget.dashSwitching(5,'dd',true);
          // print('report');
         },
-        child: Container(
-          width: 1.sw,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //margin: EdgeInsets.only(bottom: 5),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 0),
-                  blurRadius: 1,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              // BoxShadow(
-              //     color: Colors.black12,
-              //     offset: Offset(0, 10),
-              //     blurRadius: 20,
-              //     spreadRadius: 0)
-            ],
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 110,
-                height: 25,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                    color: ColorUtil.reportBg,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: ColorUtil.reportText, width: 2)),
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SlideTransition(
+          position: _slideTransition!,
+          child: Container(
+            width: 1.sw,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
+                    blurRadius: 1,
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6,
+                    spreadRadius: 0),
+                // BoxShadow(
+                //     color: Colors.black12,
+                //     offset: Offset(0, 10),
+                //     blurRadius: 20,
+                //     spreadRadius: 0)
+              ],
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 110,
+                  height: 25,
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: ColorUtil.reportBg,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: ColorUtil.reportText, width: 2)),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.pie_chart,
+                        color: ColorUtil.reportText,
+                        size: 18,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Report',
+                        style: TextStyle(color: ColorUtil.reportText),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      Icons.pie_chart,
-                      color: ColorUtil.reportText,
-                      size: 18,
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                        child: CachedNetworkImage(
+                          imageUrl: photoUrl.toString(),
+                          placeholder: (context, url) => SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/userImage.png',
+                            width: 45,
+                            height: 45,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 1.sw - 150,
+                      child: Text(
+                        title.toString(),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Published Date',
+                      style: datelabelStyle,
                     ),
                     SizedBox(
                       width: 5,
                     ),
+                    Icon(
+                      Icons.calendar_month_outlined,
+                      color: ColorUtil.dateColor.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
                     Text(
-                      'Report',
-                      style: TextStyle(color: ColorUtil.reportText),
-                    ),
+                      _examformatter.format(date!),
+                      style: dateTextStyle,
+                    )
                   ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(60)),
-                      child: CachedNetworkImage(
-                        imageUrl: photoUrl.toString(),
-                        placeholder: (context, url) => SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) => Image.asset(
-                          'assets/images/userImage.png',
-                          width: 45,
-                          height: 45,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 1.sw - 150,
-                    child: Text(
-                      title.toString(),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Published Date',
-                    style: datelabelStyle,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    color: ColorUtil.dateColor.withOpacity(0.5),
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    _examformatter.format(date!),
-                    style: dateTextStyle,
-                  )
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -696,124 +712,127 @@ class _DashboardScreenState extends State<DashboardScreen> {
           widget.dashSwitching(2,id,true);
          // print('assignment');
         },
-        child: Container(
-          width: 1.sw,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //margin: EdgeInsets.only(bottom: 5),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 0),
-                  blurRadius: 1,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              // BoxShadow(
-              //     color: Colors.black12,
-              //     offset: Offset(0, 10),
-              //     blurRadius: 20,
-              //     spreadRadius: 0)
-            ],
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 130,
-                height: 25,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                    color: ColorUtil.assignmentBg,
-                    borderRadius: BorderRadius.circular(20),
-                    border:
-                        Border.all(color: ColorUtil.assignmentText, width: 2)),
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SlideTransition(
+          position: _slideTransition!,
+          child: Container(
+            width: 1.sw,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
+                    blurRadius: 1,
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6,
+                    spreadRadius: 0),
+                // BoxShadow(
+                //     color: Colors.black12,
+                //     offset: Offset(0, 10),
+                //     blurRadius: 20,
+                //     spreadRadius: 0)
+              ],
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 130,
+                  height: 25,
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: ColorUtil.assignmentBg,
+                      borderRadius: BorderRadius.circular(20),
+                      border:
+                          Border.all(color: ColorUtil.assignmentText, width: 2)),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.pie_chart,
+                        color: ColorUtil.assignmentText,
+                        size: 18,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Assignment',
+                        style: TextStyle(color: ColorUtil.assignmentText),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      Icons.pie_chart,
-                      color: ColorUtil.assignmentText,
-                      size: 18,
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                        child: CachedNetworkImage(
+                          imageUrl: photoUrl.toString(),
+                          placeholder: (context, url) => SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/userImage.png',
+                            width: 45,
+                            height: 45,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 1.sw - 150,
+                      child: Text(
+                        title.toString(),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Published Date',
+                      style: datelabelStyle,
                     ),
                     SizedBox(
                       width: 5,
                     ),
+                    Icon(
+                      Icons.calendar_month_outlined,
+                      color: ColorUtil.dateColor.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
                     Text(
-                      'Assignment',
-                      style: TextStyle(color: ColorUtil.assignmentText),
-                    ),
+                      _circFormatter.format(date!),
+                      style: dateTextStyle,
+                    )
                   ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(60)),
-                      child: CachedNetworkImage(
-                        imageUrl: photoUrl.toString(),
-                        placeholder: (context, url) => SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) => Image.asset(
-                          'assets/images/userImage.png',
-                          width: 45,
-                          height: 45,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 1.sw - 150,
-                    child: Text(
-                      title.toString(),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Published Date',
-                    style: datelabelStyle,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    color: ColorUtil.dateColor.withOpacity(0.5),
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    _circFormatter.format(date!),
-                    style: dateTextStyle,
-                  )
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -829,66 +848,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
           widget.dashSwitching(5,'dd',true);
           //print('exam');
         },
-        child: Container(
-          width: 1.sw,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //margin: EdgeInsets.only(bottom: 5),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 0),
-                  blurRadius: 1,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              // BoxShadow(
-              //     color: Colors.black12,
-              //     offset: Offset(0, 10),
-              //     blurRadius: 20,
-              //     spreadRadius: 0)
-            ],
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 90,
-                    height: 25,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                        color: ColorUtil.examBg,
-                        borderRadius: BorderRadius.circular(20),
-                        border:
-                            Border.all(color: ColorUtil.examText, width: 2)),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(
-                          Icons.border_color_outlined,
-                          color: ColorUtil.examText,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Exam',
-                          style: TextStyle(color: ColorUtil.examText),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
+        child: SlideTransition(
+          position: _slideTransition!,
+          child: Container(
+            width: 1.sw,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
+                    blurRadius: 1,
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6,
+                    spreadRadius: 0),
+                // BoxShadow(
+                //     color: Colors.black12,
+                //     offset: Offset(0, 10),
+                //     blurRadius: 20,
+                //     spreadRadius: 0)
+              ],
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
                       width: 90,
                       height: 25,
                       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -897,81 +891,109 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderRadius: BorderRadius.circular(20),
                           border:
                               Border.all(color: ColorUtil.examText, width: 2)),
-                      child: Center(child: Text(status.toString()))),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(60)),
-                      child: CachedNetworkImage(
-                        imageUrl: photoUrl.toString(),
-                        placeholder: (context, url) => SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) => Image.asset(
-                          'assets/images/userImage.png',
-                          width: 45,
-                          height: 45,
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.border_color_outlined,
+                            color: ColorUtil.examText,
+                            size: 18,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Exam',
+                            style: TextStyle(color: ColorUtil.examText),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                        width: 90,
+                        height: 25,
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                            color: ColorUtil.examBg,
+                            borderRadius: BorderRadius.circular(20),
+                            border:
+                                Border.all(color: ColorUtil.examText, width: 2)),
+                        child: Center(child: Text(status.toString()))),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                        child: CachedNetworkImage(
+                          imageUrl: photoUrl.toString(),
+                          placeholder: (context, url) => SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/userImage.png',
+                            width: 45,
+                            height: 45,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                      width: 1.sw - 150,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title.toString(),
-                            style: TextStyle(
-                                color: ColorUtil.examText,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            desc.toString(),
-                          ),
-                        ],
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Exam Date',
-                    style: datelabelStyle,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    color: ColorUtil.dateColor.withOpacity(0.5),
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    _examformatter.format(date!),
-                    style: dateTextStyle,
-                  )
-                ],
-              )
-            ],
+                    Container(
+                        width: 1.sw - 150,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title.toString(),
+                              style: TextStyle(
+                                  color: ColorUtil.examText,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              desc.toString(),
+                            ),
+                          ],
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Exam Date',
+                      style: datelabelStyle,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.calendar_month_outlined,
+                      color: ColorUtil.dateColor.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      _examformatter.format(date!),
+                      style: dateTextStyle,
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       );

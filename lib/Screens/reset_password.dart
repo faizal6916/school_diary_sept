@@ -23,15 +23,21 @@ class _ResetPasswordState extends State<ResetPassword> {
   TextEditingController _confirmPassword = TextEditingController();
   var _isloading = false;
   void _showToast(BuildContext context, String errText,Color color) {
-    final scaffold = Scaffold.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(errText),
-        backgroundColor: color,
-        margin: EdgeInsets.all(8),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+   // final scaffold = Scaffold.of(context);
+    // scaffold.showSnackBar(
+    //   SnackBar(
+    //     content: Text(errText),
+    //     backgroundColor: color,
+    //     margin: EdgeInsets.all(8),
+    //     behavior: SnackBarBehavior.floating,
+    //   ),
+    // );
+    ScaffoldMessenger.of(context).showSnackBar(     SnackBar(
+      content: Text(errText),
+      backgroundColor: color,
+      margin: EdgeInsets.all(8),
+      behavior: SnackBarBehavior.floating,
+    ),);
   }
 
   _restPassw(String usename, String currentPass, String newPass) async {

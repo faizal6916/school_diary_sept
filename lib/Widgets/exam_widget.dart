@@ -37,9 +37,26 @@ class ExamWidget extends StatefulWidget {
   State<ExamWidget> createState() => _ExamWidgetState();
 }
 
-class _ExamWidgetState extends State<ExamWidget> {
+class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateMixin {
   var _isExpanded = false;
+  AnimationController? _controller;
+  Animation<Size>? _heightanimation;
 
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this,duration: Duration(milliseconds: 300));
+    _heightanimation = _controller!.drive(
+
+        Tween<Size>(
+
+      begin: Size(double.infinity, 120),end: Size(double.infinity, 160+(widget.themes!.length * 20))
+    ));
+    _heightanimation!.addListener(()=>setState(() {
+
+    }));
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -47,10 +64,15 @@ class _ExamWidgetState extends State<ExamWidget> {
         setState(() {
           _isExpanded = !_isExpanded;
         });
+        if(_isExpanded){
+          _controller!.forward();
+        }else{
+          _controller!.reverse();
+        }
       },
       child: Container(
         width: 1.sw,
-        //height: 300,
+       // height: _heightanimation!.value.height,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
 
         //color: Colors.red,
@@ -97,6 +119,7 @@ class _ExamWidgetState extends State<ExamWidget> {
                 Container(
                   width: 1.sw - 130,
                   //height: 140,
+                  height: _heightanimation!.value.height ,
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
 
                   decoration: BoxDecoration(
@@ -204,8 +227,8 @@ class _ExamWidgetState extends State<ExamWidget> {
                       ),
                       Divider(),
                       Text(widget.activityName!),
-                      _isExpanded ? Divider() : SizedBox(),
-                      _isExpanded
+                      (_heightanimation!.value.height == 160+(widget.themes!.length * 20)) ? Divider() : SizedBox(),
+                      (_heightanimation!.value.height == 160+(widget.themes!.length * 20))
                           ? Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -48,15 +48,22 @@ class _FeePaidState extends State<FeePaid> {
   }
 
   void _showToast(BuildContext context, String errText,Color color) {
-    final scaffold = Scaffold.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(errText),
-        backgroundColor: color,
-        margin: EdgeInsets.all(8),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    //final scaffold = Scaffold.of(context);
+    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+      content: Text(errText),
+      backgroundColor: color,
+      margin: EdgeInsets.all(8),
+      behavior: SnackBarBehavior.floating,
+    ),);
+    // scaffold.showSnackBar(
+    //   SnackBar(
+    //     content: Text(errText),
+    //     backgroundColor: color,
+    //     margin: EdgeInsets.all(8),
+    //     behavior: SnackBarBehavior.floating,
+    //   ),
+    // );
+
   }
 
   _generateReceipt(String parentEmail, String admnNo, String voucher) async {

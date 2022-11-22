@@ -68,7 +68,7 @@ class _NotifWidgetState extends State<NotifWidget> {
           // );
          counter++;
         });
-       // add(_notif.data!.details!.allNotifications!);
+        add(_notif.data!.details!.allNotifications!);
         print('length of notifications ------>${_allNotif.length}');
         //   _circularList = Circular.fromJson(resp);
         //print(_circularList.data!.details!.first.title);
@@ -89,7 +89,7 @@ class _NotifWidgetState extends State<NotifWidget> {
       print('insi----->$i');
       listKey.currentState!.insertItem(
         i,
-        duration: Duration(milliseconds: (500 + i)),
+        duration: Duration(milliseconds: (800 + i*10)),
       );
       // print('ff---');
       // _allNotif.add(AllNotification(
@@ -151,7 +151,7 @@ class _NotifWidgetState extends State<NotifWidget> {
     // TextStyle textStyle = Theme.of(context).textTheme.headline4;
     return SlideTransition(
       position: Tween<Offset>(
-        begin: const Offset(-1, 0),
+        begin: const Offset(-1.5, 0),
         end: Offset(0, 0),
       ).animate(animation),
       // child: SizedBox( // Actual widget to display

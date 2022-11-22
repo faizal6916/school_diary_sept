@@ -6,7 +6,7 @@ class AcademicDownloads extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('academic downloads'),
+      child: Center(child: Text('academic downloads')),
     );
   }
 }

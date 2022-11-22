@@ -48,14 +48,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   }
   void _showToast(BuildContext context, String errText) {
 
-    scaffoldKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(errText),
-        backgroundColor: ColorUtil.green,
-        margin: EdgeInsets.all(8),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    // scaffoldKey.currentState!.showSnackBar(
+    //   SnackBar(
+    //     content: Text(errText),
+    //     backgroundColor: ColorUtil.green,
+    //     margin: EdgeInsets.all(8),
+    //     behavior: SnackBarBehavior.floating,
+    //   ),
+    // );
+    ScaffoldMessenger.of(context).showSnackBar(  SnackBar(
+      content: Text(errText),
+      backgroundColor: ColorUtil.green,
+      margin: EdgeInsets.all(8),
+      behavior: SnackBarBehavior.floating,
+    ),);
   }
   @override
   Widget build(BuildContext context) {
