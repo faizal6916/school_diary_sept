@@ -61,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
  @override
   void initState() {
     _controller = AnimationController(vsync: this,duration: Duration(milliseconds: 500));
-    _slideTransition = _controller!.drive(Tween(begin: Offset(-1.5, 0),end: Offset(0, 0)));
+    _slideTransition = _controller!.drive(Tween(begin: Offset(1.5, 0),end: Offset(0, 0)));
     // TODO: implement initState
     super.initState();
   }

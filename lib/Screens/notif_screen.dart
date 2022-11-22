@@ -41,11 +41,12 @@ class _NotifWidgetState extends State<NotifWidget> {
         print('its working');
 
         _notif.data!.details!.allNotifications!.forEach((notific) {
-         print(counter);
+       //  print(counter);
           // listKey.currentState!.insertItem(
           //   counter,
           //   duration: Duration(milliseconds: 500),
           // );
+
           _allNotif.add(
             AllNotification(
               date: notific.date,
@@ -62,13 +63,15 @@ class _NotifWidgetState extends State<NotifWidget> {
               updatedOn: notific.updatedOn,
             ),
           );
+         // listKey.currentState!.insertItem(49);
+          //counter++;
           // listKey.currentState!.insertItem(
           //   counter,
           //   duration: Duration(milliseconds: 500),
           // );
-         counter++;
+         //counter++;
         });
-        add(_notif.data!.details!.allNotifications!);
+        //add(_notif.data!.details!.allNotifications!);
         print('length of notifications ------>${_allNotif.length}');
         //   _circularList = Circular.fromJson(resp);
         //print(_circularList.data!.details!.first.title);
@@ -88,9 +91,10 @@ class _NotifWidgetState extends State<NotifWidget> {
     for (int i = 0; i < 50; i++) {
       print('insi----->$i');
       listKey.currentState!.insertItem(
-        i,
-        duration: Duration(milliseconds: (800 + i*10)),
+        0,
+        duration: Duration(milliseconds: 800),
       );
+     // print('insi33----->$i');
       // print('ff---');
       // _allNotif.add(AllNotification(
       //   date: allno[i].date,
@@ -109,11 +113,11 @@ class _NotifWidgetState extends State<NotifWidget> {
       //_items.add(i);
     }
 
-    // listKey.currentState!.insertItem(0,
-    //     duration: const Duration(milliseconds: 500));
-    // _items = []
-    //   ..add(counter++)
-    //   ..addAll(_items);
+    listKey.currentState!.insertItem(0,
+        duration: const Duration(milliseconds: 500));
+    _items = []
+      ..add(counter++)
+      ..addAll(_items);
   }
 
   @override
@@ -151,7 +155,7 @@ class _NotifWidgetState extends State<NotifWidget> {
     // TextStyle textStyle = Theme.of(context).textTheme.headline4;
     return SlideTransition(
       position: Tween<Offset>(
-        begin: const Offset(-1.5, 0),
+        begin: const Offset(1.5, 0),
         end: Offset(0, 0),
       ).animate(animation),
       // child: SizedBox( // Actual widget to display
