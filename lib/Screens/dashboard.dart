@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -9,6 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:api_cache_manager/api_cache_manager.dart';
 import '../Models/user_model.dart';
 import '../Models/dashboard_model.dart';
 
@@ -34,6 +38,24 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   DateFormat _examformatter = DateFormat('dd MMMM yyyy');
   Animation<Offset>? _slideTransition;
   AnimationController? _controller;
+
+  _cacheAdding() async {
+    var isCacheExist = await APICacheManager().isAPICacheKeyExist(widget.childId);
+    if(!isCacheExist){
+      _dashBoardFeed(widget.parentId, widget.childId);
+    }else{
+      print('cache already exist');
+      var CacheData = await APICacheManager().getCacheData(widget.childId);
+      var caheAPi = json.decode(CacheData.syncData);
+      _dashboardfeed = Dashboard.fromJson(caheAPi);
+      print(_dashboardfeed.data!.data!.first.type);
+      setState(() {
+        _items = _dashboardfeed.data!.data!;
+      });
+      _controller!.forward();
+    }
+  }
+
   _dashBoardFeed(String parentId, String studId) async {
     try {
       setState(() {
@@ -47,6 +69,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         setState(() {
           _isloading = false;
         });
+        APICacheDBModel cacheDBModel = APICacheDBModel(key: widget.childId, syncData: json.encode(resp));
+        await APICacheManager().addCacheData(cacheDBModel);
         _dashboardfeed = Dashboard.fromJson(resp);
         print(_dashboardfeed.data!.data!.first.type);
         setState(() {
@@ -58,8 +82,13 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
       print(e);
     }
   }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   print('state = $state');
+  // }
  @override
   void initState() {
+   //WidgetsBinding.instance.addObserver(this);
     _controller = AnimationController(vsync: this,duration: Duration(milliseconds: 500));
     _slideTransition = _controller!.drive(Tween(begin: Offset(1.5, 0),end: Offset(0, 0)));
     // TODO: implement initState
@@ -68,75 +97,83 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   @override
   void didChangeDependencies() {
     print('dashboard didchangede');
+    _cacheAdding();
     // TODO: implement didChangeDependencies
-    _dashBoardFeed(widget.parentId, widget.childId);
+    //_dashBoardFeed(widget.parentId, widget.childId);
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(covariant DashboardScreen oldWidget) {
     print('dashboard didupdate');
-    _dashBoardFeed(widget.parentId, widget.childId);
+    _cacheAdding();
+   // _dashBoardFeed(widget.parentId, widget.childId);
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      child: Column(
-        children: [
-          // CarouselSlider.builder(
-          //   itemCount: widget.studentsList.length,
-          //   itemBuilder: (context, index, realIndex) {
-          //     final name = widget.studentsList[index].name;
-          //     final classofstd = widget.studentsList[index].studentDetailClass;
-          //     final batchofstd = widget.studentsList[index].batch;
-          //     final imgUrl =
-          //         'https://teamsqa3000.educore.guru${widget.studentsList[index].photo}';
-          //     return nameCard(
-          //         studentName: name.toString(),
-          //         photourl: imgUrl,
-          //         grade: batchofstd.toString(),
-          //         classofstd: classofstd.toString());
-          //   },
-          //   options: CarouselOptions(
-          //       height: 170,
-          //       //enlargeCenterPage: true,
-          //       viewportFraction: 1,
-          //       enableInfiniteScroll: false,
-          //       onPageChanged: (index, reason) async {
-          //         setState(() {
-          //           _activeindex = index;
-          //           print(widget.parentId);
-          //           print(widget.studentsList[index].userId);
-          //         });
-          //         _dashBoardFeed(widget.parentId,
-          //             widget.studentsList[index].userId.toString());
-          //       }),
-          // ),
-          // _isloading
-          //     ? shimmerLoader()
-          //     : Container(
-          //         child: Text(_dashboardfeed.data!.data!.first.type.toString()),
-          //       )
-          // Container(
-          //   height: 1.sh /2 + 80,
-          //   child: ListView(
-          //     children: [
-          //       circular(),
-          //       exam(),
-          //       report(),
-          //       assignment()
-          //     ],
-          //   ),
-          // )
-          _isloading
-              ? shimmerLoader()
-              : _items.isEmpty
-                  ? Text('No dashboard feed')
-                  : Container(
+    return Column(
+      children: [
+        // CarouselSlider.builder(
+        //   itemCount: widget.studentsList.length,
+        //   itemBuilder: (context, index, realIndex) {
+        //     final name = widget.studentsList[index].name;
+        //     final classofstd = widget.studentsList[index].studentDetailClass;
+        //     final batchofstd = widget.studentsList[index].batch;
+        //     final imgUrl =
+        //         'https://teamsqa3000.educore.guru${widget.studentsList[index].photo}';
+        //     return nameCard(
+        //         studentName: name.toString(),
+        //         photourl: imgUrl,
+        //         grade: batchofstd.toString(),
+        //         classofstd: classofstd.toString());
+        //   },
+        //   options: CarouselOptions(
+        //       height: 170,
+        //       //enlargeCenterPage: true,
+        //       viewportFraction: 1,
+        //       enableInfiniteScroll: false,
+        //       onPageChanged: (index, reason) async {
+        //         setState(() {
+        //           _activeindex = index;
+        //           print(widget.parentId);
+        //           print(widget.studentsList[index].userId);
+        //         });
+        //         _dashBoardFeed(widget.parentId,
+        //             widget.studentsList[index].userId.toString());
+        //       }),
+        // ),
+        // _isloading
+        //     ? shimmerLoader()
+        //     : Container(
+        //         child: Text(_dashboardfeed.data!.data!.first.type.toString()),
+        //       )
+        // Container(
+        //   height: 1.sh /2 + 80,
+        //   child: ListView(
+        //     children: [
+        //       circular(),
+        //       exam(),
+        //       report(),
+        //       assignment()
+        //     ],
+        //   ),
+        // )
+        _isloading
+            ? shimmerLoader()
+            : _items.isEmpty
+                ? Center(child: Text('No dashboard feed'))
+                : RefreshIndicator(
+                  onRefresh: ()=> _dashBoardFeed(widget.parentId, widget.childId),
+                  child: Container(
                       height: 1.sh - 400 ,
                       child: ListView.builder(
                           itemCount: _items.length,
@@ -298,9 +335,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                             }
                             return Container();
                           }),
-                    )
-        ],
-      ),
+                    ),
+                )
+      ],
     );
   }
 

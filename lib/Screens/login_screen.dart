@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
     scopes: <String>[
       'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
      // 'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
@@ -56,8 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if(await dir.exists()){
       print('directory exist');
-     // dir.delete(recursive: true);
-        dir.deleteSync(recursive: true);
+     dir.delete(recursive: true);
+        //dir.deleteSync(recursive: true);
       }else{
        print('dir not exist');
       }
@@ -172,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Positioned(
-              top: 0.3.sh,
+              top: 0.3.sh-MediaQuery.of(context).viewInsets.bottom,
               child: Container(
                 width: 1.sw,
                 height: 0.7.sh,

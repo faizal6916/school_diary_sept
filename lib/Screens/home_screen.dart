@@ -289,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           'title': 'Reset Password',
           'centre': true,
-          'isPopup': true
+          'isPopup': false
         }
       ];
     });

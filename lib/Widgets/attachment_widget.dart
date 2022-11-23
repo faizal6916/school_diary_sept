@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file_safe/open_file_safe.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -152,6 +153,15 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
 
 
   }
+  _onShare(context, String url) async {
+    final box = context.findRenderObject() as RenderBox?;
+
+    await Share.share(
+      url,
+     // subject: subject,
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+    );
+  }
   @override
   void initState() {
     if(init = true){
@@ -213,7 +223,13 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
           ),
         ),
         SizedBox(width: 5,),
-        Icon(Icons.share,color: ColorUtil.shareColor,)
+        InkWell(
+            onTap: (){
+              _onShare(context, '${ApiConstants.downloadUrl}${widget.attUrl}');
+              //print('${ApiConstants.downloadUrl}${widget.attUrl}');
+              //Share.share('${ApiConstants.downloadUrl}${widget.attUrl}');
+            },
+            child: Icon(Icons.share,color: ColorUtil.shareColor,))
       ],),
     );
   }

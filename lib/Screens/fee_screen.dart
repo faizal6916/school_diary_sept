@@ -204,7 +204,7 @@ class _FeeScreenState extends State<FeeScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 8,
+                height: 11,
               ),
               Text(
                 tabName,
@@ -218,7 +218,7 @@ class _FeeScreenState extends State<FeeScreen> {
                     fontSize: 14.sp),
               ),
               SizedBox(
-                height: 9,
+                height: 10,
               ),
               selectedTab == activeIndex
                   ? Container(

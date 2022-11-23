@@ -49,7 +49,7 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
 
         Tween<Size>(
 
-      begin: Size(double.infinity, 120),end: Size(double.infinity, 160+(widget.themes!.length * 20))
+      begin: Size(double.infinity, (140+widget.themes!.length * 10)),end: Size(double.infinity, 190+(widget.themes!.length * 25))
     ));
     _heightanimation!.addListener(()=>setState(() {
 
@@ -81,7 +81,7 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
           children: [
             Container(
               width: 80,
-              height: 120,
+              height: (140 + widget.themes!.length * 10),
               margin: EdgeInsets.symmetric(horizontal: 10),
               // color: Colors.green,
               decoration: BoxDecoration(
@@ -227,8 +227,8 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
                       ),
                       Divider(),
                       Text(widget.activityName!),
-                      (_heightanimation!.value.height == 160+(widget.themes!.length * 20)) ? Divider() : SizedBox(),
-                      (_heightanimation!.value.height == 160+(widget.themes!.length * 20))
+                      (_heightanimation!.value.height == 190+(widget.themes!.length * 25)) ? Divider() : SizedBox(),
+                      (_heightanimation!.value.height == 190+(widget.themes!.length * 25))
                           ? Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,15 +242,21 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
                                       fontStyle: FontStyle.normal,
                                       fontSize: 15.sp),
                                 ),
-                                ...widget.themes!
-                                    .map((e) =>
+                                Column(
+                                  children: [
+                                    ...widget.themes!
+                                        .map((e) =>
                                         Container(width: 150, child: Text(e)))
-                                    .toList(),
+                                        .toList(),
+                                  ],
+                                )
+
                               ],
                             )
                           : SizedBox(
-                              height: 6,
+                              height: 10,
                             ),
+                      (_heightanimation!.value.height == 190+(widget.themes!.length * 25)) ? Divider() : SizedBox(),
                       Container(
                         width: 1.sw,
                         child: Row(
