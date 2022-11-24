@@ -146,31 +146,39 @@ class _FeeScreenState extends State<FeeScreen> {
                     itemCount: 4, itemBuilder: (ctx, _) => skeleton)
                     : selectedTab == 1
                     ? (feeDe.isNotEmpty
-                    ? ListView.builder(
+                    ? MediaQuery.removePadding(
+                    context: context,
+                      removeTop: true,
+                      child: ListView.builder(
                   itemCount: feeDe.length,
                   itemBuilder: (ctx, i) => FeePending(
-                    amountdue: feeDe[i]['total_demanded'],
-                    feeMonth: feeDe[i]['fee_month'],
-                    amountPaid: feeDe[i]['total_paid'],
-                    balance: feeDe[i]['balance'],
-                    duedate: feeDe[i]['fee_last_date'],
-                    feeDetail: feeDe[i]['details'],
+                      amountdue: feeDe[i]['total_demanded'],
+                      feeMonth: feeDe[i]['fee_month'],
+                      amountPaid: feeDe[i]['total_paid'],
+                      balance: feeDe[i]['balance'],
+                      duedate: feeDe[i]['fee_last_date'],
+                      feeDetail: feeDe[i]['details'],
                   ),
-                )
-                    : Text('no'))
+                ),
+                    )
+                    : Center(child: Text('No Pending Fee')))
                     : voucherList.isNotEmpty
-                    ? ListView.builder(
-                    itemCount: voucherList.length,
-                    itemBuilder: (ctx, i) => FeePaid(
-                      admsnNo: widget.admnNo,
-                      parentEmail: widget.parentEmail,
-                      detailList: getDetailedFee(voucherList[i]),
-                      transactionDate: transDate(voucherList[i]),
-                      voucherNo: voucherList[i],
-                      totalAmount: paidAmout(voucherList[i],
-                      ),
-                    ))
-                    : Text('no')),
+                    ? MediaQuery.removePadding(
+                    context: context,
+                      removeTop: true,
+                      child: ListView.builder(
+                      itemCount: voucherList.length,
+                      itemBuilder: (ctx, i) => FeePaid(
+                        admsnNo: widget.admnNo,
+                        parentEmail: widget.parentEmail,
+                        detailList: getDetailedFee(voucherList[i]),
+                        transactionDate: transDate(voucherList[i]),
+                        voucherNo: voucherList[i],
+                        totalAmount: paidAmout(voucherList[i],
+                        ),
+                      )),
+                    )
+                    : Text('No Fee Details Found')),
             if(selectedTab == 1)
               Positioned(
               bottom: 0,
@@ -204,7 +212,7 @@ class _FeeScreenState extends State<FeeScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 11,
+                height: 12,
               ),
               Text(
                 tabName,
@@ -218,7 +226,7 @@ class _FeeScreenState extends State<FeeScreen> {
                     fontSize: 14.sp),
               ),
               SizedBox(
-                height: 10,
+                height: 11,
               ),
               selectedTab == activeIndex
                   ? Container(

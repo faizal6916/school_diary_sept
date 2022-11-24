@@ -121,31 +121,39 @@ class _CircularScreenState extends State<CircularScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1.sh - 180,
-     // padding: EdgeInsets.only(bottom: 20),
-      //margin: EdgeInsets.only(bottom: 20),
-      color: ColorUtil.mainBg,
-      child: _isloading
-          ? ListView.builder(
-              itemCount: 5, itemBuilder: (ctx, _) => shimmerLoader())
-          : ListView.builder(
-              itemCount: _ciculars.length,
-              // itemBuilder: (ctx, index) => circularShowWidget(
-              //     date: _ciculars[index].dateAdded!,
-              //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
-              itemBuilder: (ctx, index) => CircularWidget(
-                circId: _ciculars[index].id,
-               // isOpen: _isCheck,
-                //isOpen:( _ciculars[index].id == widget.circularId) ?true : false,
-                typeCorA: 'Circular',
-                childId: widget.childId,
-                  cicularTitle: _ciculars[index].title,
-                  circularDesc: _ciculars[index].description,
-                  circularDate: _ciculars[index].dateAdded,
-                  senderName: _ciculars[index].senderName,
-                  attachment: _ciculars[index].attachments),
+    return RefreshIndicator(
+      onRefresh: ()=> _getCircular(widget.parentId!, widget.childId!, widget.acadYear!),
+      child: Container(
+        height: 1.sh - 180,
+        padding: EdgeInsets.only(top: 10,bottom: 5),
+        //margin: EdgeInsets.only(bottom: 20),
+        color: ColorUtil.mainBg,
+        child: _isloading
+            ? ListView.builder(
+                itemCount: 5, itemBuilder: (ctx, _) => shimmerLoader())
+            : MediaQuery.removePadding(
+          context: context,
+              removeTop: true,
+              child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+                  itemCount: _ciculars.length,
+                  // itemBuilder: (ctx, index) => circularShowWidget(
+                  //     date: _ciculars[index].dateAdded!,
+                  //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
+                  itemBuilder: (ctx, index) => CircularWidget(
+                    circId: _ciculars[index].id,
+                   // isOpen: _isCheck,
+                    //isOpen:( _ciculars[index].id == widget.circularId) ?true : false,
+                    typeCorA: 'Circular',
+                    childId: widget.childId,
+                      cicularTitle: _ciculars[index].title,
+                      circularDesc: _ciculars[index].description,
+                      circularDate: _ciculars[index].dateAdded,
+                      senderName: _ciculars[index].senderName,
+                      attachment: _ciculars[index].attachments),
+                ),
             ),
+      ),
     );
   }
 

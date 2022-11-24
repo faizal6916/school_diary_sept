@@ -269,135 +269,140 @@ class _CalendarScreenState extends State<CalendarScreen>
         : Container(
             width: 1.sw,
             height: 1.sh - 200,
-            child: ListView(
-              children: [
-                TableCalendar<Event?>(
-                  calendarBuilders:
-                      CalendarBuilders(singleMarkerBuilder: (ctx, date, event) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: event!.eventName == EventNameElement.ABSENT
-                              ? ColorUtil.absentIndiColor
-                              : event.eventName == EventNameElement.EVENTS
-                                  ? ColorUtil.eventIndiColor
-                                  : event.eventName == EventNameElement.EXAM
-                                      ? ColorUtil.examIndiColor
-                                      : Colors.black), //Change color
-                      width: 5.0,
-                      height: 5.0,
-                      margin: const EdgeInsets.symmetric(horizontal: 1.5),
-                    );
-                  }),
-                  firstDay: kFirstDay,
-                  lastDay: kLastDay,
-                  focusedDay: _focusedDay,
-                  selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                  rangeStartDay: _rangeStart,
-                  rangeEndDay: _rangeEnd,
-                  calendarFormat: _calendarFormat,
-                  rangeSelectionMode: _rangeSelectionMode,
-                  eventLoader: _getEventsForDay,
-                  startingDayOfWeek: StartingDayOfWeek.sunday,
-                  // calendarStyle: CalendarStyle(
-                  //   // Use `CalendarStyle` to customize the UI
-                  //   outsideDaysVisible: false,
-                  // ),
-                  onDaySelected: _onDaySelected,
-                  onRangeSelected: _onRangeSelected,
-                  onFormatChanged: (format) {
-                    if (_calendarFormat != format) {
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  TableCalendar<Event?>(
+                    calendarBuilders:
+                        CalendarBuilders(singleMarkerBuilder: (ctx, date, event) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: event!.eventName == EventNameElement.ABSENT
+                                ? ColorUtil.absentIndiColor
+                                : event.eventName == EventNameElement.EVENTS
+                                    ? ColorUtil.eventIndiColor
+                                    : event.eventName == EventNameElement.EXAM
+                                        ? ColorUtil.examIndiColor
+                                        : Colors.black), //Change color
+                        width: 5.0,
+                        height: 5.0,
+                        margin: const EdgeInsets.symmetric(horizontal: 1.5),
+                      );
+                    }),
+                    firstDay: kFirstDay,
+                    lastDay: kLastDay,
+                    focusedDay: _focusedDay,
+                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                    rangeStartDay: _rangeStart,
+                    rangeEndDay: _rangeEnd,
+                    calendarFormat: _calendarFormat,
+                    rangeSelectionMode: _rangeSelectionMode,
+                    eventLoader: _getEventsForDay,
+                    startingDayOfWeek: StartingDayOfWeek.sunday,
+                    // calendarStyle: CalendarStyle(
+                    //   // Use `CalendarStyle` to customize the UI
+                    //   outsideDaysVisible: false,
+                    // ),
+                    onDaySelected: _onDaySelected,
+                    onRangeSelected: _onRangeSelected,
+                    onFormatChanged: (format) {
+                      if (_calendarFormat != format) {
+                        setState(() {
+                          _calendarFormat = format;
+                        });
+                      }
+                    },
+                    onPageChanged: (focusedDay) {
                       setState(() {
-                        _calendarFormat = format;
+                        totalAbsent = 0;
+                        totalPresent = 0;
+                        totalDays = 0;
                       });
-                    }
-                  },
-                  onPageChanged: (focusedDay) {
-                    setState(() {
-                      totalAbsent = 0;
-                      totalPresent = 0;
-                      totalDays = 0;
-                    });
-                    _focusedDay = focusedDay;
-                    print(focusedDay);
-                    print(focusedDay.month.runtimeType);
-                    _calendarFeed.data!.data!.monthattendance!.forEach((atten) {
-                      print(atten.id);
-                      print(atten.id.runtimeType);
+                      _focusedDay = focusedDay;
+                      print(focusedDay);
+                      print(focusedDay.month.runtimeType);
+                      _calendarFeed.data!.data!.monthattendance!.forEach((atten) {
+                        print(atten.id);
+                        print(atten.id.runtimeType);
 
-                      if (focusedDay.month != int.parse(atten.id!)) return;
-                      print('condition satisfied');
-                      setState(() {
-                        print(atten.absent);
-                        print(atten.present);
-                        print(atten.total);
-                        totalAbsent = atten.absent!;
-                        totalPresent = atten.present!;
-                        totalDays = atten.total!;
+                        if (focusedDay.month != int.parse(atten.id!)) return;
+                        print('condition satisfied');
+                        setState(() {
+                          print(atten.absent);
+                          print(atten.present);
+                          print(atten.total);
+                          totalAbsent = atten.absent!;
+                          totalPresent = atten.present!;
+                          totalDays = atten.total!;
+                        });
                       });
-                    });
-                  },
-                  headerStyle: HeaderStyle(
-                    formatButtonVisible: false,
-                    titleCentered: true,
-                    // decoration: BoxDecoration(
-                    //   color: Color(0xff34378b)
-                    // )
-                    titleTextStyle: TextStyle(
-                      fontFamily: 'Axiforma',
-                      color: ColorUtil.tabIndicator,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                    },
+                    headerStyle: HeaderStyle(
+                      formatButtonVisible: false,
+                      titleCentered: true,
+                      // decoration: BoxDecoration(
+                      //   color: Color(0xff34378b)
+                      // )
+                      titleTextStyle: TextStyle(
+                        fontFamily: 'Axiforma',
+                        color: ColorUtil.tabIndicator,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      leftChevronIcon: Icon(
+                        Icons.arrow_left_outlined,
+                        color: ColorUtil.tabIndicator,
+                      ),
+                      rightChevronIcon: Icon(
+                        Icons.arrow_right_outlined,
+                        color: ColorUtil.tabIndicator,
+                      ),
                     ),
-                    leftChevronIcon: Icon(
-                      Icons.arrow_left_outlined,
-                      color: ColorUtil.tabIndicator,
+                    daysOfWeekStyle: DaysOfWeekStyle(
+                      weekendStyle: TextStyle(
+                        fontFamily: 'Axiforma',
+                        color: ColorUtil.tabIndicator.withOpacity(0.5),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      weekdayStyle: TextStyle(
+                        fontFamily: 'Axiforma',
+                        color: ColorUtil.tabIndicator.withOpacity(0.5),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                    rightChevronIcon: Icon(
-                      Icons.arrow_right_outlined,
-                      color: ColorUtil.tabIndicator,
+                    calendarStyle: CalendarStyle(
+                      holidayTextStyle: TextStyle(
+                        fontFamily: 'Axiforma',
+                        color: ColorUtil.absentIndiColor,
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      defaultTextStyle: TextStyle(
+                        fontFamily: 'Axiforma',
+                        color: ColorUtil.calendarFont,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      weekendTextStyle: TextStyle(
+                        fontFamily: 'Axiforma',
+                        color: ColorUtil.absentIndiColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                    weekendStyle: TextStyle(
-                      fontFamily: 'Axiforma',
-                      color: ColorUtil.tabIndicator.withOpacity(0.5),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    weekdayStyle: TextStyle(
-                      fontFamily: 'Axiforma',
-                      color: ColorUtil.tabIndicator.withOpacity(0.5),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  calendarStyle: CalendarStyle(
-                    holidayTextStyle: TextStyle(
-                      fontFamily: 'Axiforma',
-                      color: ColorUtil.absentIndiColor,
-                      fontSize: 19.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    defaultTextStyle: TextStyle(
-                      fontFamily: 'Axiforma',
-                      color: ColorUtil.calendarFont,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    weekendTextStyle: TextStyle(
-                      fontFamily: 'Axiforma',
-                      color: ColorUtil.absentIndiColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                eventIndicator(),
-                attendanceBar(),
-                eventTabBar(_tabController),
-                eventTabBarView(context, _tabController)
-              ],
+                  eventIndicator(),
+                  attendanceBar(),
+                  eventTabBar(_tabController),
+                  eventTabBarView(context, _tabController)
+                ],
+              ),
             ),
             // child: Column(
             //   children: [

@@ -164,11 +164,11 @@ class _FeePendingState extends State<FeePending> {
               children: [
                 Container(
                   width: 1.sw,
-                  height: 45 * double.parse(keyList.length.toString()),
+                  height: 50 * double.parse(keyList.length.toString()),
                 ),
                 Container(
                   width: 1.sw,
-                 height: 45 * double.parse(keyList.length.toString()),
+                 height: 50 * double.parse(keyList.length.toString()) +80,
                     decoration: BoxDecoration(
                         color: ColorUtil.feegrlt,
                         borderRadius: BorderRadius.circular(15)
@@ -211,11 +211,17 @@ class _FeePendingState extends State<FeePending> {
                           ),
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                                 child: Text('Description',),
                               ),
-                              Text('Due',),
-                              Text('Paid',)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                child: Text('Due',),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                child: Text('Paid',),
+                              )
                             ]
                         ),
                         ...keyList.asMap().map((ind,e) => MapEntry(ind, TableRow(
@@ -224,7 +230,7 @@ class _FeePendingState extends State<FeePending> {
                             ),
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                                 child: Text(e,
                                   style:  TextStyle(
                                     fontFamily: 'Axiforma',
@@ -236,24 +242,30 @@ class _FeePendingState extends State<FeePending> {
 
                                   ),),
                               ),
-                              Text('AED ${dueAmt(e)}',style:  TextStyle(
-                                fontFamily: 'Axiforma',
-                                color: ColorUtil.feeblue,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                //fontStyle: FontStyle.normal,
-                                // letterSpacing: 0,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                child: Text('AED ${dueAmt(e)}',style:  TextStyle(
+                                  fontFamily: 'Axiforma',
+                                  color: ColorUtil.feeblue,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  //fontStyle: FontStyle.normal,
+                                  // letterSpacing: 0,
 
-                              ),),
-                              Text('AED ${paidAmt(e)}',style:  TextStyle(
-                                fontFamily: 'Axiforma',
-                                color: ColorUtil.feeblue,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                //fontStyle: FontStyle.normal,
-                                // letterSpacing: 0,
+                                ),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                child: Text('AED ${paidAmt(e)}',style:  TextStyle(
+                                  fontFamily: 'Axiforma',
+                                  color: ColorUtil.feeblue,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  //fontStyle: FontStyle.normal,
+                                  // letterSpacing: 0,
 
-                              ),)
+                                ),),
+                              )
                             ]
                         ))).values.toList()
                         // TableRow(

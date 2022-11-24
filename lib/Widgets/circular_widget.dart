@@ -231,7 +231,8 @@ class _CircularWidgetState extends State<CircularWidget> {
           ),
           Container(
             width: 1.sw,
-            height: _isOpen ? 100 + widget.attachment!.length * 20 : 0,
+            height: _isOpen ? 80 + widget.attachment!.length * 50 : 0,
+            padding: _isOpen ?EdgeInsets.only(bottom: 10):EdgeInsets.only(bottom: 0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(10),
@@ -252,12 +253,14 @@ class _CircularWidgetState extends State<CircularWidget> {
                 SizedBox(width: 90,),
                 Container(
                   width: 1.sw - 120,
+                 // height: widget.attachment!.length * 50,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.circularDesc!),
                       Expanded(
                         child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: widget.attachment!.isEmpty
                               ? 0
                               : widget.attachment!.length,

@@ -95,6 +95,7 @@ class _FeePaidState extends State<FeePaid> {
 
   @override
   Widget build(BuildContext context) {
+    //print('length0000000000000---------${widget.detailList!.length}');
     return Container(
       width: 1.sw,
       //height: isExpanded? 700 : 140,
@@ -200,8 +201,7 @@ class _FeePaidState extends State<FeePaid> {
           if (_isExpanded)
             Container(
               width: 1.sw,
-              height:
-                  45 * double.parse(widget.detailList!.length.toString()) + 60,
+             height: 60 * double.parse(widget.detailList!.length.toString()) +50,
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -258,9 +258,10 @@ class _FeePaidState extends State<FeePaid> {
                                             ),
                                             Padding(
                                               padding:
-                                                  const EdgeInsets.all(10.0),
+                                                  const EdgeInsets.all(13.0),
                                               child: Text(
                                                 'AED ${element['transaction_amount']}',
+                                                //maxLines: 2,
                                                 style: feeListStyle(),
                                               ),
                                             )

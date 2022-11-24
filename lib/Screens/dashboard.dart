@@ -170,171 +170,182 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         _isloading
             ? shimmerLoader()
             : _items.isEmpty
-                ? Center(child: Text('No dashboard feed'))
+                ? SizedBox(
+          width: 1.sw,
+            height: 1.sh - 380,
+            child: Center(child: Text('No dashboard feed')))
                 : RefreshIndicator(
                   onRefresh: ()=> _dashBoardFeed(widget.parentId, widget.childId),
                   child: Container(
-                      height: 1.sh - 400 ,
-                      child: ListView.builder(
-                          itemCount: _items.length,
-                          itemBuilder: (ctx, index) {
-                            if (_items[index].type == 'Exam') {
-                              return exam(
-                                title: _items[index].academic,
-                                status: _items[index].status,
-                                desc: _items[index].title,
-                                date: _items[index].examDate,
-                              );
-                            }
-                            if (_items[index].type == 'Circular') {
-                              return circular(
-                                id: _items[index].circularId,
-                                  title: _items[index].description,
+                      height: 1.sh - 380 ,
+                    //padding: EdgeInsets.only(bottom: 35),
+                      //margin: EdgeInsets.only(bottom: 20),
+                      child: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          //shrinkWrap: true,
+                            itemCount: _items.length,
+                            itemBuilder: (ctx, index) {
+                              if (_items[index].type == 'Exam') {
+                                return exam(
+                                  title: _items[index].academic,
+                                  status: _items[index].status,
                                   desc: _items[index].title,
-                                  date: _items[index].feedDate);
-                            }
-                            if (_items[index].type == 'Report_card') {
-                              return report(
-                                  title: _items[index].title,
-                                  date: _items[index].feedDate);
-                            }
-                            if (_items[index].type == 'Assignment') {
-                              return assignment(
-                                 id: _items[index].assignId,
-                                  title: _items[index].title,
-                                  date: _items[index].feedDate);
-                            }
-                            if (_items[index].type == 'Attendance') {
-                              return Container(
-                                width: 1.sw,
-                                height: 80,
-                                margin: EdgeInsets.symmetric(horizontal: 20),
-                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                  date: _items[index].examDate,
+                                );
+                              }
+                              if (_items[index].type == 'Circular') {
+                                return circular(
+                                  id: _items[index].circularId,
+                                    title: _items[index].description,
+                                    desc: _items[index].title,
+                                    date: _items[index].feedDate);
+                              }
+                              if (_items[index].type == 'Report_card') {
+                                return report(
+                                    title: _items[index].title,
+                                    date: _items[index].feedDate);
+                              }
+                              if (_items[index].type == 'Assignment') {
+                                return assignment(
+                                   id: _items[index].assignId,
+                                    title: _items[index].title,
+                                    date: _items[index].feedDate);
+                              }
+                              if (_items[index].type == 'Attendance') {
+                                return Container(
+                                  width: 1.sw,
+                                  height: 80,
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
 
-                                //color: Colors.red,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: const Color(0xccaeaed8),
-                                        offset: Offset(0, 10),
-                                        blurRadius: 32,
-                                        spreadRadius: 0)
-                                  ],
-                                  color: const Color(0xfff5f5f5),
-                                ),
+                                  //color: Colors.red,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: const Color(0xccaeaed8),
+                                          offset: Offset(0, 10),
+                                          blurRadius: 32,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: const Color(0xfff5f5f5),
+                                  ),
 
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          width: 50,
-                                          height: 50,
-                                          //  color: Colors.red,
-                                          decoration: BoxDecoration(
-                                              // color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          child: CircleAvatar(
-                                            radius: 28,
-                                            backgroundColor: Color(0xff8829e1),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            width: 50,
+                                            height: 50,
+                                            //  color: Colors.red,
+                                            decoration: BoxDecoration(
+                                                // color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
                                             child: CircleAvatar(
-                                              radius: 25,
-                                              backgroundColor: Colors.white,
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(60)),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: 'www.google.com',
-                                                  placeholder: (context, url) =>
-                                                      SizedBox(
-                                                    width: 20,
-                                                    height: 20,
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Image.asset(
-                                                    'assets/images/userImage.png',
-                                                    width: 45,
-                                                    height: 45,
+                                              radius: 28,
+                                              backgroundColor: Color(0xff8829e1),
+                                              child: CircleAvatar(
+                                                radius: 25,
+                                                backgroundColor: Colors.white,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(60)),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: 'www.google.com',
+                                                    placeholder: (context, url) =>
+                                                        SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Image.asset(
+                                                      'assets/images/userImage.png',
+                                                      width: 45,
+                                                      height: 45,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Positioned(
-                                          left: 5,
-                                          child: Container(
-                                            width: 10,
-                                            height: 10,
-                                            decoration: BoxDecoration(
-                                                color: Colors.green,
-                                                borderRadius:
-                                                    BorderRadius.circular(60)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        //for(int i=0;i<_items[index].title!.split(' ').length - 5;i++)
-                                        AutoSizeText(
-                                          '${_items[index].title!.split(' ').first} is ',
-                                          maxLines: 2,
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        Row(
-                                          children: [
-                                            AutoSizeText(
-                                              _items[index].title!.split(' ')[
-                                                  _items[index]
-                                                          .title!
-                                                          .split(' ')
-                                                          .length -
-                                                      2],
-                                              maxLines: 2,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: (_items[index]
-                                                              .title!
-                                                              .split(
-                                                                  ' ')[_items[
-                                                                          index]
-                                                                      .title!
-                                                                      .split(
-                                                                          ' ')
-                                                                      .length -
-                                                                  2]
-                                                              .toUpperCase() ==
-                                                          'ABSENT')
-                                                      ? Colors.red
-                                                      : ColorUtil.green),
+                                          Positioned(
+                                            left: 5,
+                                            child: Container(
+                                              width: 10,
+                                              height: 10,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius:
+                                                      BorderRadius.circular(60)),
                                             ),
-                                            Text(
-                                              ' Today',
-                                              style: TextStyle(fontSize: 14),
-                                            )
-                                          ],
-                                        )
-                                        // SizedBox(
-                                        //     width: 1.sw-120,
-                                        //     height: 40,
-                                        //     child: AutoSizeText(_items[index].title!.split(' ')[_items[index].title!.split(' ').length - 2],maxLines:2,style: TextStyle(fontSize: 14),)),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            }
-                            return Container();
-                          }),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          //for(int i=0;i<_items[index].title!.split(' ').length - 5;i++)
+                                          AutoSizeText(
+                                            '${_items[index].title!.split(' ').first} is ',
+                                            maxLines: 2,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          Row(
+                                            children: [
+                                              AutoSizeText(
+                                                _items[index].title!.split(' ')[
+                                                    _items[index]
+                                                            .title!
+                                                            .split(' ')
+                                                            .length -
+                                                        2],
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: (_items[index]
+                                                                .title!
+                                                                .split(
+                                                                    ' ')[_items[
+                                                                            index]
+                                                                        .title!
+                                                                        .split(
+                                                                            ' ')
+                                                                        .length -
+                                                                    2]
+                                                                .toUpperCase() ==
+                                                            'ABSENT')
+                                                        ? Colors.red
+                                                        : ColorUtil.green),
+                                              ),
+                                              Text(
+                                                ' Today',
+                                                style: TextStyle(fontSize: 14),
+                                              )
+                                            ],
+                                          )
+                                          // SizedBox(
+                                          //     width: 1.sw-120,
+                                          //     height: 40,
+                                          //     child: AutoSizeText(_items[index].title!.split(' ')[_items[index].title!.split(' ').length - 2],maxLines:2,style: TextStyle(fontSize: 14),)),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              return Container();
+                            }),
+                      ),
                     ),
                 )
       ],
@@ -482,8 +493,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           child: Container(
             width: 1.sw,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            //margin: EdgeInsets.only(bottom: 5),
+            //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+           margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 2),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -623,7 +634,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           child: Container(
             width: 1.sw,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 2),
             //margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(
               boxShadow: [
@@ -754,7 +766,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           child: Container(
             width: 1.sw,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 2),
             //margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(
               boxShadow: [
@@ -890,7 +903,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           child: Container(
             width: 1.sw,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+           // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 2),
             //margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(
               boxShadow: [

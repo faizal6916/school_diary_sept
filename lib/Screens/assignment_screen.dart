@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:school_diary_sept_13/Models/assignment_model.dart';
 import 'package:school_diary_sept_13/Util/spinkit.dart';
-
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../Provider/user_provider.dart';
 import '../Util/color_util.dart';
 import '../Widgets/circular_widget.dart';
@@ -23,6 +23,15 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
   var _assignList = Assignment();
   var _isloading = false;
   List<AssignDetails> _assignments = [];
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() {
+    // monitor network fetch
+    _getAssignment(widget.parentId!, widget.childId!, widget.acadYear!);
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
 
   _getAssignment(String parentId, String childId, String acadYear) async {
     try {
@@ -71,24 +80,38 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: ColorUtil.mainBg,
-      height: 1.sh - 190,
-      child:  _isloading
+      height: 1.sh - 180,
+      //width: 1.sw,
+      padding: EdgeInsets.only(top: 10, bottom: 5),
+      child: _isloading
           ? ListView.builder(itemCount: 5, itemBuilder: (ctx, _) => skeleton)
-          :_assignments.isEmpty? Center(child: Text('No Assignments Found')): ListView.builder(
-        itemCount: _assignments.length,
-        // itemBuilder: (ctx, index) => circularShowWidget(
-        //     date: _ciculars[index].dateAdded!,
-        //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
-        itemBuilder: (ctx, index) => CircularWidget(
-          circId: _assignments[index].id,
-          typeCorA: 'Assignment',
-            childId: widget.childId,
-            cicularTitle: _assignments[index].title,
-            circularDesc: _assignments[index].description,
-            circularDate: _assignments[index].dateAdded,
-            senderName: _assignments[index].senderName,
-            attachment: _assignments[index].attachments),
-      ),
+          : _assignments.isEmpty
+              ? Center(child: Text('No Assignments Found'))
+              : SmartRefresher(
+                  controller: _refreshController,
+                  onRefresh: _onRefresh,
+                  enablePullDown: true,
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: _assignments.length,
+                      // itemBuilder: (ctx, index) => circularShowWidget(
+                      //     date: _ciculars[index].dateAdded!,
+                      //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
+                      itemBuilder: (ctx, index) => CircularWidget(
+                          circId: _assignments[index].id,
+                          typeCorA: 'Assignment',
+                          childId: widget.childId,
+                          cicularTitle: _assignments[index].title,
+                          circularDesc: _assignments[index].description,
+                          circularDate: _assignments[index].dateAdded,
+                          senderName: _assignments[index].senderName,
+                          attachment: _assignments[index].attachments),
+                    ),
+                  ),
+                ),
     );
   }
 }

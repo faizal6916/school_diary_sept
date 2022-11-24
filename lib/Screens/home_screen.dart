@@ -656,10 +656,10 @@ class _HomeScreenState extends State<HomeScreen> {
           required String classofstd}) =>
       Container(
         width: 1.sw - 40,
-        height: 200,
+        //height: 210,
         padding: EdgeInsets.symmetric(vertical: 15),
         //margin: EdgeInsets.symmetric(horizontal: 20),
-        margin: EdgeInsets.only(bottom: 5),
+        //margin: EdgeInsets.only(bottom: -2),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -1052,9 +1052,14 @@ class _HomeScreenState extends State<HomeScreen> {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: Text(
-            'Select child',
-            style: TextStyle(fontSize: 16.sp),
+          contentPadding: EdgeInsets.zero,
+          titlePadding: EdgeInsets.zero,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(
+              'Select child',
+              style: TextStyle(fontSize: 16.sp),
+            ),
           ),
           content: setupAlertDialoadContainer(),
         ),

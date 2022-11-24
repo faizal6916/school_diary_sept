@@ -156,14 +156,13 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
       String stdId, String sessionId, String clsId) async {
     try {
       setState(() {
-       // reporFrom = [];
+        // reporFrom = [];
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
           .getExams(
               schoolId, acadYear, currId, batchId, stdId, sessionId, clsId);
       // print(resp.runtimeType);
-
 
       print('staus code-------------->${resp['status']['code']}');
       if (resp['status']['code'] == 200) {
@@ -174,8 +173,8 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
         print('-------------->${resp['data']['message']}');
         //print('--------------response----------');
         //print(resp['data']['data']['published_completed']);
-        published =  resp['data']['data']['published_completed'];
-        if(published == null){
+        published = resp['data']['data']['published_completed'];
+        if (published == null) {
           published = [];
         }
         print('length of exam published --------->${published.length}');
@@ -234,7 +233,6 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
   _getHallTicket(String childId) async {
     try {
       setState(() {
-
         _isloading = true;
       });
       var resp = await Provider.of<UserProvider>(context, listen: false)
@@ -302,65 +300,99 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _isAfl? AFLReport() :Column(
-      children: [
-        Container(
-          width: 1.sw,
-          height: 50,
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          // color: Colors.green,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(15),
-              bottomRight: Radius.circular(15),
-            ),
-          ),
-          child: Row(
+    return _isAfl
+        ? AFLReport()
+        : Column(
             children: [
-              tabItem('Reports', 1),
-              tabItem('Exams', 2),
-              tabItem('HallTickets', 3)
+              Container(
+                width: 1.sw,
+                height: 50,
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                // color: Colors.green,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    tabItem('Reports', 1),
+                    tabItem('Exams', 2),
+                    tabItem('HallTickets', 3)
+                  ],
+                ),
+              ),
+              Container(
+                width: 1.sw,
+                height: 1.sh - 260,
+                color: ColorUtil.bg.withOpacity(0.6),
+                child: _isloading
+                    ? ListView.builder(
+                        itemCount: 4, itemBuilder: (ctx, _) => skeleton)
+                    : (selectedTab == 1)
+                        ? report.isNotEmpty
+                            ? MediaQuery.removePadding(
+                                context: context,
+                                removeTop: true,
+                                child: ListView(
+                                  addAutomaticKeepAlives: true,
+                                  children: report,
+                                ),
+                              )
+                            : Center(child: Text('No Reports Available'))
+                        : (selectedTab == 2)
+                            ? published.isNotEmpty
+                                ? MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: ListView.builder(
+                                        itemCount: published.length,
+                                        itemBuilder: (ctx, index) => ExamWidget(
+                                              schlId: widget.schoolId,
+                                              studId: widget.studId,
+                                              qpId: published[index]['_id'],
+                                              color: _clrs[index % 3],
+                                              date: published[index]
+                                                  ['due_date'],
+                                              activityName: published[index]
+                                                  ['activity_name'],
+                                              subName: published[index]
+                                                  ['subject_name'],
+                                              themes: published[index]
+                                                  ['theme_names'],
+                                              markObt: published[index]['mark']
+                                                  .toString(),
+                                              maxMark: published[index]
+                                                      ['total_mark']
+                                                  .toString(),
+                                            )),
+                                  )
+                                : Center(child: Text('No Exams Available'))
+                            : (selectedTab == 3)
+                                ? hallTickets!.isNotEmpty
+                                    ? MediaQuery.removePadding(
+                                        context: context,
+                                        removeTop: true,
+                                        child: ListView.builder(
+                                          itemCount: hallTickets!.length,
+                                          itemBuilder: (ctx, ind) =>
+                                              HallTicketWidget(
+                                                  url: hallTickets![ind].pdf,
+                                                  date: hallTickets![ind]
+                                                      .gneratedOn,
+                                                  title: hallTickets![ind]
+                                                      .examName,
+                                                  childId: widget.studId),
+                                        ),
+                                      )
+                                    : Center(
+                                        child: Text('No HallTickets Available'))
+                                : Text('kk'),
+              )
             ],
-          ),
-        ),
-        Container(
-          width: 1.sw,
-          height: 1.sh - 260,
-          color: ColorUtil.bg.withOpacity(0.6),
-          child: _isloading
-              ? ListView.builder(
-                  itemCount: 4, itemBuilder: (ctx, _) => skeleton)
-              : (selectedTab == 1)
-                  ? report.isNotEmpty
-                      ? ListView(
-                          addAutomaticKeepAlives: true,
-                          children: report,
-                        )
-                      : Center(child: Text('No Reports Available'))
-                  : (selectedTab == 2)
-                      ? published.isNotEmpty? ListView.builder(
-             itemCount: published.length,
-              itemBuilder: (ctx,index) => ExamWidget(
-                schlId: widget.schoolId,
-                studId: widget.studId,
-                qpId: published[index]['_id'],
-                color: _clrs[index % 3],
-                date: published[index]['due_date'],
-                activityName: published[index]['activity_name'],
-                subName: published[index]['subject_name'],
-                themes: published[index]['theme_names'],
-                markObt: published[index]['mark'].toString(),
-                maxMark: published[index]['total_mark'].toString(),
-              )) : Center(child: Text('No Exams Available'))
-                      : (selectedTab == 3)
-                          ? hallTickets!.isNotEmpty? ListView.builder(
-            itemCount: hallTickets!.length,
-              itemBuilder: (ctx,ind)=>HallTicketWidget(url: hallTickets![ind].pdf,date: hallTickets![ind].gneratedOn,title: hallTickets![ind].examName,childId: widget.studId),) : Center(child: Text('No HallTickets Available'))
-                          : Text('kk'),
-        )
-      ],
-    );
+          );
   }
 
   Widget tabItem(String tabName, int activeIndex) => InkWell(
@@ -377,7 +409,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 10,
+                height: 12,
               ),
               Text(
                 tabName,

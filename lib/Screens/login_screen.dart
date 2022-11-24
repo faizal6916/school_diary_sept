@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -35,126 +33,135 @@ class _LoginScreenState extends State<LoginScreen> {
     scopes: <String>[
       'email',
       'https://www.googleapis.com/auth/contacts.readonly',
-     // 'https://www.googleapis.com/auth/contacts.readonly',
+      // 'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
   final _passwordFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
-  var _loginCred = Login(username: '',password: '');
+  var _loginCred = Login(username: '', password: '');
   var _isLoading = false;
   var _user = Users();
   String? userEmail;
+  bool _isObscure = true;
   @override
   void dispose() {
     // TODO: implement dispose
     _passwordFocusNode.dispose();
     super.dispose();
   }
-  _deleteFolder() async{
-    if(await Permission.storage.request().isGranted){
-      final path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
+
+  _deleteFolder() async {
+    if (await Permission.storage.request().isGranted) {
+      final path = await ExternalPath.getExternalStoragePublicDirectory(
+          ExternalPath.DIRECTORY_DOWNLOADS);
       var dir = await Directory('$path/SchoolDiary');
 
-      if(await dir.exists()){
-      print('directory exist');
-     dir.delete(recursive: true);
+      if (await dir.exists()) {
+        print('directory exist');
+        dir.delete(recursive: true);
         //dir.deleteSync(recursive: true);
-      }else{
-       print('dir not exist');
+      } else {
+        print('dir not exist');
       }
     }
   }
-  Future<void> _saveForm()  async{
+
+  Future<void> _saveForm() async {
     var isValid = _form.currentState!.validate();
-    if(!isValid){
+    if (!isValid) {
       return;
     }
     _form.currentState!.save();
     print(_loginCred.username);
     print(_loginCred.password);
-    if(_loginCred.username.isNotEmpty && _loginCred.password.isNotEmpty){
+    if (_loginCred.username.isNotEmpty && _loginCred.password.isNotEmpty) {
       print('not empty');
       _deleteFolder();
-      setState((){
+      setState(() {
         _isLoading = true;
       });
-      try{
-        var resp = await Provider.of<UserProvider>(context,listen: false).getUserDetails(_loginCred);
+      try {
+        var resp = await Provider.of<UserProvider>(context, listen: false)
+            .getUserDetails(_loginCred);
         print(resp.runtimeType);
         //print('staus code-------------->${resp['status']['code']}');
-        if(resp['status']['code'] == 200){
-          setState((){
+        if (resp['status']['code'] == 200) {
+          setState(() {
             _isLoading = false;
           });
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('loginResp', json.encode(resp));
           prefs.setBool('isLogged', true);
-        _user =  Users.fromJson(resp);
+          _user = Users.fromJson(resp);
           // _user = Users(
           //   status: resp['status'] as Map<String,dynamic>,
           //   data: resp['data']
           // );
-           print(_user.status!.code);
+          print(_user.status!.code);
           //print('ok');
-          Navigator.of(context).pushNamed(HomeScreen.routeName,arguments: _user);
-        }else if(resp['status']['code'] == 400){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(resp['error']['message']),backgroundColor: Colors.red,));
+          Navigator.of(context)
+              .pushNamed(HomeScreen.routeName, arguments: _user);
+        } else if (resp['status']['code'] == 400) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(resp['error']['message']),
+            backgroundColor: Colors.red,
+          ));
         }
-
-      }catch(e){
+      } catch (e) {
         print(e);
-      }finally{
-        setState((){
+      } finally {
+        setState(() {
           _isLoading = false;
         });
       }
-
-    }else{
+    } else {
       print('empty');
     }
   }
+
   Future<void> _handleSignIn() async {
     try {
       var account = await _googleSignIn.signIn();
       print("Account: ${account!.email}");
       userEmail = account.email;
       print(userEmail);
-      if(userEmail!.length == 0){
+      if (userEmail!.length == 0) {
         print('Invalid Email');
-      }else{
+      } else {
         doGoogleSignIn(userEmail!);
       }
-     // validateGoogleSignIn();
+      // validateGoogleSignIn();
     } catch (error) {
       print(error);
     }
   }
-  doGoogleSignIn(String email) async{
-    try{
-      var resp = await Provider.of<UserProvider>(context,listen: false).googleLogin(email);
+
+  doGoogleSignIn(String email) async {
+    try {
+      var resp = await Provider.of<UserProvider>(context, listen: false)
+          .googleLogin(email);
       print(resp.runtimeType);
       //print('staus code-------------->${resp['status']['code']}');
-      if(resp['status']['code'] == 200){
-        setState((){
+      if (resp['status']['code'] == 200) {
+        setState(() {
           _isLoading = false;
         });
-        _user =  Users.fromJson(resp);
+        _user = Users.fromJson(resp);
         // _user = Users(
         //   status: resp['status'] as Map<String,dynamic>,
         //   data: resp['data']
         // );
         print(_user.status!.code);
         //print('ok');
-        Navigator.of(context).pushNamed(HomeScreen.routeName,arguments: _user);
+        Navigator.of(context).pushNamed(HomeScreen.routeName, arguments: _user);
       }
-
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     return LoadingOverlay(
       isLoading: _isLoading,
       progressIndicator: spinkit,
@@ -173,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Positioned(
-              top: 0.3.sh-MediaQuery.of(context).viewInsets.bottom,
+              top: 0.3.sh - (MediaQuery.of(context).viewInsets.bottom / 1.5),
               child: Container(
                 width: 1.sw,
                 height: 0.7.sh,
@@ -213,7 +220,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 0.2.sw,
                             ),
                             Image(
-                                image: AssetImage('assets/images/Googleicon.png')),
+                                image:
+                                    AssetImage('assets/images/Googleicon.png')),
                             SizedBox(
                               width: 0.05.sw,
                             ),
@@ -242,7 +250,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     //   height: 0.005.sh,
                     // ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 0,right: 25,left: 25,bottom: 15),
+                      padding: const EdgeInsets.only(
+                          top: 0, right: 25, left: 25, bottom: 15),
                       child: Form(
                         key: _form,
                         child: SingleChildScrollView(
@@ -250,38 +259,56 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               TextFormField(
                                 decoration: InputDecoration(
-                                    labelText: 'Email or Mobile no',
-                                    icon: Icon(Icons.person_outlined),),
-
+                                  labelText: 'Email or Mobile no',
+                                  icon: Icon(Icons.person_outlined),
+                                ),
                                 textInputAction: TextInputAction.next,
                                 onFieldSubmitted: (_) {
                                   FocusScope.of(context)
                                       .requestFocus(_passwordFocusNode);
                                 },
-                                validator: (value){
-                                  if(value!.isEmpty){
+                                validator: (value) {
+                                  if (value!.isEmpty) {
                                     return 'Please Enter Email or Mobile No';
                                   }
                                   return null;
                                 },
-                                onSaved: (value){
-                                  _loginCred = Login(username: value.toString(), password: _loginCred.password);
+                                onSaved: (value) {
+                                  _loginCred = Login(
+                                      username: value.toString(),
+                                      password: _loginCred.password);
                                 },
                               ),
                               SizedBox(
                                 height: 0.015.sh,
                               ),
                               TextFormField(
+                                obscureText: _isObscure,
                                 decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    icon: Icon(Icons.lock_open_outlined)),
+                                  labelText: 'Password',
+                                  icon: Icon(Icons.lock_open_outlined),
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _isObscure = !_isObscure;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        _isObscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: Color(0xFFD2C2FF),
+                                      )),
+                                ),
                                 textInputAction: TextInputAction.done,
                                 focusNode: _passwordFocusNode,
-                                onSaved: (value){
-                                  _loginCred = Login(username: _loginCred.username, password: value.toString());
+                                onSaved: (value) {
+                                  _loginCred = Login(
+                                      username: _loginCred.username,
+                                      password: value.toString());
                                 },
-                                validator: (value){
-                                  if(value!.isEmpty){
+                                validator: (value) {
+                                  if (value!.isEmpty) {
                                     return 'Please Enter the Password';
                                   }
                                   return null;
@@ -296,8 +323,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       children: [
                         InkWell(
-                          onTap: (){
-                            Navigator.of(context).pushNamed(ForgetPassword.routeName);
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(ForgetPassword.routeName);
                           },
                           child: Row(
                             children: [
@@ -322,8 +350,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-
-
                         SizedBox(
                           width: 0.22.sw,
                         ),
@@ -343,20 +369,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     // SizedBox(
-                    //   height: 0.06.sh,
+                    //   height: 10,
                     // ),
+                    SizedBox(
+                      height: 0.05.sh,
+                    ),
                     Row(
                       children: [
                         SizedBox(
                           width: 0.16.sw,
                         ),
                         Image(
-                          image:
-                          AssetImage('assets/images/Benchmarklogo.png'),
+                          image: AssetImage('assets/images/Benchmarklogo.png'),
                           height: 35,
                         ),
                         SizedBox(
@@ -387,23 +412,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: 0.01.sh,
                         ),
-                        Text('Contact:',
-                            style: TextStyle(
-                                fontSize: 8.sp,
-
-                                color: ColorUtil.lightPurple,
-                                fontWeight: FontWeight.w400),),
+                        Text(
+                          'Contact:',
+                          style: TextStyle(
+                              fontSize: 8.sp,
+                              color: ColorUtil.lightPurple,
+                              fontWeight: FontWeight.w400),
+                        ),
                         SizedBox(
                           width: 0.004.sh,
                         ),
-                        Text('support@team-sqa.com',
+                        Text(
+                          'support@team-sqa.com',
                           style: TextStyle(
                             fontSize: 9.sp,
-
                             color: ColorUtil.lightPurple,
                             fontWeight: FontWeight.w400,
                             decoration: TextDecoration.underline,
-                          ),)
+                          ),
+                        )
                       ],
                     ),
                   ],
