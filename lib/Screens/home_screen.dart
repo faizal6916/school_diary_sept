@@ -391,16 +391,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         imgLoc: 'assets/images/ic_report_card.png',
                         menuTitle: 'Report Cards',
                         menuIndex: 5),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.grey.shade200,
-                      indent: 0.1.sw,
-                    ),
-                    _drawerItem(
-                        imgLoc: 'assets/images/ic_report_card.png',
-                        menuTitle: 'Ticket',
-                        menuIndex: 9),
+                    // Divider(
+                    //   height: 1,
+                    //   thickness: 1,
+                    //   color: Colors.grey.shade200,
+                    //   indent: 0.1.sw,
+                    // ),
+                    // _drawerItem(
+                    //     imgLoc: 'assets/images/ic_report_card.png',
+                    //     menuTitle: 'Ticket',
+                    //     menuIndex: 9),
                   ],
                 ),
               ),
@@ -1055,7 +1055,7 @@ class _HomeScreenState extends State<HomeScreen> {
           contentPadding: EdgeInsets.zero,
           titlePadding: EdgeInsets.zero,
           title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0,vertical: 8),
             child: Text(
               'Select child',
               style: TextStyle(fontSize: 16.sp),
@@ -1115,7 +1115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // }
               },
               tileColor: _selectedChild == _students[index].userId
-                  ? ColorUtil.greybg
+                  ? ColorUtil.lightPurple
                   : ColorUtil.white,
               leading: CircleAvatar(
                 radius: 25,

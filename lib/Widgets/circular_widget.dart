@@ -231,7 +231,7 @@ class _CircularWidgetState extends State<CircularWidget> {
           ),
           Container(
             width: 1.sw,
-            height: _isOpen ? 80 + widget.attachment!.length * 50 : 0,
+            height: _isOpen ? 80 + widget.attachment!.length * 55 : 0,
             padding: _isOpen ?EdgeInsets.only(bottom: 10):EdgeInsets.only(bottom: 0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(

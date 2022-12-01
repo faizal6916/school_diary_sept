@@ -212,7 +212,7 @@ class _FeeScreenState extends State<FeeScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 12,
+                height: 10,
               ),
               Text(
                 tabName,

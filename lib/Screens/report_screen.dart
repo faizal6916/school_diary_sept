@@ -409,7 +409,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 12,
+                height: 10,
               ),
               Text(
                 tabName,
