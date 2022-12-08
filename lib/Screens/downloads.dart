@@ -32,7 +32,7 @@ class _DownloadScreenState extends State<DownloadScreen> with TickerProviderStat
     return Container(
       width: 1.sw,
       height: 1.sh - 200,
-      color: ColorUtil.greybg.shade200,
+      color: ColorUtil.mainBg,
       child: Column(
         children: [
           Container(
@@ -42,7 +42,7 @@ class _DownloadScreenState extends State<DownloadScreen> with TickerProviderStat
             //margin: EdgeInsets.symmetric(vertical: 10),
             //margin: EdgeInsets.only(top: 15),
             padding: EdgeInsets.symmetric(horizontal: 10),
-            color: Colors.grey.shade200,
+            color: ColorUtil.mainBg,
             child: TabBar(
               controller: _tabController,
               //isScrollable: true,

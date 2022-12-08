@@ -177,7 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                 : RefreshIndicator(
                   onRefresh: ()=> _dashBoardFeed(widget.parentId, widget.childId),
                   child: Container(
-                      height: 1.sh - 380 ,
+                      height: 1.sh - 370 ,
                     //padding: EdgeInsets.only(bottom: 35),
                       //margin: EdgeInsets.only(bottom: 20),
                       child: MediaQuery.removePadding(
@@ -496,22 +496,29 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
            margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 2),
             decoration: BoxDecoration(
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 0),
+              //       blurRadius: 1,
+              //       spreadRadius: 0),
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 2),
+              //       blurRadius: 6,
+              //       spreadRadius: 0),
+              //   // BoxShadow(
+              //   //     color: Colors.black12,
+              //   //     offset: Offset(0, 10),
+              //   //     blurRadius: 20,
+              //   //     spreadRadius: 0)
+              // ],
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 0),
-                    blurRadius: 1,
-                    spreadRadius: 0),
-                BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 2),
-                    blurRadius: 6,
-                    spreadRadius: 0),
-                // BoxShadow(
-                //     color: Colors.black12,
-                //     offset: Offset(0, 10),
-                //     blurRadius: 20,
-                //     spreadRadius: 0)
+                    color: const Color(0xccaeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
               ],
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
@@ -640,21 +647,28 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 0),
-                    blurRadius: 1,
-                    spreadRadius: 0),
-                BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 2),
-                    blurRadius: 6,
-                    spreadRadius: 0),
-                // BoxShadow(
-                //     color: Colors.black12,
-                //     offset: Offset(0, 10),
-                //     blurRadius: 20,
-                //     spreadRadius: 0)
+                    color: const Color(0xccaeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
               ],
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 0),
+              //       blurRadius: 1,
+              //       spreadRadius: 0),
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 2),
+              //       blurRadius: 6,
+              //       spreadRadius: 0),
+              //   // BoxShadow(
+              //   //     color: Colors.black12,
+              //   //     offset: Offset(0, 10),
+              //   //     blurRadius: 20,
+              //   //     spreadRadius: 0)
+              // ],
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
             ),
@@ -772,21 +786,28 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 0),
-                    blurRadius: 1,
-                    spreadRadius: 0),
-                BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 2),
-                    blurRadius: 6,
-                    spreadRadius: 0),
-                // BoxShadow(
-                //     color: Colors.black12,
-                //     offset: Offset(0, 10),
-                //     blurRadius: 20,
-                //     spreadRadius: 0)
+                    color: const Color(0xccaeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
               ],
+             // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 0),
+              //       blurRadius: 1,
+              //       spreadRadius: 0),
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 2),
+              //       blurRadius: 6,
+              //       spreadRadius: 0),
+              //   // BoxShadow(
+              //   //     color: Colors.black12,
+              //   //     offset: Offset(0, 10),
+              //   //     blurRadius: 20,
+              //   //     spreadRadius: 0)
+              // ],
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
             ),
@@ -909,21 +930,28 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 0),
-                    blurRadius: 1,
-                    spreadRadius: 0),
-                BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 2),
-                    blurRadius: 6,
-                    spreadRadius: 0),
-                // BoxShadow(
-                //     color: Colors.black12,
-                //     offset: Offset(0, 10),
-                //     blurRadius: 20,
-                //     spreadRadius: 0)
+                    color: const Color(0xccaeaed8),
+                    offset: Offset(0, 10),
+                    blurRadius: 32,
+                    spreadRadius: 0)
               ],
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 0),
+              //       blurRadius: 1,
+              //       spreadRadius: 0),
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       offset: Offset(0, 2),
+              //       blurRadius: 6,
+              //       spreadRadius: 0),
+              //   // BoxShadow(
+              //   //     color: Colors.black12,
+              //   //     offset: Offset(0, 10),
+              //   //     blurRadius: 20,
+              //   //     spreadRadius: 0)
+              // ],
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
             ),
@@ -938,6 +966,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       height: 25,
                       padding: EdgeInsets.symmetric(horizontal: 8),
                       decoration: BoxDecoration(
+
                           color: ColorUtil.examBg,
                           borderRadius: BorderRadius.circular(20),
                           border:

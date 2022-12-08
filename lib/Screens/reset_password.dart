@@ -92,7 +92,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           child: spinkit,
         )):SizedBox(),
         Container(
-          height: 1.sh - (350+MediaQuery.of(context).viewInsets.bottom),
+          height: 1.sh - (400+MediaQuery.of(context).viewInsets.bottom),
           width: 1.sw,
           margin: EdgeInsets.symmetric(horizontal: 20),
           padding: EdgeInsets.only(left: 36, top: 10, right: 50),

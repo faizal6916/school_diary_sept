@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_diary_sept_13/Screens/about_screen.dart';
@@ -314,337 +315,397 @@ class _HomeScreenState extends State<HomeScreen> {
     //var data = userdata.data;
     // print(data.runtimeType);
     //var singleUser = UserDetails.fromJson(data as );
-    return Scaffold(
-      key: _key,
-      endDrawer: NotifWidget(parentId: _userdata.data!.data![0].id),
-      drawer: Drawer(
-        child: Container(
-          width: double.infinity,
-          height: 1.sh,
-          child: ListView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                width: double.infinity,
-                height: 1.sh - 140,
-                // color: Colors.red,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 0.06.sh,
-                    ),
-                    buildHeader(
-                      urlImage:
-                          '${ApiConstants.baseUrl}${_userdata.data!.data![0].image}',
-                      name: _userdata.data!.data![0].name.toString(),
-                      email: _userdata.data!.data![0].username.toString(),
-                    ),
-                    SizedBox(
-                      height: 0.03.sh,
-                    ),
-                    Divider(
-                      thickness: 2,
-                      color: Color(0xfffed330),
-                    ),
-                    _drawerItem(
-                        imgLoc: 'assets/images/homeicon.png',
-                        menuTitle: 'Home',
-                        menuIndex: 0),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.grey.shade200,
-                      indent: 0.1.sw,
-                    ),
-                    _drawerItem(
-                        imgLoc: 'assets/images/ic_about.png',
-                        menuTitle: 'About',
-                        menuIndex: 6),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.grey.shade200,
-                      indent: 0.1.sw,
-                    ),
-                    _drawerItem(
-                        imgLoc: 'assets/images/ic_downloads.png',
-                        menuTitle: 'Downloads',
-                        menuIndex: 7),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.grey.shade200,
-                      indent: 0.1.sw,
-                    ),
-                    _drawerItem(
-                        imgLoc: 'assets/images/ic_profile.png',
-                        menuTitle: 'My Profile',
-                        menuIndex: 8),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.grey.shade200,
-                      indent: 0.1.sw,
-                    ),
-                    _drawerItem(
-                        imgLoc: 'assets/images/ic_report_card.png',
-                        menuTitle: 'Report Cards',
-                        menuIndex: 5),
-                    // Divider(
-                    //   height: 1,
-                    //   thickness: 1,
-                    //   color: Colors.grey.shade200,
-                    //   indent: 0.1.sw,
-                    // ),
-                    // _drawerItem(
-                    //     imgLoc: 'assets/images/ic_report_card.png',
-                    //     menuTitle: 'Ticket',
-                    //     menuIndex: 9),
+    return WillPopScope(
+      onWillPop: () async {
+        bool willLeave = false;
+        // await showDialog(
+        //     context: context,
+        //     builder: (_) => AlertDialog(
+        //   title: Text('Are you sure you want to leave'),
+        //   actions: [
+        //     ElevatedButton(
+        //         onPressed: () {
+        //           willLeave = true;
+        //           SystemNavigator.pop();
+        //         },
+        //         child: Text('YES')),
+        //     ElevatedButton(
+        //         onPressed: () {
+        //           Navigator.pop(context);
+        //         },
+        //         child: Text('No')),
+        //   ],
+        //       actionsAlignment: MainAxisAlignment.center,
+        // ));
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (ctx, a1, a2) {
+            return Container();
+          },
+          transitionBuilder: (ctx, a1, a2, child) {
+            var curve = Curves.easeInOut.transform(a1.value);
+            return Transform.scale(
+              scale: curve,
+              child: AlertDialog(
+                  title: Text('Exit the appliction?'),
+                  actions: [
+                    ElevatedButton(
+                        onPressed: () {
+                          willLeave = true;
+                          SystemNavigator.pop();
+                        },
+                        child: Text('YES')),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('No')),
                   ],
+                      actionsAlignment: MainAxisAlignment.center,
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 200,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 50,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.yellow.shade100,
-                        //image: DecorationImage(image: AssetImage('assets/images/dubai.png'))
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 300),
+        );
+        return willLeave;
+      },
+      child: Scaffold(
+        key: _key,
+        backgroundColor: (_pages[_seletedPageIndex]['title'] == 'Circular' ||
+                _pages[_seletedPageIndex]['title'] == 'Assignment' ||
+                _pages[_seletedPageIndex]['title'] == 'Downloads')
+            ? ColorUtil.mainBg
+            : ColorUtil.white,
+        endDrawer: NotifWidget(parentId: _userdata.data!.data![0].id),
+        drawer: Drawer(
+          child: Container(
+            width: double.infinity,
+            height: 1.sh,
+            child: ListView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                  width: double.infinity,
+                  height: 1.sh - 140,
+                  // color: Colors.red,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 0.06.sh,
                       ),
-                      child: Image(
-                        image: AssetImage('assets/images/dubai.png'),
+                      buildHeader(
+                        urlImage:
+                            '${ApiConstants.baseUrl}${_userdata.data!.data![0].image}',
+                        name: _userdata.data!.data![0].name.toString(),
+                        email: _userdata.data!.data![0].username.toString(),
                       ),
-                    ),
-                    Divider(
-                      thickness: 2,
-                      color: Colors.black54,
-                      indent: 0.05.sw,
-                      endIndent: 0.05.sw,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 5,
+                      SizedBox(
+                        height: 0.03.sh,
+                      ),
+                      Divider(
+                        thickness: 2,
+                        color: Color(0xfffed330),
+                      ),
+                      _drawerItem(
+                          imgLoc: 'assets/images/homeicon.png',
+                          menuTitle: 'Home',
+                          menuIndex: 0),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey.shade200,
+                        indent: 0.1.sw,
+                      ),
+                      _drawerItem(
+                          imgLoc: 'assets/images/ic_about.png',
+                          menuTitle: 'About',
+                          menuIndex: 6),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey.shade200,
+                        indent: 0.1.sw,
+                      ),
+                      _drawerItem(
+                          imgLoc: 'assets/images/ic_downloads.png',
+                          menuTitle: 'Downloads',
+                          menuIndex: 7),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey.shade200,
+                        indent: 0.1.sw,
+                      ),
+                      _drawerItem(
+                          imgLoc: 'assets/images/ic_profile.png',
+                          menuTitle: 'My Profile',
+                          menuIndex: 8),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey.shade200,
+                        indent: 0.1.sw,
+                      ),
+                      _drawerItem(
+                          imgLoc: 'assets/images/ic_report_card.png',
+                          menuTitle: 'Report Cards',
+                          menuIndex: 5),
+                      // Divider(
+                      //   height: 1,
+                      //   thickness: 1,
+                      //   color: Colors.grey.shade200,
+                      //   indent: 0.1.sw,
+                      // ),
+                      // _drawerItem(
+                      //     imgLoc: 'assets/images/ic_report_card.png',
+                      //     menuTitle: 'Ticket',
+                      //     menuIndex: 9),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.yellow.shade100,
+                          //image: DecorationImage(image: AssetImage('assets/images/dubai.png'))
                         ),
-                        InkWell(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                      title: Center(
-                                        child: Text(
-                                          'Logout',
-                                          style: TextStyle(
-                                            color: Color(0xfffc5c65),
-                                            fontSize: 16.sp,
-                                            fontFamily: 'Axiforma',
-                                            fontWeight: FontWeight.w700,
+                        child: Image(
+                          image: AssetImage('assets/images/dubai.png'),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.black54,
+                        indent: 0.05.sw,
+                        endIndent: 0.05.sw,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 5,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialog(
+                                        title: Center(
+                                          child: Text(
+                                            'Logout',
+                                            style: TextStyle(
+                                              color: Color(0xfffc5c65),
+                                              fontSize: 16.sp,
+                                              fontFamily: 'Axiforma',
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      content: Container(
-                                        width: double.infinity,
-                                        height: 20,
-                                        child: Center(
-                                          child: Text(
-                                              'Are you sure want to Logout'),
+                                        content: Container(
+                                          width: double.infinity,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                                'Are you sure want to Logout'),
+                                          ),
                                         ),
-                                      ),
-                                      actions: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                final prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                var sta1 = await prefs
-                                                    .remove('loginResp');
-                                                var sta2 = await prefs
-                                                    .remove('isLogged');
-                                                //print('---$sta1----$sta2');
-                                                if (sta1 == true &&
-                                                    sta2 == true) {
-                                                  Navigator
-                                                      .pushNamedAndRemoveUntil(
-                                                          context,
-                                                          LoginScreen.routeName,
-                                                          (route) => false);
-                                                }
-                                                setState(() {
-                                                  //isLoading = true;
-                                                });
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                elevation: 0,
-                                                primary: Color(0xff8e2de2),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                              child: Text('Yes'),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            ElevatedButton(
+                                        actions: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () async {
+                                                  final prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  var sta1 = await prefs
+                                                      .remove('loginResp');
+                                                  var sta2 = await prefs
+                                                      .remove('isLogged');
+                                                  //print('---$sta1----$sta2');
+                                                  if (sta1 == true &&
+                                                      sta2 == true) {
+                                                    Navigator
+                                                        .pushNamedAndRemoveUntil(
+                                                            context,
+                                                            LoginScreen.routeName,
+                                                            (route) => false);
+                                                  }
+                                                  setState(() {
+                                                    //isLoading = true;
+                                                  });
+                                                },
                                                 style: ElevatedButton.styleFrom(
                                                   elevation: 0,
-                                                  primary: Colors.grey,
+                                                  primary: Color(0xff8e2de2),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
+                                                        BorderRadius.circular(15),
                                                   ),
                                                 ),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('No'))
-                                          ],
-                                        )
-                                      ],
-                                    ));
-                          },
-                          child: SizedBox(
-                            width: 100,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.arrow_circle_left_outlined,
-                                  color: Color(0xfffc5c65),
-                                  size: 30.sp,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Log Out',
-                                  style: TextStyle(
-                                    color: const Color(0xff787878),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Axiforma",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.sp,
+                                                child: Text('Yes'),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Colors.grey,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('No'))
+                                            ],
+                                          )
+                                        ],
+                                      ));
+                            },
+                            child: SizedBox(
+                              width: 100,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.arrow_circle_left_outlined,
+                                    color: Color(0xfffc5c65),
+                                    size: 30.sp,
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Log Out',
+                                    style: TextStyle(
+                                      color: const Color(0xff787878),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Axiforma",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                            width: 160,
-                            child: _drawerItem(
-                                imgLoc: 'assets/images/Unlock@2x.png.png',
-                                menuTitle: 'Reset Password',
-                                menuIndex: 10)),
-                        // InkWell(
-                        //   onTap: () {
-                        //     Navigator.of(context).pop();
-                        //     Navigator.pushNamed(context, '/resetpassword');
-                        //   },
-                        //   child: SizedBox(
-                        //     width: 150,
-                        //     child: Row(
-                        //       children: [
-                        //         Icon(
-                        //           Icons.lock,
-                        //           color: Color(0xff25dbdc),
-                        //         ),
-                        //         SizedBox(
-                        //           width: 5,
-                        //         ),
-                        //         Text('Reset password')
-                        //       ],
-                        //     ),
-                        //   ),
-                        // )
-                        //_drawerItem(imgLoc: 'assets/images/Unlock@2x.png.png', menuTitle: 'Reset Password', menuIndex: 9)
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
+                          SizedBox(
+                            width: 5,
+                          ),
+                          SizedBox(
+                              width: 160,
+                              child: _drawerItem(
+                                  imgLoc: 'assets/images/Unlock@2x.png.png',
+                                  menuTitle: 'Reset Password',
+                                  menuIndex: 10)),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //     Navigator.pushNamed(context, '/resetpassword');
+                          //   },
+                          //   child: SizedBox(
+                          //     width: 150,
+                          //     child: Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.lock,
+                          //           color: Color(0xff25dbdc),
+                          //         ),
+                          //         SizedBox(
+                          //           width: 5,
+                          //         ),
+                          //         Text('Reset password')
+                          //       ],
+                          //     ),
+                          //   ),
+                          // )
+                          //_drawerItem(imgLoc: 'assets/images/Unlock@2x.png.png', menuTitle: 'Reset Password', menuIndex: 9)
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: _customBottomNavBar(),
-      body: Column(
-        children: [
-          _pages[_seletedPageIndex]['centre'] as bool
-              ? customAppBar(
-                  isPop: _pages[_seletedPageIndex]['isPopup'] as bool,
-                  img: 'assets/images/menu.png',
-                  name: _userdata.data!.data![0].parentName,
-                  title: _pages[_seletedPageIndex]['title'].toString(),
-                  isCentre: _pages[_seletedPageIndex]['centre'] as bool)
-              : Stack(
-                  children: [
-                    Container(
-                      width: 1.sw,
-                      height: 280,
-                    ),
-                    customAppBar(
-                        isPop: _pages[_seletedPageIndex]['isPopup'] as bool,
-                        img: 'assets/images/menu.png',
-                        name: _userdata.data!.data![0].parentName,
-                        title: _pages[_seletedPageIndex]['title'].toString(),
-                        isCentre: _pages[_seletedPageIndex]['centre'] as bool),
-                    Positioned(
-                      top: 100,
-                      child: Container(
+        bottomNavigationBar: _customBottomNavBar(),
+        body: Column(
+          children: [
+            _pages[_seletedPageIndex]['centre'] as bool
+                ? customAppBar(
+                    isPop: _pages[_seletedPageIndex]['isPopup'] as bool,
+                    img: 'assets/images/menu.png',
+                    name: _userdata.data!.data![0].parentName,
+                    title: _pages[_seletedPageIndex]['title'].toString(),
+                    isCentre: _pages[_seletedPageIndex]['centre'] as bool)
+                : Stack(
+                    children: [
+                      Container(
                         width: 1.sw,
-                        height: 180,
-                        child: CarouselSlider.builder(
-                          itemCount: _students.length,
-                          itemBuilder: (context, index, realIndex) {
-                            // final name = _students[index].name;
-                            // final classofstd = _students[index].studentDetailClass;
-                            // final batchofstd = _students[index].batch;
-                            // final imgUrl =
-                            //     'https://teamsqa3000.educore.guru${_students[index].photo}';
-                            final name = _students[_activeindex].name;
-                            final classofstd =
-                                _students[_activeindex].studentDetailClass;
-                            final batchofstd = _students[_activeindex].batch;
-                            final imgUrl =
-                                'https://teamsqa3000.educore.guru${_students[_activeindex].photo}';
-                            return nameCard(
-                                studentName: name.toString(),
-                                photourl: imgUrl,
-                                grade: batchofstd.toString(),
-                                classofstd: classofstd.toString());
-                          },
-                          options: CarouselOptions(
-                              height: 170,
-                              //enlargeCenterPage: true,
-                              viewportFraction: 1,
-                              enableInfiniteScroll: true,
-                              onPageChanged: (index, reason) async {
-                                _activeindex = index;
-                                _pageSwitching(_activeindex);
-                              }),
+                        height: 280,
+                      ),
+                      customAppBar(
+                          isPop: _pages[_seletedPageIndex]['isPopup'] as bool,
+                          img: 'assets/images/menu.png',
+                          name: _userdata.data!.data![0].parentName,
+                          title: _pages[_seletedPageIndex]['title'].toString(),
+                          isCentre: _pages[_seletedPageIndex]['centre'] as bool),
+                      Positioned(
+                        top: 100,
+                        child: Container(
+                          width: 1.sw,
+                          height: 180,
+                          child: CarouselSlider.builder(
+                            itemCount: _students.length,
+                            itemBuilder: (context, index, realIndex) {
+                              // final name = _students[index].name;
+                              // final classofstd = _students[index].studentDetailClass;
+                              // final batchofstd = _students[index].batch;
+                              // final imgUrl =
+                              //     'https://teamsqa3000.educore.guru${_students[index].photo}';
+                              final name = _students[_activeindex].name;
+                              final classofstd =
+                                  _students[_activeindex].studentDetailClass;
+                              final batchofstd = _students[_activeindex].batch;
+                              final imgUrl =
+                                  'https://teamsqa3000.educore.guru${_students[_activeindex].photo}';
+                              return nameCard(
+                                  studentName: name.toString(),
+                                  photourl: imgUrl,
+                                  grade: batchofstd.toString(),
+                                  classofstd: classofstd.toString());
+                            },
+                            options: CarouselOptions(
+                                height: 170,
+                                //enlargeCenterPage: true,
+                                viewportFraction: 1,
+                                enableInfiniteScroll: true,
+                                onPageChanged: (index, reason) async {
+                                  _activeindex = index;
+                                  _pageSwitching(_activeindex);
+                                }),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-          _pages[_seletedPageIndex]['page'] as Widget
-        ],
+                    ],
+                  ),
+            _pages[_seletedPageIndex]['page'] as Widget
+          ],
+        ),
       ),
     );
   }
@@ -661,22 +722,29 @@ class _HomeScreenState extends State<HomeScreen> {
         //margin: EdgeInsets.symmetric(horizontal: 20),
         //margin: EdgeInsets.only(bottom: -2),
         decoration: BoxDecoration(
+          // boxShadow: [
+          //   BoxShadow(
+          //       color: Colors.black12,
+          //       offset: Offset(0, 0),
+          //       blurRadius: 1,
+          //       spreadRadius: 0),
+          //   BoxShadow(
+          //       color: Colors.black12,
+          //       offset: Offset(0, 2),
+          //       blurRadius: 6,
+          //       spreadRadius: 0),
+          //   // BoxShadow(
+          //   //     color: Colors.black12,
+          //   //     offset: Offset(0, 10),
+          //   //     blurRadius: 20,
+          //   //     spreadRadius: 0)
+          // ],
           boxShadow: [
             BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 0),
-                blurRadius: 1,
-                spreadRadius: 0),
-            BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 2),
-                blurRadius: 6,
-                spreadRadius: 0),
-            // BoxShadow(
-            //     color: Colors.black12,
-            //     offset: Offset(0, 10),
-            //     blurRadius: 20,
-            //     spreadRadius: 0)
+                color: const Color(0xccaeaed8),
+                offset: Offset(0, 10),
+                blurRadius: 16,
+                spreadRadius: 0)
           ],
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
@@ -815,7 +883,14 @@ class _HomeScreenState extends State<HomeScreen> {
       Container(
         width: 1.sw,
         height: isCentre ? 90 : 120,
-        decoration: BoxDecoration(
+        decoration: title == 'About Us'? BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/MaskGroup3.png',
+            ),
+            fit: BoxFit.cover,
+          ),
+        ): BoxDecoration(
           //color: ColorUtil.mainBg,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(15),
@@ -889,7 +964,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                    (isPop) ? InkWell(
+                    (isPop)
+                        ? InkWell(
                             onTap: () {
                               _selectChildPopUp(context: context);
                             },
@@ -1055,7 +1131,7 @@ class _HomeScreenState extends State<HomeScreen> {
           contentPadding: EdgeInsets.zero,
           titlePadding: EdgeInsets.zero,
           title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0,vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
             child: Text(
               'Select child',
               style: TextStyle(fontSize: 16.sp),
@@ -1066,7 +1142,8 @@ class _HomeScreenState extends State<HomeScreen> {
       );
   Widget setupAlertDialoadContainer() {
     return Container(
-      height: 200, // Change as per your requirement
+     // height: 240,
+      height: (_students.length > 3) ? 240 : _students.length * 60 + 80, // Change as per your requirement
       width: 300.0, // Change as per your requirement
       child: ListView.builder(
         shrinkWrap: true,
@@ -1115,7 +1192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // }
               },
               tileColor: _selectedChild == _students[index].userId
-                  ? ColorUtil.lightPurple
+                  ? ColorUtil.lightPurple.withOpacity(0.2)
                   : ColorUtil.white,
               leading: CircleAvatar(
                 radius: 25,

@@ -450,10 +450,13 @@ class _AFLReportState extends State<AFLReport> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+                                  // SizedBox(width: 1,),
                                   Image(
                                       image: AssetImage(
                                           'assets/images/question.png')),
+                                  //SizedBox(width: 4,),
                                   Text('Question Analysis',style: TextStyle(fontSize: 12),),
+                                  SizedBox(width: 2,),
                                 ],
                               ),
                             ),
@@ -544,6 +547,7 @@ class _AFLReportState extends State<AFLReport> {
                   ? ListView.builder(
                   itemCount: 4, itemBuilder: (ctx, _) => skeleton)
                   :ListView(
+                physics: BouncingScrollPhysics(),
                 children: [
                   (_selection == 'Question')?Text('Question Analysis'):(_selection == 'Remarks')? Text('Remarks') : Text('Analysis'),
                   SizedBox(

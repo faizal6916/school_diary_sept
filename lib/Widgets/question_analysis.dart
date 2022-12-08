@@ -114,7 +114,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                     style: TextStyle(
                       fontFamily: 'Axiforma',
                       color: Color(0xff979797),
-                      fontSize: 10.sp,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                     ),
@@ -144,7 +144,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                             fontWeight: FontWeight.w400,
                             fontFamily: "Axiforma",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.sp),
+                            fontSize: 18),
                       ),
                     ),
                   ],
@@ -175,7 +175,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                             'Student Response',
                             style: TextStyle(
                               color: Color(0xff1eb1ae),
-                              fontSize: 14.sp,
+                              fontSize: 18,
                               fontFamily: 'Axiforma',
                             ),
                           ),
@@ -183,7 +183,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                             widget.studAnswer!,
                             style: TextStyle(
                               color: Color(0xff818181),
-                              fontSize: 14.sp,
+                              fontSize: 18,
                               fontFamily: 'Axiforma',
                             ),
                           )
@@ -217,7 +217,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                                   'Correct Answer',
                                   style: TextStyle(
                                     color: ColorUtil.green,
-                                    fontSize: 14.sp,
+                                    fontSize: 18,
                                     fontFamily: 'Axiforma',
                                   ),
                                 ),
@@ -225,7 +225,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                                   widget.rightAnswer!,
                                   style: TextStyle(
                                     color: Color(0xff818181),
-                                    fontSize: 14.sp,
+                                    fontSize: 18,
                                     fontFamily: 'Axiforma',
                                   ),
                                 )
@@ -235,18 +235,8 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                         ],
                       )
                     : SizedBox(),
-                SizedBox(height: 6,),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 1.sw - 70,
-                    ),
-                    Transform.rotate(
-                      angle: _doneDur ? (180 * math.pi / 180) : 0,
-                      child: Icon(Icons.arrow_drop_down),
-                    )
-                  ],
-                )
+                //SizedBox(height: 6,),
+
               ],
             ),
           ),
@@ -340,6 +330,20 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
                 ),
               ],
             )),
+        Positioned(
+          bottom: 80,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 1.sw - 70,
+              ),
+              Transform.rotate(
+                angle: _doneDur ? (180 * math.pi / 180) : 0,
+                child: Icon(Icons.arrow_drop_down),
+              )
+            ],
+          ),
+        )
       ],
     );
   }

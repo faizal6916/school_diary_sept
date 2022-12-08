@@ -31,8 +31,8 @@ class CircularWidget extends StatefulWidget {
   const CircularWidget(
       {Key? key,
       //  this.isOpen = false,
-        this.circId,
-        this.typeCorA,
+      this.circId,
+      this.typeCorA,
       this.childId,
       this.circularDate,
       this.cicularTitle,
@@ -46,7 +46,6 @@ class CircularWidget extends StatefulWidget {
 }
 
 class _CircularWidgetState extends State<CircularWidget> {
-
   // Future openFile({required String url,String? filename}) async {
   //   final file =await downloadFile(url,filename!);
   //   if (file == null) return;
@@ -111,9 +110,9 @@ class _CircularWidgetState extends State<CircularWidget> {
     final String? idfrom = prefs.getString('dashId');
     idFrDa = idfrom;
     print('dashboard id -----$idFrDa');
-    if(idFrDa == null) return;
-    if(idFrDa == widget.circId){
-      setState((){
+    if (idFrDa == null) return;
+    if (idFrDa == widget.circId) {
+      setState(() {
         _isOpen = true;
       });
       prefs.remove('dashId');
@@ -128,6 +127,7 @@ class _CircularWidgetState extends State<CircularWidget> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     print('rebuild');
@@ -156,13 +156,13 @@ class _CircularWidgetState extends State<CircularWidget> {
                           topRight: Radius.circular(10),
                           topLeft: Radius.circular(10))
                       : BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        color: const Color(0x1f324dab),
-                        offset: Offset(0, 32),
-                        blurRadius: 22,
-                        spreadRadius: -8)
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //       color: const Color(0x1f324dab),
+                  //       offset: Offset(0, 32),
+                  //       blurRadius: 22,
+                  //       spreadRadius: -8)
+                  // ],
                   gradient: LinearGradient(
                       begin: Alignment(0.5, -3),
                       end: Alignment(0.5, 1),
@@ -181,24 +181,27 @@ class _CircularWidgetState extends State<CircularWidget> {
                     child: Column(
                       children: [
                         Text(
-                          _examformatter.format(widget.circularDate!).split(' ')[0],
+                          _examformatter
+                              .format(widget.circularDate!)
+                              .split(' ')[0],
                           style: TextStyle(
-                              color:  Colors.white,
+                              color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontFamily: "Roboto",
-                              fontStyle:  FontStyle.normal,
-                              fontSize: 20.0
-                          ),
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20.0),
                         ),
                         Text(
-                          _examformatter.format(widget.circularDate!).split(' ')[1].toUpperCase(),
-                          style:  TextStyle(
-                              color:  Colors.white,
+                          _examformatter
+                              .format(widget.circularDate!)
+                              .split(' ')[1]
+                              .toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.white,
                               fontWeight: FontWeight.w400,
                               fontFamily: "Roboto",
-                              fontStyle:  FontStyle.normal,
-                              fontSize: 15.0
-                          ),
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15.0),
                         ),
                       ],
                     ),
@@ -229,52 +232,67 @@ class _CircularWidgetState extends State<CircularWidget> {
               ),
             ),
           ),
+          SizedBox(
+            height: 1,
+          ),
           Container(
             width: 1.sw,
-            height: _isOpen ? 80 + widget.attachment!.length * 55 : 0,
-            padding: _isOpen ?EdgeInsets.only(bottom: 10):EdgeInsets.only(bottom: 0),
+            height: _isOpen
+                ? 70 +
+                    widget.attachment!.length * 45 +
+                    widget.circularDesc!.length * 0.5
+                : 0,
+            padding: _isOpen
+                ? EdgeInsets.only(bottom: 10, top: 10)
+                : EdgeInsets.only(bottom: 0),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                      color: const Color(0x1f324dab),
-                      offset: Offset(0, 32),
-                      blurRadius: 22,
-                      spreadRadius: -8)
-                ],
-                gradient: LinearGradient(
-                    begin: Alignment(0.5, -3),
-                    end: Alignment(0.5, 1),
-                    colors: [Colors.white, const Color(0xfff8f9ff)])),
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10)),
+              // boxShadow: [
+              //   BoxShadow(
+              //       //color: const Color(0x1f324dab),
+              //     color: ColorUtil.mainBg,
+              //       offset: Offset(0, 5),
+              //       blurRadius: 5,
+              //       spreadRadius: 0)
+              // ],
+              gradient: LinearGradient(
+                  begin: Alignment(0.5, -3),
+                  end: Alignment(0.5, 1),
+                  colors: [Colors.white, const Color(0xfff8f9ff)]),
+            ),
             child: Row(
               children: [
-                SizedBox(width: 90,),
+                SizedBox(
+                  width: 90,
+                ),
                 Container(
                   width: 1.sw - 120,
-                 // height: widget.attachment!.length * 50,
+                  // height: widget.attachment!.length * 50,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.circularDesc!),
+                      SizedBox(
+                        height: 6,
+                      ),
                       Expanded(
                         child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: widget.attachment!.isEmpty
-                              ? 0
-                              : widget.attachment!.length,
-                          itemBuilder: (ctx, i) =>
-                              // Text('atta$i-${widget.attachment![i]}'),
-                          //attachment(widget.cicularTitle!,widget.attachment![i],i)
-                          AttachmentWidget(
-                            type: widget.typeCorA,
-                            childId: widget.childId,
-                            attUrl: widget.attachment![i],
-                            circularTitle: widget.cicularTitle!,
-                            totalAtt: i,
-                          )
-                        ),
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: widget.attachment!.isEmpty
+                                ? 0
+                                : widget.attachment!.length,
+                            itemBuilder: (ctx, i) =>
+                                // Text('atta$i-${widget.attachment![i]}'),
+                                //attachment(widget.cicularTitle!,widget.attachment![i],i)
+                                AttachmentWidget(
+                                  type: widget.typeCorA,
+                                  childId: widget.childId,
+                                  attUrl: widget.attachment![i],
+                                  circularTitle: widget.cicularTitle!,
+                                  totalAtt: i,
+                                )),
                       ),
                       Text('Issued by ${widget.senderName!}')
                     ],
@@ -336,5 +354,3 @@ class _CircularWidgetState extends State<CircularWidget> {
   //   ],),
   // );
 }
-
-

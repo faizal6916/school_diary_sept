@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_diary_sept_13/Models/downloadmodel.dart';
 import 'package:school_diary_sept_13/Services/getfiles.dart';
+import 'package:school_diary_sept_13/Util/color_util.dart';
 import '../../Models/Filter/filter_data.dart';
 import '../../Models/Filter/filter_item.dart';
 import '../../Widgets/circulardwnldwidget.dart';
@@ -56,7 +57,7 @@ class _CircularDownloadsState extends State<CircularDownloads> {
     return Column(
       children: [
         Container(
-          color: Colors.grey.shade200,
+          color: ColorUtil.mainBg,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -82,7 +83,10 @@ class _CircularDownloadsState extends State<CircularDownloads> {
             ],
           ),
         ),
-        circlars.isEmpty ?  Center(child: Text('No downloads in circular')):Expanded(
+        circlars.isEmpty ?  SizedBox(
+          width: 1.sw,
+            height: 1.sh/2,
+            child: Center(child: Text('No Circular Downloads'))):Expanded(
           child: ListView.builder(itemBuilder: (ctx,i)=>CircularDwnldWidget(
             filePath: circlars[i].path,
             title: circlars[i].title,

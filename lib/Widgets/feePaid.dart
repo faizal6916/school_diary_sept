@@ -240,29 +240,49 @@ class _FeePaidState extends State<FeePaid> {
                                                   : ColorUtil.paidBor
                                                       .withOpacity(0.2)),
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Text(
-                                                '${element['transaction_desc']}',
-                                                style: feeListStyle(),
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                minHeight: 60
+                                              ),
+                                              padding: EdgeInsets.only(left: 10),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${element['transaction_desc']}',
+                                                    style: feeListStyle(),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Text(
-                                                ':',
-                                                style: feeListStyle(),
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                minHeight: 60
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    ':',
+                                                    style: feeListStyle(),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(13.0),
-                                              child: Text(
-                                                'AED ${element['transaction_amount']}',
-                                                //maxLines: 2,
-                                                style: feeListStyle(),
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                minHeight: 60
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'AED ${element['transaction_amount']}',
+                                                    //maxLines: 2,
+                                                    style: feeListStyle(),
+                                                  ),
+                                                ],
                                               ),
                                             )
                                           ])))
@@ -303,25 +323,49 @@ class _FeePaidState extends State<FeePaid> {
                       },
                       children: [
                         TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Grand Total',
-                              style: feeTotalStyle(),
+                          Container(
+                            constraints: BoxConstraints(
+                              minHeight: 60
+                            ),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Grand Total',
+                                  style: feeTotalStyle(),
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              ':',
-                              style: feeTotalStyle(),
+                          Container(
+                            constraints: BoxConstraints(
+                              minHeight: 60
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+
+                              children: [
+                                Text(
+                                  ':',
+                                  style: feeTotalStyle(),
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'AED ${widget.totalAmount!}',
-                              style: feeTotalStyle(),
+                          Container(
+                            constraints: BoxConstraints(
+                              minHeight: 60
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'AED ${widget.totalAmount!}',
+                                  style: feeTotalStyle(),
+                                ),
+                              ],
                             ),
                           )
                         ])
@@ -498,13 +542,13 @@ class _FeePaidState extends State<FeePaid> {
       fontWeight: FontWeight.w400,
       fontFamily: "Axiforma",
       fontStyle: FontStyle.normal,
-      fontSize: 11.sp);
+      fontSize: 14);
   feeTotalStyle() => TextStyle(
       color: ColorUtil.feegreen,
       fontWeight: FontWeight.w700,
       fontFamily: "Axiforma",
       fontStyle: FontStyle.normal,
-      fontSize: 12.sp);
+      fontSize: 14);
   Widget ciclePart() => Container(
         width: 40,
         height: 40,

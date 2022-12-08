@@ -67,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _saveForm() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     var isValid = _form.currentState!.validate();
     if (!isValid) {
       return;

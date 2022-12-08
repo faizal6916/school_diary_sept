@@ -632,7 +632,8 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   Widget eventTabBarView(BuildContext ctx, TabController ctrl) => Container(
         width: 1.sw,
-        height: 200,
+        height: 300,
+
         child: TabBarView(
           controller: ctrl,
           children: [
@@ -645,6 +646,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                     return value.length == 0
                         ? Center(child: Text('No Events and Exams'))
                         : ListView.builder(
+                      physics: BouncingScrollPhysics(),
                             itemCount: value.length,
                             itemBuilder: (ct, i) {
                               return Container(
@@ -781,6 +783,7 @@ class _CalendarScreenState extends State<CalendarScreen>
               child: upcomingEv.length == 0
                   ? Center(child: Text('No Upcoming Events'))
                   : ListView.builder(
+                     physics: BouncingScrollPhysics(),
                       itemCount: upcomingEv.length,
                       itemBuilder: (ctx, i) => Container(
                             child: Column(
@@ -793,6 +796,7 @@ class _CalendarScreenState extends State<CalendarScreen>
               child: upcomingExam.length == 0
                   ? Center(child: Text('No Upcoming Exams'))
                   : ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: upcomingEv.length,
                       itemBuilder: (ctx, i) => Container(
                             child: Column(

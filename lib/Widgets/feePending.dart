@@ -168,13 +168,14 @@ class _FeePendingState extends State<FeePending> {
                 ),
                 Container(
                   width: 1.sw,
-                 height: 50 * double.parse(keyList.length.toString()) +80,
+                 height: 60 * double.parse(keyList.length.toString()) +130,
                     decoration: BoxDecoration(
                         color: ColorUtil.feegrlt,
                         borderRadius: BorderRadius.circular(15)
                     ),
 
                   margin: EdgeInsets.symmetric(horizontal: 10),
+
                   child: DottedBorder(
                     radius: Radius.circular(12),
                     borderType: BorderType.RRect,
@@ -210,18 +211,50 @@ class _FeePendingState extends State<FeePending> {
                             color: ColorUtil.feetitle.withOpacity(0.1)
                           ),
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Text('Description',),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Text('Due',),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Text('Paid',),
-                              )
+                              Container(
+                                  height: 60,
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Description',style: TextStyle(
+                                          fontFamily: 'Axiforma',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700
+                                      ),),
+                                    ],
+                                  )),
+                              Container(
+                                  height: 60,
+                                  padding: EdgeInsets.only(left: 3.5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Due',style: TextStyle(
+                                          fontFamily: 'Axiforma',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700
+                                      ),),
+                                    ],
+                                  )),
+                              Container(
+                                height: 60,
+
+                                  child: Container(
+                                      height: 60,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Paid',style: TextStyle(
+                                              fontFamily: 'Axiforma',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700
+                                          ),),
+                                        ],
+                                      )))
                             ]
                         ),
                         ...keyList.asMap().map((ind,e) => MapEntry(ind, TableRow(
@@ -229,42 +262,69 @@ class _FeePendingState extends State<FeePending> {
                                 color:(ind % 2 ==0) ? Colors.transparent:ColorUtil.feeblue.withOpacity(0.1)
                             ),
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Text(e,
-                                  style:  TextStyle(
-                                    fontFamily: 'Axiforma',
-                                    color: ColorUtil.feeblue,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    //fontStyle: FontStyle.normal,
-                                    // letterSpacing: 0,
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight: 60
+                                ),
+                                padding: EdgeInsets.only(left: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(e,
+                                      style:  TextStyle(
+                                        fontFamily: 'Axiforma',
+                                        color: ColorUtil.feeblue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        //fontStyle: FontStyle.normal,
+                                        // letterSpacing: 0,
 
-                                  ),),
+                                      ),),
+                                  ],
+                                ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Text('AED ${dueAmt(e)}',style:  TextStyle(
-                                  fontFamily: 'Axiforma',
-                                  color: ColorUtil.feeblue,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  //fontStyle: FontStyle.normal,
-                                  // letterSpacing: 0,
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight: 60
+                                ),
+                                padding: EdgeInsets.only(left: 3.5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('AED ${dueAmt(e)}',style:  TextStyle(
+                                      fontFamily: 'Axiforma',
+                                      color: ColorUtil.feeblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      //fontStyle: FontStyle.normal,
+                                      // letterSpacing: 0,
 
-                                ),),
+                                    ),),
+                                  ],
+                                ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Text('AED ${paidAmt(e)}',style:  TextStyle(
-                                  fontFamily: 'Axiforma',
-                                  color: ColorUtil.feeblue,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  //fontStyle: FontStyle.normal,
-                                  // letterSpacing: 0,
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight: 60
+                                ),
 
-                                ),),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('AED ${paidAmt(e)}',style:  TextStyle(
+                                      fontFamily: 'Axiforma',
+                                      color: ColorUtil.feeblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      //fontStyle: FontStyle.normal,
+                                      // letterSpacing: 0,
+
+                                    ),),
+                                  ],
+                                ),
                               )
                             ]
                         ))).values.toList()
@@ -296,33 +356,42 @@ class _FeePendingState extends State<FeePending> {
                         children: [
                           TableRow(
                               children: [
-                                Text('Total',style: TextStyle(
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+                                  child: Text('Total',style: TextStyle(
                       fontFamily: 'Axiforma',
                         color: ColorUtil.feegreen,
-                        fontSize: 12.sp,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         //fontStyle: FontStyle.normal,
                         //letterSpacing: 0,
 
                       )),
-                                Text('AED ${widget.amountdue}',style: TextStyle(
-                                fontFamily: 'Axiforma',
-                                  color: ColorUtil.feegreen,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  //fontStyle: FontStyle.normal,
-                                  //letterSpacing: 0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 4),
+                                  child: Text('AED ${widget.amountdue}',style: TextStyle(
+                                  fontFamily: 'Axiforma',
+                                    color: ColorUtil.feegreen,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    //fontStyle: FontStyle.normal,
+                                    //letterSpacing: 0,
 
-                                )),
-                                Text('AED ${widget.amountPaid}',style: TextStyle(
-                                fontFamily: 'Axiforma',
-                                  color: ColorUtil.feegreen,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  //fontStyle: FontStyle.normal,
-                                  //letterSpacing: 0,
+                                  )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 3,vertical: 4),
+                                  child: Text('AED ${widget.amountPaid}',style: TextStyle(
+                                  fontFamily: 'Axiforma',
+                                    color: ColorUtil.feegreen,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    //fontStyle: FontStyle.normal,
+                                    //letterSpacing: 0,
 
-                                ))
+                                  )),
+                                )
                               ]
                           )
                         ],
@@ -354,7 +423,7 @@ class _FeePendingState extends State<FeePending> {
                       Text('Balance To Pay' ,style: TextStyle(
                     fontFamily: 'Axiforma',
                     color: ColorUtil.feegreen,
-                    fontSize: 12.sp,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     //fontStyle: FontStyle.normal,
                     //letterSpacing: 0,
@@ -363,7 +432,7 @@ class _FeePendingState extends State<FeePending> {
                           Text(':',style: TextStyle(
                           fontFamily: 'Axiforma',
                             color: ColorUtil.feegreen,
-                            fontSize: 12.sp,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             //fontStyle: FontStyle.normal,
                             //letterSpacing: 0,
@@ -372,7 +441,7 @@ class _FeePendingState extends State<FeePending> {
                       Text('AED ${widget.balance}',style: TextStyle(
                         fontFamily: 'Axiforma',
                         color: ColorUtil.feegreen,
-                        fontSize: 12.sp,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         //fontStyle: FontStyle.normal,
                         //letterSpacing: 0,

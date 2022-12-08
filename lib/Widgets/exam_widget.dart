@@ -138,14 +138,19 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            widget.subName!,
-                            style: TextStyle(
-                                color: widget.color,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "OpenSans",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 15.sp),
+                          SizedBox(
+                            width: 120,
+                            child: Text(
+                              widget.subName!,
+                              maxLines: 2,
+                              style: TextStyle(
+                                  color: widget.color,
+                                  overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "OpenSans",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 15.sp),
+                            ),
                           ),
                           (widget.markObt.toString() == 'null')
                               ? Row(

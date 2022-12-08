@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_diary_sept_13/Util/color_util.dart';
 
 import '../../Models/Filter/filter_data.dart';
 import '../../Models/Filter/filter_item.dart';
@@ -78,7 +79,7 @@ class _ExamDownloadsState extends State<ExamDownloads> {
           Column(
             children: [
               Container(
-                color: Colors.grey.shade200,
+                color: ColorUtil.mainBg,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -104,7 +105,10 @@ class _ExamDownloadsState extends State<ExamDownloads> {
                   ],
                 ),
               ),
-              totList.isEmpty ? Text('No Downloads') : Expanded(
+              totList.isEmpty ? SizedBox(
+                width: 1.sw,
+                  height: 1.sh /2,
+                  child: Center(child: Text('No Exam Downloads'))) : Expanded(
                 child: ListView.builder(
                     itemCount: totList.length,
                     itemBuilder: (ctx,index)=>CircularDwnldWidget(title: totList[index].title,date: totList[index].date,type: totList[index].type,filePath: totList[index].path,)),

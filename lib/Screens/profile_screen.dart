@@ -27,7 +27,8 @@ class ProfileScreen extends StatelessWidget {
       children: [
         Container(
           width: 1.sw,
-          height: 1.sh - 220,
+        //height:1.sh/2 + 140,
+          height: (studentList!.length >2) ? 1.sh/2 + 140 :1.sh/2 + 15 + (studentList!.length * 40) ,
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           //color: Colors.red,
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -117,9 +118,11 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       Container(
                         width: 1.sw - 60,
-                        height: 1.sh / 4 -30,
+                        height: 1.sh / 4 ,
+                       // height: 200,
                         //color: Colors.red,
                         child: ListView.separated(
+                          physics: BouncingScrollPhysics(),
                           separatorBuilder: (ctx,i) => Divider(),
                           itemCount: studentList!.length,
                           itemBuilder: (ctx, i) => ListTile(

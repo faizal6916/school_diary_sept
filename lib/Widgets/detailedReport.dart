@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -206,8 +207,8 @@ class _DetailedReportState extends State<DetailedReport> {
   Widget build(BuildContext context) {
     return Container(
       width: 1.sw,
-      height: 40 * double.parse(widget.subjects!.length.toString()) + 150,
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      height: 65 * double.parse(widget.subjects!.length.toString()) + 140,
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -237,35 +238,70 @@ class _DetailedReportState extends State<DetailedReport> {
             },
             children: [
               TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Subject',
-                    style: tableHeaderStyle(),
+                Container(
+                  constraints: BoxConstraints(
+                      minHeight: 60
+                  ),
+                  //padding: EdgeInsets.only(right: 5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Subject',
+                        style: tableHeaderStyle(),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Mark',
-                    textAlign: TextAlign.center,
-                    style: tableHeaderStyle(),
+                Container(
+                  constraints: BoxConstraints(
+                      minHeight: 60
+                  ),
+                  padding: EdgeInsets.only(left: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Mark',
+                        textAlign: TextAlign.center,
+                        style: tableHeaderStyle(),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Total',
-                    textAlign: TextAlign.center,
-                    style: tableHeaderStyle(),
+                Container(
+                  constraints: BoxConstraints(
+                      minHeight: 60
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        ' Total',
+                        textAlign: TextAlign.center,
+                        style: tableHeaderStyle(),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Grade',
-                    textAlign: TextAlign.center,
-                    style: tableHeaderStyle(),
+                Container(
+                  constraints: BoxConstraints(
+                      minHeight: 60
+                  ),
+                  //padding: EdgeInsets.only(right: 5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Grade',
+                        textAlign: TextAlign.center,
+                        style: tableHeaderStyle(),
+                      ),
+                    ],
                   ),
                 )
               ]),
@@ -274,35 +310,74 @@ class _DetailedReportState extends State<DetailedReport> {
                   .map((index, element) => MapEntry(
                       index,
                       TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            element,
-                            style: tableElementStyle(index),
+                        Container(
+                          //height: 50,
+                          constraints: BoxConstraints(
+                            minHeight: 60
+                          ),
+                          //padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AutoSizeText(
+                               '$element' ,
+                                minFontSize: 14,
+                                style: tableElementStyle(index),
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            markObtained(element),
-                            style: tableElementStyle(index),
-                            textAlign: TextAlign.center,
+                        Container(
+                          constraints: BoxConstraints(
+                              minHeight: 60
+                          ),
+                          padding: EdgeInsets.only(left: 12),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+
+                                markObtained(element),
+                                style: tableElementStyle(index),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            maxMark(element),
-                            style: tableElementStyle(index),
-                            textAlign: TextAlign.center,
+                        Container(
+                          constraints: BoxConstraints(
+                              minHeight: 60
+                          ),
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                maxMark(element),
+                                style: tableElementStyle(index),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            grade(element),
-                            style: tableElementStyle(index),
-                            textAlign: TextAlign.center,
+                        Container(
+                          constraints: BoxConstraints(
+                              minHeight: 60
+                          ),
+                          padding: EdgeInsets.only(left: 18),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                grade(element),
+                                style: tableElementStyle(index),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         )
                       ])))
@@ -383,11 +458,11 @@ class _DetailedReportState extends State<DetailedReport> {
       fontWeight: FontWeight.w400,
       //fontFamily: "Axiforma",
       //fontStyle:  FontStyle.normal,
-      fontSize: 12.sp);
+      fontSize: 16);
   tableElementStyle(int index) => TextStyle(
       color: (index >= 4) ? _colors[index % 4] : _colors[index],
       fontWeight: FontWeight.w400,
       //fontFamily: "Axiforma",
       //fontStyle:  FontStyle.normal,
-      fontSize: 12.sp);
+      fontSize: 12);
 }

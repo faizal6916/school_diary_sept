@@ -315,6 +315,12 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15),
                   ),
+                  boxShadow: [BoxShadow(
+                      color: const Color(0xccaeaed8),
+                      offset: Offset(0,10),
+                      blurRadius: 32,
+                      spreadRadius: 0
+                  )] ,
                 ),
                 child: Row(
                   children: [
@@ -326,8 +332,8 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
               ),
               Container(
                 width: 1.sw,
-                height: 1.sh - 260,
-                color: ColorUtil.bg.withOpacity(0.6),
+                height: 1.sh - 230,
+                color: ColorUtil.mainBg,
                 child: _isloading
                     ? ListView.builder(
                         itemCount: 4, itemBuilder: (ctx, _) => skeleton)
@@ -337,6 +343,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                                 context: context,
                                 removeTop: true,
                                 child: ListView(
+                                  physics: BouncingScrollPhysics(),
                                   addAutomaticKeepAlives: true,
                                   children: report,
                                 ),
@@ -348,6 +355,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                                     context: context,
                                     removeTop: true,
                                     child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
                                         itemCount: published.length,
                                         itemBuilder: (ctx, index) => ExamWidget(
                                               schlId: widget.schoolId,
@@ -376,6 +384,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                                         context: context,
                                         removeTop: true,
                                         child: ListView.builder(
+                                          physics: BouncingScrollPhysics(),
                                           itemCount: hallTickets!.length,
                                           itemBuilder: (ctx, ind) =>
                                               HallTicketWidget(
@@ -411,19 +420,22 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                tabName,
-                style: TextStyle(
-                    color: selectedTab == activeIndex
-                        ? ColorUtil.tabIndicator
-                        : ColorUtil.tabIndicator.withOpacity(0.5),
-                    fontWeight: FontWeight.w600,
-                    //fontFamily: "Axiforma",
-                    //fontStyle:  FontStyle.normal,
-                    fontSize: 14.sp),
+              Container(
+                height: 25,
+                child: Text(
+                  tabName,
+                  style: TextStyle(
+                      color: selectedTab == activeIndex
+                          ? ColorUtil.tabIndicator
+                          : ColorUtil.tabIndicator.withOpacity(0.5),
+                      fontWeight: FontWeight.w600,
+                      //fontFamily: "Axiforma",
+                      //fontStyle:  FontStyle.normal,
+                      fontSize: 16),
+                ),
               ),
               SizedBox(
-                height: 11,
+                height: 10,
               ),
               selectedTab == activeIndex
                   ? Container(

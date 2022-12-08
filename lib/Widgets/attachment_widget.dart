@@ -176,7 +176,14 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
     return Container(
       //width: 100,
       height: 40,
-      color: Colors.white,
+      decoration: BoxDecoration(
+        color: Color(0xfff8f9ff),
+          // gradient: LinearGradient(
+          //     begin: Alignment(0.5, -3),
+          //     end: Alignment(0.5, 1),
+          //     colors: [Colors.white, const Color(0xfff8f9ff)])
+      ),
+      //color: Colors.white,
       child: Row(children: [
         Container(
           width: 200,
