@@ -87,12 +87,18 @@ class _CircularDownloadsState extends State<CircularDownloads> {
           width: 1.sw,
             height: 1.sh/2,
             child: Center(child: Text('No Circular Downloads'))):Expanded(
-          child: ListView.builder(itemBuilder: (ctx,i)=>CircularDwnldWidget(
-            filePath: circlars[i].path,
-            title: circlars[i].title,
-            date: circlars[i].date,
-            type: 'Circular',
-          ),itemCount: circlars.length,),
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (ctx,i)=>CircularDwnldWidget(
+              filePath: circlars[i].path,
+              title: circlars[i].title,
+              date: circlars[i].date,
+              type: 'Circular',
+            ),itemCount: circlars.length,),
+          ),
         )
       ],
 

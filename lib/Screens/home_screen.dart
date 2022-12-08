@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? circularId;
   var childIndex;
   bool isClicked = false;
+  var photoUrl = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -69,6 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _userdata = ModalRoute.of(context)!.settings.arguments as Users;
     print(_userdata.data!.data![0].username);
     _selectedChild = _userdata.data!.data![0].studentDetails!.first.userId!;
+    photoUrl = _userdata.data!.data![0].studentDetails!.first.photo!;
+    print('photo url -----------$photoUrl');
     _pages = [
       {
         'page': DashboardScreen(
@@ -183,9 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _pageSwitching(int pageIndex) {
-    _activeindex = pageIndex;
+
     setState(() {
+      _activeindex = pageIndex;
       _selectedChild = _students[pageIndex].userId!;
+      photoUrl = _students[pageIndex].photo!;
+      print('photo url in popup----$photoUrl');
       _pages = [
         {
           'page': DashboardScreen(
@@ -685,18 +691,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'https://teamsqa3000.educore.guru${_students[_activeindex].photo}';
                               return nameCard(
                                   studentName: name.toString(),
-                                  photourl: imgUrl,
+                                  photourl: photoUrl,
                                   grade: batchofstd.toString(),
                                   classofstd: classofstd.toString());
                             },
                             options: CarouselOptions(
+                              initialPage: _activeindex,
                                 height: 170,
                                 //enlargeCenterPage: true,
                                 viewportFraction: 1,
-                                enableInfiniteScroll: true,
-                                onPageChanged: (index, reason) async {
-                                  _activeindex = index;
-                                  _pageSwitching(_activeindex);
+                                //enableInfiniteScroll: true,
+                                onPageChanged: (index, reason) {
+                                  print('index------$index');
+                                  print('rea------$reason');
+                                  setState((){
+                                    _activeindex = index;
+                                    _pageSwitching(_activeindex);
+                                  });
+
                                 }),
                           ),
                         ),
@@ -980,7 +992,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(60),
                                     child: CachedNetworkImage(
                                       imageUrl:
-                                          'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80',
+                                         photoUrl,
                                       placeholder: (context, url) => SizedBox(
                                         width: 20,
                                         height: 20,
@@ -989,8 +1001,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       errorWidget: (context, url, error) =>
                                           Image.asset(
                                         'assets/images/userImage.png',
-                                        width: 20,
-                                        height: 20,
+                                        width: 42,
+                                        height: 42,
                                       ),
                                     ),
                                   ),

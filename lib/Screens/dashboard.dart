@@ -994,10 +994,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         height: 25,
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
-                            color: ColorUtil.examBg,
+                            color: (status!.toLowerCase() == 'absent')? ColorUtil.circularRed.withOpacity(0.5):ColorUtil.examBg,
                             borderRadius: BorderRadius.circular(20),
                             border:
-                                Border.all(color: ColorUtil.examText, width: 2)),
+                                Border.all( color: (status!.toLowerCase() == 'absent')? ColorUtil.circularRed:ColorUtil.examText, width: 2)),
                         child: Center(child: Text(status.toString()))),
                   ],
                 ),

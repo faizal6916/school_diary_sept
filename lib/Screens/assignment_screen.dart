@@ -84,7 +84,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
       //width: 1.sw,
       padding: EdgeInsets.only(top: 10, bottom: 5),
       child: _isloading
-          ? ListView.builder(itemCount: 5, itemBuilder: (ctx, _) => skeleton)
+          ? ListView.builder(itemCount: (1.sh/5).round(), itemBuilder: (ctx, _) => skeleton)
           : _assignments.isEmpty
               ? Center(child: Text('No Assignments Found'))
               : SmartRefresher(

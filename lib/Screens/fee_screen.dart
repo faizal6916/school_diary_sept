@@ -149,13 +149,14 @@ class _FeeScreenState extends State<FeeScreen> {
                 color: ColorUtil.mainBg,
                 child: _isloading
                     ? ListView.builder(
-                    itemCount: 4, itemBuilder: (ctx, _) => skeleton)
+                    itemCount: (1.sh - 200/5).round(), itemBuilder: (ctx, _) => skeleton)
                     : selectedTab == 1
                     ? (feeDe.isNotEmpty
                     ? MediaQuery.removePadding(
                     context: context,
                       removeTop: true,
                       child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                   itemCount: feeDe.length,
                   itemBuilder: (ctx, i) => FeePending(
                       amountdue: feeDe[i]['total_demanded'],
@@ -173,6 +174,7 @@ class _FeeScreenState extends State<FeeScreen> {
                     context: context,
                       removeTop: true,
                       child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                       itemCount: voucherList.length,
                       itemBuilder: (ctx, i) => FeePaid(
                         admsnNo: widget.admnNo,

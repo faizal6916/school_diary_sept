@@ -23,9 +23,10 @@ class CircularDwnldWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10)),
+          borderRadius: BorderRadius.circular(10),
+            // borderRadius: BorderRadius.only(
+            //     bottomRight: Radius.circular(10),
+            //     bottomLeft: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
                   color: const Color(0x1f324dab),

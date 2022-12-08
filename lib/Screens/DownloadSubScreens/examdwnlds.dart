@@ -109,9 +109,14 @@ class _ExamDownloadsState extends State<ExamDownloads> {
                 width: 1.sw,
                   height: 1.sh /2,
                   child: Center(child: Text('No Exam Downloads'))) : Expanded(
-                child: ListView.builder(
-                    itemCount: totList.length,
-                    itemBuilder: (ctx,index)=>CircularDwnldWidget(title: totList[index].title,date: totList[index].date,type: totList[index].type,filePath: totList[index].path,)),
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                      itemCount: totList.length,
+                      itemBuilder: (ctx,index)=>CircularDwnldWidget(title: totList[index].title,date: totList[index].date,type: totList[index].type,filePath: totList[index].path,)),
+                ),
               ),
             ],
           )
