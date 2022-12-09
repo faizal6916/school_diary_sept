@@ -925,6 +925,7 @@ class _AFLReportState extends State<AFLReport> {
                         dataSource: _compData,
                         xValueMapper: (ComparisonChart data, _) => data.xaxis,
                         yValueMapper: (ComparisonChart data, _) => data.y2,
+                        name: 'Average'
                         //name: 'Gold',
                         // color: Color.fromRGBO(8, 142, 255, 1),
                         // pointColorMapper: (ChartData data, _) =>
@@ -984,7 +985,9 @@ class _AFLReportState extends State<AFLReport> {
               series: <ChartSeries<ChartData, String>>[
                 LineSeries(  dataSource: _timeElapsed,
                   xValueMapper: (ChartData data, _) => data.xaxis,
-                  yValueMapper: (ChartData data, _) => data.yaxis,),
+                  yValueMapper: (ChartData data, _) => data.yaxis,
+                  name: 'Time'
+                ),
                 ColumnSeries<ChartData, String>(
                   width: 0.4,
                   dataSource: _timeElapsed,

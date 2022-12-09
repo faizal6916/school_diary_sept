@@ -1208,6 +1208,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   : ColorUtil.white,
               leading: CircleAvatar(
                 radius: 25,
+                backgroundColor: ColorUtil.lightPurple,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(60)),
+                  child: CachedNetworkImage(
+                    imageUrl:  _students[index].photo!,
+                    placeholder: (context, url) => SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => Image.asset(
+                      'assets/images/userImage.png',
+                      width: 45,
+                      height: 45,
+                    ),
+                  ),
+                ),
               ),
               title: Text(
                 _students[index].name!,
