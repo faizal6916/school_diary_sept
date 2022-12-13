@@ -106,6 +106,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dart_amqp:
+    dependency: "direct main"
+    description:
+      name: dart_amqp
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   dio:
     dependency: "direct main"
     description:
@@ -198,6 +205,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get_ip_address:
+    dependency: "direct main"
+    description:
+      name: get_ip_address
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -275,6 +289,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   lottie:
     dependency: "direct main"
     description:

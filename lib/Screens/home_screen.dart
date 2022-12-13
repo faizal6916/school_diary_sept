@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dart_amqp/dart_amqp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_diary_sept_13/Screens/about_screen.dart';
@@ -18,6 +23,7 @@ import 'package:school_diary_sept_13/Util/color_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:get_ip_address/get_ip_address.dart';
 import '../Provider/user_provider.dart';
 
 import '../Models/user_model.dart';
@@ -72,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _selectedChild = _userdata.data!.data![0].studentDetails!.first.userId!;
     photoUrl = _userdata.data!.data![0].studentDetails!.first.photo!;
     print('photo url -----------$photoUrl');
+    _getDeviceIp();
     _pages = [
       {
         'page': DashboardScreen(
@@ -314,6 +321,37 @@ class _HomeScreenState extends State<HomeScreen> {
       _pageSwitching(_activeindex);
       _seletedPageIndex = pageno;
     });
+  }
+
+  _getDeviceIp() async {
+    var ipAddress = IpAddress(type: RequestType.json);
+    dynamic data = await ipAddress.getIpAddress();
+    print('Ip data ----------------$data');
+    print('Ip address ----------------${data['ip']}');
+    //print('Ip data ----------------${data.runtimeType}');
+    var logData = <String,Object>{
+      'email' :  '${_userdata.data!.data![0].username}',
+      'action': 'School_Diary_Home',
+      'school_name': 'NIMS',
+      'role_name' : 'parent',
+       'timestamp_server': DateTime.now().microsecondsSinceEpoch,
+      'user_agent': Platform.isIOS ? "IOS" : "Android",
+      'ip_address': data['ip'],
+      'timestamp_date':DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
+
+    };
+    print('log data map -------$logData');
+    print('log data map -------${logData.runtimeType}');
+    var logList = [logData];
+    ConnectionSettings settings = new ConnectionSettings(
+        host: "mq.bmark.in",
+        authProvider: new PlainAuthenticator("admin", "rabbitMQ"));
+    Client client = new Client(settings: settings);
+    client.channel().then((Channel channel) =>
+        channel.queue("saveLog", arguments: logData).then((value) {
+          value.publish(jsonEncode(logList));
+          return client.close();
+        }));
   }
 
   @override
