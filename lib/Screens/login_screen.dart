@@ -10,13 +10,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import '../Util/color_util.dart';
 import '../Models/login_model.dart';
 import '../Models/user_model.dart';
 import '../Provider/user_provider.dart';
 import '../Util/spinkit.dart';
-import '../Screens/home_screen.dart';
-import 'forget_password.dart';
+import './home_screen.dart';
+import './forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login-screen';
@@ -75,46 +76,56 @@ class _LoginScreenState extends State<LoginScreen> {
     _form.currentState!.save();
     print(_loginCred.username);
     print(_loginCred.password);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
     if (_loginCred.username.isNotEmpty && _loginCred.password.isNotEmpty) {
-      print('not empty');
-      _deleteFolder();
-      setState(() {
-        _isLoading = true;
-      });
-      try {
-        var resp = await Provider.of<UserProvider>(context, listen: false)
-            .getUserDetails(_loginCred);
-        print(resp.runtimeType);
-        //print('staus code-------------->${resp['status']['code']}');
-        if (resp['status']['code'] == 200) {
+      if (connectivityResult == ConnectivityResult.none) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please check your connectivity'),
+          backgroundColor: Colors.red,
+        ));
+      }else{
+        print('not empty');
+        _deleteFolder();
+        setState(() {
+          _isLoading = true;
+        });
+        try {
+          var resp = await Provider.of<UserProvider>(context, listen: false)
+              .getUserDetails(_loginCred);
+          print(resp.runtimeType);
+          //print('staus code-------------->${resp['status']['code']}');
+          if (resp['status']['code'] == 200) {
+            setState(() {
+              _isLoading = false;
+            });
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setString('loginResp', json.encode(resp));
+            prefs.setBool('isLogged', true);
+            _user = Users.fromJson(resp);
+            // _user = Users(
+            //   status: resp['status'] as Map<String,dynamic>,
+            //   data: resp['data']
+            // );
+            print(_user.status!.code);
+            //print('ok');
+            Navigator.of(context)
+                .pushNamed(HomeScreen.routeName, arguments: _user);
+          } else if (resp['status']['code'] == 400) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(resp['error']['message']),
+              backgroundColor: Colors.red,
+            ));
+          }
+        } catch (e) {
+          print(e);
+        } finally {
           setState(() {
             _isLoading = false;
           });
-          final prefs = await SharedPreferences.getInstance();
-          prefs.setString('loginResp', json.encode(resp));
-          prefs.setBool('isLogged', true);
-          _user = Users.fromJson(resp);
-          // _user = Users(
-          //   status: resp['status'] as Map<String,dynamic>,
-          //   data: resp['data']
-          // );
-          print(_user.status!.code);
-          //print('ok');
-          Navigator.of(context)
-              .pushNamed(HomeScreen.routeName, arguments: _user);
-        } else if (resp['status']['code'] == 400) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(resp['error']['message']),
-            backgroundColor: Colors.red,
-          ));
         }
-      } catch (e) {
-        print(e);
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
       }
+
     } else {
       print('empty');
     }

@@ -101,6 +101,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                       //     date: _ciculars[index].dateAdded!,
                       //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
                       itemBuilder: (ctx, index) => CircularWidget(
+                        webLink: _assignments[index].weblink,
                           circId: _assignments[index].id,
                           typeCorA: 'Assignment',
                           childId: widget.childId,

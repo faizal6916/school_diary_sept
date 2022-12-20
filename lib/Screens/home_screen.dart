@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _selectedChild = _userdata.data!.data![0].studentDetails!.first.userId!;
     photoUrl = _userdata.data!.data![0].studentDetails!.first.photo!;
     print('photo url -----------$photoUrl');
-    _getDeviceIp();
+    //_rabbitMQAPI();
     _pages = [
       {
         'page': DashboardScreen(
@@ -323,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  _getDeviceIp() async {
+  _rabbitMQAPI() async {
     var ipAddress = IpAddress(type: RequestType.json);
     dynamic data = await ipAddress.getIpAddress();
     print('Ip data ----------------$data');

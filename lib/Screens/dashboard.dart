@@ -218,7 +218,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                 return Container(
                                   width: 1.sw,
                                   height: 80,
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  margin: EdgeInsets.only(left: 20,right: 20,top: 15),
                                   padding: EdgeInsets.symmetric(horizontal: 5),
 
                                   //color: Colors.red,

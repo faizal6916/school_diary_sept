@@ -14,7 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:school_diary_sept_13/Util/api_constants.dart';
 import 'package:school_diary_sept_13/Widgets/attachment_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../Util/color_util.dart';
 import '../Models/circular_model.dart';
 
@@ -27,6 +27,7 @@ class CircularWidget extends StatefulWidget {
   final String? cicularTitle;
   final String? circularDesc;
   final String? senderName;
+  final String? webLink;
   final List<String>? attachment;
   const CircularWidget(
       {Key? key,
@@ -38,7 +39,8 @@ class CircularWidget extends StatefulWidget {
       this.cicularTitle,
       this.circularDesc,
       this.senderName,
-      this.attachment})
+      this.attachment,
+      this.webLink})
       : super(key: key);
 
   @override
@@ -116,6 +118,12 @@ class _CircularWidgetState extends State<CircularWidget> {
         _isOpen = true;
       });
       prefs.remove('dashId');
+    }
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw 'Could not launch $url';
     }
   }
 
@@ -238,9 +246,11 @@ class _CircularWidgetState extends State<CircularWidget> {
           Container(
             width: 1.sw,
             height: _isOpen
-                ? 70 +
+                ? (widget.webLink != null)? 110 +
                     widget.attachment!.length * 45 +
-                    widget.circularDesc!.length * 0.5
+                    widget.circularDesc!.length * 0.6 : 80 +
+                widget.attachment!.length * 45 +
+                widget.circularDesc!.length * 0.6
                 : 0,
             padding: _isOpen
                 ? EdgeInsets.only(bottom: 10, top: 10)
@@ -273,10 +283,31 @@ class _CircularWidgetState extends State<CircularWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.circularDesc!),
+                      Text(widget.circularDesc!,style: TextStyle(
+                        fontSize: 14
+                      ),),
                       SizedBox(
                         height: 6,
                       ),
+                      (widget.webLink != null)? InkWell(
+                        onTap: (){
+                         _launchUrl(widget.webLink!);
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 200,
+                          margin: EdgeInsets.only(bottom: 5),
+                          decoration: BoxDecoration(
+                            color: ColorUtil.blue,
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Center(
+                            child: Text('Open weblink',style: TextStyle(
+                              color: ColorUtil.white
+                            ),),
+                          ),
+                        ),
+                      ) : SizedBox(),
                       Expanded(
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),

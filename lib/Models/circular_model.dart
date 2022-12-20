@@ -55,6 +55,7 @@ class Detail {
     this.title,
     this.description,
     this.file,
+    this.weblink,
     this.dateAdded,
     this.sendBy,
     this.type,
@@ -66,6 +67,7 @@ class Detail {
   String? title;
   String? description;
   String? file;
+  String? weblink;
   DateTime? dateAdded;
   String? sendBy;
   String? type;
@@ -77,6 +79,7 @@ class Detail {
     title: json["title"],
     description: json["description"],
     file: json["file"],
+    weblink: json["weblink"],
     dateAdded: DateTime.parse(json["date_added"]),
     sendBy: json["send_by"],
     type: json["type"],

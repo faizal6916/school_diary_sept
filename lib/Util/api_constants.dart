@@ -18,5 +18,9 @@ class ApiConstants {
   static const changePassword = "/v0/educare/change_password";
   static const forgetPassword = "/v1/forgot_password";
   //static const getReceiptByEmail = "https://bmark.nimsuae.com/api/App"; //live
-  static const getReceiptByEmail = "https://sqa.docme.online/bm-school/api/App"; //live
+  static const getReceiptByEmail = "https://sqa.docme.online/bm-school/api/App"; //--
+  // static const loginTracker = "/v0/educare/add/login_tracker";
+  static const mobileVerification = "/v0/educare_mobileverification";
+  static const otpValidation = "/v1/schooldiary_mobileverification";
+
 }

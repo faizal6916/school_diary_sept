@@ -45,6 +45,7 @@ class _CircularScreenState extends State<CircularScreen> {
         print('its working');
         _circularList = Circular.fromJson(resp);
         _ciculars = _circularList.data!.details!;
+        print('circular web link -----------${_ciculars.first.weblink}');
         _isCheck = false;
         //print(_circularList.data!.details!.first.title);
         // setState(() {
@@ -141,6 +142,7 @@ class _CircularScreenState extends State<CircularScreen> {
                   //     date: _ciculars[index].dateAdded!,
                   //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
                   itemBuilder: (ctx, index) => CircularWidget(
+                    webLink:_ciculars[index].weblink ,
                     circId: _ciculars[index].id,
                    // isOpen: _isCheck,
                     //isOpen:( _ciculars[index].id == widget.circularId) ?true : false,
