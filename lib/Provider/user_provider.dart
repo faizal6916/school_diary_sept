@@ -48,6 +48,77 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  Future<dynamic> mobileLogin(String mobNo,String devId) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.mobileVerification}';
+    try {
+      print(url);
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String, String> apiBody = {
+        "phone": mobNo,
+        "device_id": devId
+      };
+
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      // print(json.decode(respString));
+      //  if(json.decode(respString)['status']['code']==200){
+      //    users = Users(
+      //      status: json.decode(respString)['status'],
+      //      data: json.decode(respString)['data']
+      //    );
+      //    notifyListeners();
+      //  }
+      return json.decode(respString);
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<dynamic> verfiOTP(String mobNo,String devId,String otp) async {
+    var url = '${ApiConstants.baseUrl}${ApiConstants.otpValidation}';
+    try {
+      print(url);
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      Map<String, String> apiBody = {
+        "phone": mobNo,
+        "otp": otp,
+        "device_id": devId
+      };
+
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Login api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      // print(json.decode(respString));
+      //  if(json.decode(respString)['status']['code']==200){
+      //    users = Users(
+      //      status: json.decode(respString)['status'],
+      //      data: json.decode(respString)['data']
+      //    );
+      //    notifyListeners();
+      //  }
+      return json.decode(respString);
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
   Future<dynamic> getDashboardfeed(String parentId, String studId) async {
     var url =
         '${ApiConstants.baseUrl}${ApiConstants.dashboardFeed}/$parentId/$studId';

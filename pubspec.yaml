@@ -65,6 +65,8 @@ dependencies:
   url_launcher: ^6.1.7
   connectivity_plus: ^3.0.2
   external_app_launcher: ^3.1.0
+  flutter_otp_text_field: ^1.1.1
+  platform_device_id: ^1.0.1
 
 
 
