@@ -178,7 +178,7 @@ class _FeeScreenState extends State<FeeScreen> {
                 color: ColorUtil.mainBg,
                 child: _isloading
                     ? ListView.builder(
-                        itemCount: (1.sh - 200 / 5).round(),
+                        itemCount: (1.sh - 200 / 150).round(),
                         itemBuilder: (ctx, _) => skeleton)
                     : selectedTab == 1
                         ? (feeDe.isNotEmpty

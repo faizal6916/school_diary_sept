@@ -131,7 +131,7 @@ class _CircularScreenState extends State<CircularScreen> {
         color: ColorUtil.mainBg,
         child: _isloading
             ? ListView.builder(
-                itemCount: (1.sh/5).round(), itemBuilder: (ctx, _) => shimmerLoader())
+                itemCount: (1.sh/150).round(), itemBuilder: (ctx, _) => shimmerLoader())
             : MediaQuery.removePadding(
           context: context,
               removeTop: true,

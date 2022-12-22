@@ -49,7 +49,7 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
 
         Tween<Size>(
 
-      begin: Size(double.infinity, (140+widget.themes!.length * 10)),end: Size(double.infinity, 190+(widget.themes!.length * 25))
+      begin: Size(double.infinity, (140+widget.themes!.length * 15)),end: Size(double.infinity, 190+(widget.themes!.length * 30))
     ));
     _heightanimation!.addListener(()=>setState(() {
 
@@ -81,7 +81,7 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
           children: [
             Container(
               width: 80,
-              height: (140 + widget.themes!.length * 10),
+              height: (142 + widget.themes!.length * 15),
               margin: EdgeInsets.symmetric(horizontal: 10),
               // color: Colors.green,
               decoration: BoxDecoration(
@@ -232,8 +232,8 @@ class _ExamWidgetState extends State<ExamWidget> with SingleTickerProviderStateM
                       ),
                       Divider(),
                       Text(widget.activityName!),
-                      (_heightanimation!.value.height == 190+(widget.themes!.length * 25)) ? Divider() : SizedBox(),
-                      (_heightanimation!.value.height == 190+(widget.themes!.length * 25))
+                      (_heightanimation!.value.height == 190+(widget.themes!.length * 30)) ? Divider() : SizedBox(),
+                      (_heightanimation!.value.height == 190+(widget.themes!.length * 30))
                           ? Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

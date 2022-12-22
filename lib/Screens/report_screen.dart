@@ -336,7 +336,7 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                 color: ColorUtil.mainBg,
                 child: _isloading
                     ? ListView.builder(
-                        itemCount: (1.sh / 5).round(), itemBuilder: (ctx, _) => skeleton)
+                        itemCount: (1.sh / 150).round(), itemBuilder: (ctx, _) => skeleton)
                     : (selectedTab == 1)
                         ? report.isNotEmpty
                             ? MediaQuery.removePadding(

@@ -84,32 +84,35 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
       //width: 1.sw,
       padding: EdgeInsets.only(top: 10, bottom: 5),
       child: _isloading
-          ? ListView.builder(itemCount: (1.sh/5).round(), itemBuilder: (ctx, _) => skeleton)
+          ? ListView.builder(itemCount: (1.sh/150).round(), itemBuilder: (ctx, _) => skeleton)
           : _assignments.isEmpty
               ? Center(child: Text('No Assignments Found'))
               : SmartRefresher(
                   controller: _refreshController,
                   onRefresh: _onRefresh,
                   enablePullDown: true,
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: _assignments.length,
-                      // itemBuilder: (ctx, index) => circularShowWidget(
-                      //     date: _ciculars[index].dateAdded!,
-                      //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
-                      itemBuilder: (ctx, index) => CircularWidget(
-                        webLink: _assignments[index].weblink,
-                          circId: _assignments[index].id,
-                          typeCorA: 'Assignment',
-                          childId: widget.childId,
-                          cicularTitle: _assignments[index].title,
-                          circularDesc: _assignments[index].description,
-                          circularDate: _assignments[index].dateAdded,
-                          senderName: _assignments[index].senderName,
-                          attachment: _assignments[index].attachments),
+                  child: Container(
+                    height: 1.sh - 180,
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: _assignments.length,
+                        // itemBuilder: (ctx, index) => circularShowWidget(
+                        //     date: _ciculars[index].dateAdded!,
+                        //     title: _ciculars[index].title,sender: _ciculars[index].sendBy,desc: _ciculars[index].description,attachment: _ciculars),
+                        itemBuilder: (ctx, index) => CircularWidget(
+                          webLink: _assignments[index].weblink,
+                            circId: _assignments[index].id,
+                            typeCorA: 'Assignment',
+                            childId: widget.childId,
+                            cicularTitle: _assignments[index].title,
+                            circularDesc: _assignments[index].description,
+                            circularDate: _assignments[index].dateAdded,
+                            senderName: _assignments[index].senderName,
+                            attachment: _assignments[index].attachments),
+                      ),
                     ),
                   ),
                 ),
