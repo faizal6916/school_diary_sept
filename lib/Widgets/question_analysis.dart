@@ -34,7 +34,7 @@ class QuestionAnalysis extends StatefulWidget {
 class _QuestionAnalysisState extends State<QuestionAnalysis>
     with TickerProviderStateMixin {
   var _isExpanded = false;
-  var _height = 250.0;
+  var _height = 260.0;
   Duration _myduration = Duration(milliseconds: 800);
   var _doneDur = false;
   // Animation<double>? _myAnimation;
@@ -79,7 +79,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
             } else {
               // _controller!.reverse();
               setState(() {
-                _height = 250.0;
+                _height = 260.0;
                 _doneDur = false;
               });
             }
@@ -89,7 +89,7 @@ class _QuestionAnalysisState extends State<QuestionAnalysis>
             curve: Curves.fastOutSlowIn,
             width: 1.sw,
             height: _height +
-                (widget.question!.length - 100) +
+                (widget.question!.length - 50) +
                 (widget.studAnswer!.length+30),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             margin: EdgeInsets.only(top: 30, bottom: 50, left: 10, right: 10),
