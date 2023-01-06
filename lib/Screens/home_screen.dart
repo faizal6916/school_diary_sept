@@ -734,11 +734,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   classofstd: classofstd.toString());
                             },
                             options: CarouselOptions(
+
                               initialPage: _activeindex,
                                 height: 170,
                                 //enlargeCenterPage: true,
                                 viewportFraction: 1,
-                                //enableInfiniteScroll: true,
+                                enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
                                   print('index------$index');
                                   print('rea------$reason');
@@ -830,11 +831,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             AutoSizeText(
               studentName,
-              maxLines: 1,
+              maxLines: 2,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Color(0xff8829e1),
                   fontFamily: 'Axiforma',
-                  fontSize: 14.sp,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500),
             ),
             Row(

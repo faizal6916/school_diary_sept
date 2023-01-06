@@ -77,7 +77,6 @@ class _CalendarScreenState extends State<CalendarScreen>
           //addedEv.add(Event(element.eventName.toString(), element.date!,element.calendar));
           //print(element.calendar);
           if (element.calendar != EventNameElement.PRESENT) {
-
             evMap.addAll({
               DateTime.utc(element.date!.year, element.date!.month,
                   element.date!.day): []
@@ -119,11 +118,12 @@ class _CalendarScreenState extends State<CalendarScreen>
           }
         });
         print('event map length after iteration---------->${evMap.length}');
-        if (evMap.isNotEmpty){
-          setState((){
+        if (evMap.isNotEmpty) {
+          setState(() {
             calEvents.addAll(evMap);
           });
-        } ;
+        }
+        ;
         setState(() {
           //
           // final  calEventSource = Map.fromIterable(
@@ -139,7 +139,6 @@ class _CalendarScreenState extends State<CalendarScreen>
           // });
           //   if(calEventSource != null && calEventSource.isNotEmpty)
           //     calEvents.addAll(calEventSource);
-
         });
 
         //  print(_dashboardfeed.data!.data!.first.type);
@@ -153,7 +152,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       _selectedDay = _focusedDay;
       print('selected day ---------->${_selectedDay}');
       _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-      setState((){
+      setState(() {
         _getEventsForDay(_selectedDay!);
       });
       _calendarFeed.data!.data!.monthattendance!.forEach((atten) {
@@ -276,8 +275,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                 physics: BouncingScrollPhysics(),
                 children: [
                   TableCalendar<Event?>(
-                    calendarBuilders:
-                        CalendarBuilders(singleMarkerBuilder: (ctx, date, event) {
+                    calendarBuilders: CalendarBuilders(
+                        singleMarkerBuilder: (ctx, date, event) {
                       return Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -325,7 +324,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                       _focusedDay = focusedDay;
                       print(focusedDay);
                       print(focusedDay.month.runtimeType);
-                      _calendarFeed.data!.data!.monthattendance!.forEach((atten) {
+                      _calendarFeed.data!.data!.monthattendance!
+                          .forEach((atten) {
                         print(atten.id);
                         print(atten.id.runtimeType);
 
@@ -633,7 +633,6 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget eventTabBarView(BuildContext ctx, TabController ctrl) => Container(
         width: 1.sw,
         height: 300,
-
         child: TabBarView(
           controller: ctrl,
           children: [
@@ -646,7 +645,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                     return value.length == 0
                         ? Center(child: Text('No Events and Exams'))
                         : ListView.builder(
-                      physics: BouncingScrollPhysics(),
+                            physics: BouncingScrollPhysics(),
                             itemCount: value.length,
                             itemBuilder: (ct, i) {
                               return Container(
@@ -723,7 +722,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                             // Text('${value[i]!.eventName}'),
+                                              // Text('${value[i]!.eventName}'),
                                               Text(
                                                 '${DateFormat('dd MMMM yyyy').format(value[i]!.date)}',
                                                 style: TextStyle(
@@ -783,11 +782,112 @@ class _CalendarScreenState extends State<CalendarScreen>
               child: upcomingEv.length == 0
                   ? Center(child: Text('No Upcoming Events'))
                   : ListView.builder(
-                     physics: BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       itemCount: upcomingEv.length,
-                      itemBuilder: (ctx, i) => Container(
-                            child: Column(
-                              children: [Text('${upcomingEv[i].title}')],
+                      itemBuilder: (ctx, i) => Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: upcomingEv[i].eventName ==
+                                            EventNameElement.EVENTS
+                                        ? ColorUtil.eventYellow
+                                        : upcomingEv[i].eventName ==
+                                                EventNameElement.EXAM
+                                            ? ColorUtil.examIndiColor
+                                            : upcomingEv[i].eventName ==
+                                                    EventNameElement.HOLIDAY
+                                                ? ColorUtil.absentIndiColor
+                                                : upcomingEv[i].eventName ==
+                                                        EventNameElement.ABSENT
+                                                    ? ColorUtil.absentIndiColor
+                                                    : ColorUtil.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 100,
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: upcomingEv[i].eventName ==
+                                              EventNameElement.EVENTS
+                                          ? ColorUtil.eventYellow
+                                              .withOpacity(0.25)
+                                          : upcomingEv[i].eventName ==
+                                                  EventNameElement.EXAM
+                                              ? ColorUtil.examIndiColor
+                                                  .withOpacity(0.25)
+                                              : upcomingEv[i].eventName ==
+                                                      EventNameElement.HOLIDAY
+                                                  ? ColorUtil.absentIndiColor
+                                                      .withOpacity(0.25)
+                                                  : upcomingEv[i].eventName ==
+                                                          EventNameElement
+                                                              .ABSENT
+                                                      ? ColorUtil
+                                                          .absentIndiColor
+                                                          .withOpacity(0.25)
+                                                      : ColorUtil.white,
+                                      // border: Border.all(),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(15),
+                                        bottomRight: Radius.circular(15),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
+                                          style: TextStyle(
+                                              color: upcomingEv[i].eventName ==
+                                                      EventNameElement.EVENTS
+                                                  ? ColorUtil.eventYellow
+                                                  : upcomingEv[i].eventName ==
+                                                          EventNameElement.EXAM
+                                                      ? ColorUtil.examIndiColor
+                                                      : upcomingEv[i]
+                                                                  .eventName ==
+                                                              EventNameElement
+                                                                  .HOLIDAY
+                                                          ? ColorUtil
+                                                              .absentIndiColor
+                                                          : upcomingEv[i]
+                                                                      .eventName ==
+                                                                  EventNameElement
+                                                                      .ABSENT
+                                                              ? ColorUtil
+                                                                  .absentIndiColor
+                                                              : ColorUtil.white,
+                                              fontWeight: FontWeight.w400,
+                                              //fontFamily: "Axiforma",
+                                              // fontStyle:  FontStyle.normal,
+                                              fontSize: 14.sp),
+                                        ),
+                                        AutoSizeText(
+                                          '${upcomingEv[i].title}',
+                                          maxLines: 3,
+                                          maxFontSize: 16,
+                                          style: TextStyle(
+                                              color: const Color(0xff4c4c4c),
+                                              fontWeight: FontWeight.w500,
+                                              //fontFamily: "Axiforma",
+                                              // fontStyle:  FontStyle.normal,
+                                              fontSize: 20.sp),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           )),
             ),
@@ -797,10 +897,113 @@ class _CalendarScreenState extends State<CalendarScreen>
                   ? Center(child: Text('No Upcoming Exams'))
                   : ListView.builder(
                       physics: BouncingScrollPhysics(),
-                      itemCount: upcomingEv.length,
-                      itemBuilder: (ctx, i) => Container(
-                            child: Column(
-                              children: [Text('${upcomingExam[i].title}')],
+                      itemCount: upcomingExam.length,
+                      itemBuilder: (ctx, i) => Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: upcomingExam[i].eventName ==
+                                            EventNameElement.EVENTS
+                                        ? ColorUtil.eventYellow
+                                        : upcomingExam[i].eventName ==
+                                                EventNameElement.EXAM
+                                            ? ColorUtil.examIndiColor
+                                            : upcomingExam[i].eventName ==
+                                                    EventNameElement.HOLIDAY
+                                                ? ColorUtil.absentIndiColor
+                                                : upcomingExam[i].eventName ==
+                                                        EventNameElement.ABSENT
+                                                    ? ColorUtil.absentIndiColor
+                                                    : ColorUtil.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 100,
+                                    //margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: upcomingExam[i].eventName ==
+                                              EventNameElement.EVENTS
+                                          ? ColorUtil.eventYellow
+                                              .withOpacity(0.25)
+                                          : upcomingExam[i].eventName ==
+                                                  EventNameElement.EXAM
+                                              ? ColorUtil.examIndiColor
+                                                  .withOpacity(0.25)
+                                              : upcomingExam[i].eventName ==
+                                                      EventNameElement.HOLIDAY
+                                                  ? ColorUtil.absentIndiColor
+                                                      .withOpacity(0.25)
+                                                  : upcomingExam[i].eventName ==
+                                                          EventNameElement
+                                                              .ABSENT
+                                                      ? ColorUtil
+                                                          .absentIndiColor
+                                                          .withOpacity(0.25)
+                                                      : ColorUtil.white,
+                                      // border: Border.all(),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(15),
+                                        bottomRight: Radius.circular(15),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
+                                          style: TextStyle(
+                                              color: upcomingExam[i]
+                                                          .eventName ==
+                                                      EventNameElement.EVENTS
+                                                  ? ColorUtil.eventYellow
+                                                  : upcomingExam[i].eventName ==
+                                                          EventNameElement.EXAM
+                                                      ? ColorUtil.examIndiColor
+                                                      : upcomingExam[i]
+                                                                  .eventName ==
+                                                              EventNameElement
+                                                                  .HOLIDAY
+                                                          ? ColorUtil
+                                                              .absentIndiColor
+                                                          : upcomingExam[i]
+                                                                      .eventName ==
+                                                                  EventNameElement
+                                                                      .ABSENT
+                                                              ? ColorUtil
+                                                                  .absentIndiColor
+                                                              : ColorUtil.white,
+                                              fontWeight: FontWeight.w400,
+                                              //fontFamily: "Axiforma",
+                                              // fontStyle:  FontStyle.normal,
+                                              fontSize: 14.sp),
+                                        ),
+                                        AutoSizeText(
+                                          '${upcomingExam[i].title}',
+                                          maxLines: 3,
+                                          maxFontSize: 16,
+                                          style: TextStyle(
+                                              color: const Color(0xff4c4c4c),
+                                              fontWeight: FontWeight.w500,
+                                              //fontFamily: "Axiforma",
+                                              // fontStyle:  FontStyle.normal,
+                                              fontSize: 20.sp),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           )),
             ),

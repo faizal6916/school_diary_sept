@@ -51,6 +51,13 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
         _assignments = _assignList.data!.details!;
         // _circularList = Circular.fromJson(resp);
         //print(_circularList.data!.details!.first.title);
+        _assignments.sort((a,b){
+          // DateTime aa = DateTime.parse("${a.dateAdded!.split('-').last}-${a.date!.split('-')[1]}-${a.date!.split('-').first}");
+          // DateTime bb = DateTime.parse("${b.date!.split('-').last}-${b.date!.split('-')[1]}-${b.date!.split('-').first}");
+          DateTime aa = a.dateAdded!;
+          DateTime bb = b.dateAdded!;
+          return -1 * aa.compareTo(bb);
+        });
         setState(() {
           // _ciculars = _circularList.data!.details!;
         });

@@ -315,18 +315,19 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15),
                   ),
-                  boxShadow: [BoxShadow(
-                      color: const Color(0xccaeaed8),
-                      offset: Offset(0,10),
-                      blurRadius: 32,
-                      spreadRadius: 0
-                  )] ,
+                  boxShadow: [
+                    BoxShadow(
+                        color: const Color(0xccaeaed8),
+                        offset: Offset(0, 10),
+                        blurRadius: 32,
+                        spreadRadius: 0)
+                  ],
                 ),
                 child: Row(
                   children: [
                     tabItem('Reports', 1),
                     tabItem('Exams', 2),
-                    tabItem('HallTickets', 3)
+                    tabItem('Hall Tickets', 3)
                   ],
                 ),
               ),
@@ -336,7 +337,8 @@ class _ReportMainScreenState extends State<ReportMainScreen> {
                 color: ColorUtil.mainBg,
                 child: _isloading
                     ? ListView.builder(
-                        itemCount: (1.sh / 150).round(), itemBuilder: (ctx, _) => skeleton)
+                        itemCount: (1.sh / 150).round(),
+                        itemBuilder: (ctx, _) => skeleton)
                     : (selectedTab == 1)
                         ? report.isNotEmpty
                             ? MediaQuery.removePadding(

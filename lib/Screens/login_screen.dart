@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
           }else{}
         }catch(e){
-          print(e);
+          print('lookup error------$e');
         }
       }
     } else {
@@ -151,7 +151,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ));
             }
           } catch (e) {
-            print(e);
+            print('failed look up --------$e');
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Something went wrong'),
+              backgroundColor: Colors.red,
+            ));
           } finally {
             setState(() {
               _isLoading = false;
