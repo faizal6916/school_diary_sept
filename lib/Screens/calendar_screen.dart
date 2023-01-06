@@ -845,43 +845,49 @@ class _CalendarScreenState extends State<CalendarScreen>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
-                                          style: TextStyle(
-                                              color: upcomingEv[i].eventName ==
-                                                      EventNameElement.EVENTS
-                                                  ? ColorUtil.eventYellow
-                                                  : upcomingEv[i].eventName ==
-                                                          EventNameElement.EXAM
-                                                      ? ColorUtil.examIndiColor
-                                                      : upcomingEv[i]
-                                                                  .eventName ==
-                                                              EventNameElement
-                                                                  .HOLIDAY
-                                                          ? ColorUtil
-                                                              .absentIndiColor
-                                                          : upcomingEv[i]
-                                                                      .eventName ==
-                                                                  EventNameElement
-                                                                      .ABSENT
-                                                              ? ColorUtil
-                                                                  .absentIndiColor
-                                                              : ColorUtil.white,
-                                              fontWeight: FontWeight.w400,
-                                              //fontFamily: "Axiforma",
-                                              // fontStyle:  FontStyle.normal,
-                                              fontSize: 14.sp),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 3),
+                                          child: Text(
+                                            '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
+                                            style: TextStyle(
+                                                color: upcomingEv[i].eventName ==
+                                                        EventNameElement.EVENTS
+                                                    ? ColorUtil.eventYellow
+                                                    : upcomingEv[i].eventName ==
+                                                            EventNameElement.EXAM
+                                                        ? ColorUtil.examIndiColor
+                                                        : upcomingEv[i]
+                                                                    .eventName ==
+                                                                EventNameElement
+                                                                    .HOLIDAY
+                                                            ? ColorUtil
+                                                                .absentIndiColor
+                                                            : upcomingEv[i]
+                                                                        .eventName ==
+                                                                    EventNameElement
+                                                                        .ABSENT
+                                                                ? ColorUtil
+                                                                    .absentIndiColor
+                                                                : ColorUtil.white,
+                                                fontWeight: FontWeight.w400,
+                                                //fontFamily: "Axiforma",
+                                                // fontStyle:  FontStyle.normal,
+                                                fontSize: 14.sp),
+                                          ),
                                         ),
-                                        AutoSizeText(
-                                          '${upcomingEv[i].title}',
-                                          maxLines: 3,
-                                          maxFontSize: 16,
-                                          style: TextStyle(
-                                              color: const Color(0xff4c4c4c),
-                                              fontWeight: FontWeight.w500,
-                                              //fontFamily: "Axiforma",
-                                              // fontStyle:  FontStyle.normal,
-                                              fontSize: 20.sp),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 3),
+                                          child: AutoSizeText(
+                                            '${upcomingEv[i].title}',
+                                            maxLines: 3,
+                                            maxFontSize: 16,
+                                            style: TextStyle(
+                                                color: const Color(0xff4c4c4c),
+                                                fontWeight: FontWeight.w500,
+                                                //fontFamily: "Axiforma",
+                                                // fontStyle:  FontStyle.normal,
+                                                fontSize: 20.sp),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -960,44 +966,50 @@ class _CalendarScreenState extends State<CalendarScreen>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
-                                          style: TextStyle(
-                                              color: upcomingExam[i]
-                                                          .eventName ==
-                                                      EventNameElement.EVENTS
-                                                  ? ColorUtil.eventYellow
-                                                  : upcomingExam[i].eventName ==
-                                                          EventNameElement.EXAM
-                                                      ? ColorUtil.examIndiColor
-                                                      : upcomingExam[i]
-                                                                  .eventName ==
-                                                              EventNameElement
-                                                                  .HOLIDAY
-                                                          ? ColorUtil
-                                                              .absentIndiColor
-                                                          : upcomingExam[i]
-                                                                      .eventName ==
-                                                                  EventNameElement
-                                                                      .ABSENT
-                                                              ? ColorUtil
-                                                                  .absentIndiColor
-                                                              : ColorUtil.white,
-                                              fontWeight: FontWeight.w400,
-                                              //fontFamily: "Axiforma",
-                                              // fontStyle:  FontStyle.normal,
-                                              fontSize: 14.sp),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                                          child: Text(
+                                            '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
+                                            style: TextStyle(
+                                                color: upcomingExam[i]
+                                                            .eventName ==
+                                                        EventNameElement.EVENTS
+                                                    ? ColorUtil.eventYellow
+                                                    : upcomingExam[i].eventName ==
+                                                            EventNameElement.EXAM
+                                                        ? ColorUtil.examIndiColor
+                                                        : upcomingExam[i]
+                                                                    .eventName ==
+                                                                EventNameElement
+                                                                    .HOLIDAY
+                                                            ? ColorUtil
+                                                                .absentIndiColor
+                                                            : upcomingExam[i]
+                                                                        .eventName ==
+                                                                    EventNameElement
+                                                                        .ABSENT
+                                                                ? ColorUtil
+                                                                    .absentIndiColor
+                                                                : ColorUtil.white,
+                                                fontWeight: FontWeight.w400,
+                                                //fontFamily: "Axiforma",
+                                                // fontStyle:  FontStyle.normal,
+                                                fontSize: 14.sp),
+                                          ),
                                         ),
-                                        AutoSizeText(
-                                          '${upcomingExam[i].title}',
-                                          maxLines: 3,
-                                          maxFontSize: 16,
-                                          style: TextStyle(
-                                              color: const Color(0xff4c4c4c),
-                                              fontWeight: FontWeight.w500,
-                                              //fontFamily: "Axiforma",
-                                              // fontStyle:  FontStyle.normal,
-                                              fontSize: 20.sp),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                                          child: AutoSizeText(
+                                            '${upcomingExam[i].title}',
+                                            maxLines: 3,
+                                            maxFontSize: 16,
+                                            style: TextStyle(
+                                                color: const Color(0xff4c4c4c),
+                                                fontWeight: FontWeight.w500,
+                                                //fontFamily: "Axiforma",
+                                                // fontStyle:  FontStyle.normal,
+                                                fontSize: 20.sp),
+                                          ),
                                         )
                                       ],
                                     ),
