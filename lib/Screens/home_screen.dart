@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var childIndex;
   bool isClicked = false;
   var photoUrl = '';
+  var schoolLogo = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -77,6 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
     print(_userdata.data!.data![0].username);
     _selectedChild = _userdata.data!.data![0].studentDetails!.first.userId!;
     photoUrl = _userdata.data!.data![0].studentDetails!.first.photo!;
+    schoolLogo = _userdata.data!.data![0].schoolLogo!;
+    print('school logo ------------>$schoolLogo');
     print('photo url -----------$photoUrl');
     //_rabbitMQAPI();
     _pages = [
@@ -522,7 +525,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           //image: DecorationImage(image: AssetImage('assets/images/dubai.png'))
                         ),
                         child: Image(
-                          image: AssetImage('assets/images/dubai.png'),
+                          width: 230.sp,
+                        //  image: AssetImage('assets/images/dubai.png'),
+                          image: NetworkImage('${ApiConstants.downloadUrl}$schoolLogo',),
                         ),
                       ),
                       Divider(
