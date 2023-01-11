@@ -246,7 +246,7 @@ class _CircularWidgetState extends State<CircularWidget> {
           Container(
             width: 1.sw,
             height: _isOpen
-                ? (widget.webLink != null)? 110 +
+                ? (widget.webLink != null)? 120 +
                     widget.attachment!.length * 45 +
                     widget.circularDesc!.length * 0.6 : 80 +
                 widget.attachment!.length * 45 +

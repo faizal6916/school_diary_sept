@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _activeindex = pageIndex;
       _selectedChild = _students[pageIndex].userId!;
-      photoUrl = _students[pageIndex].photo!;
+      photoUrl = _students[pageIndex].photo?? ' ';
       print('photo url in popup----$photoUrl');
       _pages = [
         {
@@ -727,6 +727,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               // final imgUrl =
                               //     'https://teamsqa3000.educore.guru${_students[index].photo}';
                               final name = _students[_activeindex].name;
+                              print('name of student-------------$name');
                               final classofstd =
                                   _students[_activeindex].studentDetailClass;
                               final batchofstd = _students[_activeindex].batch;

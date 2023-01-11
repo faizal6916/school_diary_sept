@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       builder: (ctx, child) => ChangeNotifierProvider(
         create: (ctx) => UserProvider(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'NIMS SD 2022',
           theme: ThemeData(
             // This is the theme of your application.

@@ -219,7 +219,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                           ),
                                         )),
                               )
-                            : Text('No Fee Details Found')),
+                            : Center(child: Text('No Fee Details Found'))),
             if (selectedTab == 1)
               Positioned(
                   bottom: 20,

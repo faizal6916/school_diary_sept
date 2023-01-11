@@ -112,9 +112,12 @@ class _CalendarScreenState extends State<CalendarScreen>
                   Event(element.eventName, element.date!, element.calendar));
             }
             if (element.calendar == EventNameElement.EXAM) {
+              print('upcoming exam-------->${element.eventName}');
               upcomingExam.add(
                   Event(element.eventName, element.date!, element.calendar));
             }
+            print('length of upcoming exam----------->${upcomingExam.length}');
+            print('length of upcoming events----------->${upcomingEv.length}');
           }
         });
         print('event map length after iteration---------->${evMap.length}');
@@ -123,7 +126,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             calEvents.addAll(evMap);
           });
         }
-        ;
+
         setState(() {
           //
           // final  calEventSource = Map.fromIterable(
@@ -180,6 +183,8 @@ class _CalendarScreenState extends State<CalendarScreen>
     print('did update called');
     print(_focusedDay);
     evMap.clear();
+    upcomingEv.clear();
+    upcomingExam.clear();
     print('length of event map--------->${evMap.length}');
     calenderEvents(widget.schoolId!, widget.childId!, widget.acdYr!);
 
@@ -792,19 +797,20 @@ class _CalendarScreenState extends State<CalendarScreen>
                                   width: 20,
                                   height: 100,
                                   decoration: BoxDecoration(
-                                    color: upcomingEv[i].eventName ==
-                                            EventNameElement.EVENTS
-                                        ? ColorUtil.eventYellow
-                                        : upcomingEv[i].eventName ==
-                                                EventNameElement.EXAM
-                                            ? ColorUtil.examIndiColor
-                                            : upcomingEv[i].eventName ==
-                                                    EventNameElement.HOLIDAY
-                                                ? ColorUtil.absentIndiColor
-                                                : upcomingEv[i].eventName ==
-                                                        EventNameElement.ABSENT
-                                                    ? ColorUtil.absentIndiColor
-                                                    : ColorUtil.white,
+                                    color: ColorUtil.eventYellow,
+                                    // color: upcomingEv[i].eventName ==
+                                    //         EventNameElement.EVENTS
+                                    //     ? ColorUtil.eventYellow
+                                    //     : upcomingEv[i].eventName ==
+                                    //             EventNameElement.EXAM
+                                    //         ? ColorUtil.examIndiColor
+                                    //         : upcomingEv[i].eventName ==
+                                    //                 EventNameElement.HOLIDAY
+                                    //             ? ColorUtil.absentIndiColor
+                                    //             : upcomingEv[i].eventName ==
+                                    //                     EventNameElement.ABSENT
+                                    //                 ? ColorUtil.absentIndiColor
+                                    //                 : ColorUtil.white,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(15),
                                       bottomLeft: Radius.circular(15),
@@ -816,25 +822,26 @@ class _CalendarScreenState extends State<CalendarScreen>
                                     height: 100,
                                     margin: EdgeInsets.symmetric(vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: upcomingEv[i].eventName ==
-                                              EventNameElement.EVENTS
-                                          ? ColorUtil.eventYellow
-                                              .withOpacity(0.25)
-                                          : upcomingEv[i].eventName ==
-                                                  EventNameElement.EXAM
-                                              ? ColorUtil.examIndiColor
-                                                  .withOpacity(0.25)
-                                              : upcomingEv[i].eventName ==
-                                                      EventNameElement.HOLIDAY
-                                                  ? ColorUtil.absentIndiColor
-                                                      .withOpacity(0.25)
-                                                  : upcomingEv[i].eventName ==
-                                                          EventNameElement
-                                                              .ABSENT
-                                                      ? ColorUtil
-                                                          .absentIndiColor
-                                                          .withOpacity(0.25)
-                                                      : ColorUtil.white,
+                                      color: ColorUtil.eventYellow.withOpacity(0.25),
+                                      // color: upcomingEv[i].eventName ==
+                                      //         EventNameElement.EVENTS
+                                      //     ? ColorUtil.eventYellow
+                                      //         .withOpacity(0.25)
+                                      //     : upcomingEv[i].eventName ==
+                                      //             EventNameElement.EXAM
+                                      //         ? ColorUtil.examIndiColor
+                                      //             .withOpacity(0.25)
+                                      //         : upcomingEv[i].eventName ==
+                                      //                 EventNameElement.HOLIDAY
+                                      //             ? ColorUtil.absentIndiColor
+                                      //                 .withOpacity(0.25)
+                                      //             : upcomingEv[i].eventName ==
+                                      //                     EventNameElement
+                                      //                         .ABSENT
+                                      //                 ? ColorUtil
+                                      //                     .absentIndiColor
+                                      //                     .withOpacity(0.25)
+                                      //                 : ColorUtil.white,
                                       // border: Border.all(),
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(15),
@@ -850,25 +857,26 @@ class _CalendarScreenState extends State<CalendarScreen>
                                           child: Text(
                                             '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
                                             style: TextStyle(
-                                                color: upcomingEv[i].eventName ==
-                                                        EventNameElement.EVENTS
-                                                    ? ColorUtil.eventYellow
-                                                    : upcomingEv[i].eventName ==
-                                                            EventNameElement.EXAM
-                                                        ? ColorUtil.examIndiColor
-                                                        : upcomingEv[i]
-                                                                    .eventName ==
-                                                                EventNameElement
-                                                                    .HOLIDAY
-                                                            ? ColorUtil
-                                                                .absentIndiColor
-                                                            : upcomingEv[i]
-                                                                        .eventName ==
-                                                                    EventNameElement
-                                                                        .ABSENT
-                                                                ? ColorUtil
-                                                                    .absentIndiColor
-                                                                : ColorUtil.white,
+                                              color: ColorUtil.eventYellow,
+                                                // color: upcomingEv[i].eventName ==
+                                                //         EventNameElement.EVENTS
+                                                //     ? ColorUtil.eventYellow
+                                                //     : upcomingEv[i].eventName ==
+                                                //             EventNameElement.EXAM
+                                                //         ? ColorUtil.examIndiColor
+                                                //         : upcomingEv[i]
+                                                //                     .eventName ==
+                                                //                 EventNameElement
+                                                //                     .HOLIDAY
+                                                //             ? ColorUtil
+                                                //                 .absentIndiColor
+                                                //             : upcomingEv[i]
+                                                //                         .eventName ==
+                                                //                     EventNameElement
+                                                //                         .ABSENT
+                                                //                 ? ColorUtil
+                                                //                     .absentIndiColor
+                                                //                 : ColorUtil.white,
                                                 fontWeight: FontWeight.w400,
                                                 //fontFamily: "Axiforma",
                                                 // fontStyle:  FontStyle.normal,
@@ -913,19 +921,20 @@ class _CalendarScreenState extends State<CalendarScreen>
                                   width: 20,
                                   height: 100,
                                   decoration: BoxDecoration(
-                                    color: upcomingExam[i].eventName ==
-                                            EventNameElement.EVENTS
-                                        ? ColorUtil.eventYellow
-                                        : upcomingExam[i].eventName ==
-                                                EventNameElement.EXAM
-                                            ? ColorUtil.examIndiColor
-                                            : upcomingExam[i].eventName ==
-                                                    EventNameElement.HOLIDAY
-                                                ? ColorUtil.absentIndiColor
-                                                : upcomingExam[i].eventName ==
-                                                        EventNameElement.ABSENT
-                                                    ? ColorUtil.absentIndiColor
-                                                    : ColorUtil.white,
+                                    color: ColorUtil.examIndiColor,
+                                    // color: upcomingExam[i].eventName ==
+                                    //         EventNameElement.EVENTS
+                                    //     ? ColorUtil.eventYellow
+                                    //     : upcomingExam[i].eventName ==
+                                    //             EventNameElement.EXAM
+                                    //         ? ColorUtil.examIndiColor
+                                    //         : upcomingExam[i].eventName ==
+                                    //                 EventNameElement.HOLIDAY
+                                    //             ? ColorUtil.absentIndiColor
+                                    //             : upcomingExam[i].eventName ==
+                                    //                     EventNameElement.ABSENT
+                                    //                 ? ColorUtil.absentIndiColor
+                                    //                 : ColorUtil.white,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(15),
                                       bottomLeft: Radius.circular(15),
@@ -937,25 +946,26 @@ class _CalendarScreenState extends State<CalendarScreen>
                                     height: 100,
                                     //margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: upcomingExam[i].eventName ==
-                                              EventNameElement.EVENTS
-                                          ? ColorUtil.eventYellow
-                                              .withOpacity(0.25)
-                                          : upcomingExam[i].eventName ==
-                                                  EventNameElement.EXAM
-                                              ? ColorUtil.examIndiColor
-                                                  .withOpacity(0.25)
-                                              : upcomingExam[i].eventName ==
-                                                      EventNameElement.HOLIDAY
-                                                  ? ColorUtil.absentIndiColor
-                                                      .withOpacity(0.25)
-                                                  : upcomingExam[i].eventName ==
-                                                          EventNameElement
-                                                              .ABSENT
-                                                      ? ColorUtil
-                                                          .absentIndiColor
-                                                          .withOpacity(0.25)
-                                                      : ColorUtil.white,
+                                      color: ColorUtil.examIndiColor.withOpacity(0.25),
+                                      // color: upcomingExam[i].eventName ==
+                                      //         EventNameElement.EVENTS
+                                      //     ? ColorUtil.eventYellow
+                                      //         .withOpacity(0.25)
+                                      //     : upcomingExam[i].eventName ==
+                                      //             EventNameElement.EXAM
+                                      //         ? ColorUtil.examIndiColor
+                                      //             .withOpacity(0.25)
+                                      //         : upcomingExam[i].eventName ==
+                                      //                 EventNameElement.HOLIDAY
+                                      //             ? ColorUtil.absentIndiColor
+                                      //                 .withOpacity(0.25)
+                                      //             : upcomingExam[i].eventName ==
+                                      //                     EventNameElement
+                                      //                         .ABSENT
+                                      //                 ? ColorUtil
+                                      //                     .absentIndiColor
+                                      //                     .withOpacity(0.25)
+                                      //                 : ColorUtil.white,
                                       // border: Border.all(),
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(15),
@@ -969,28 +979,29 @@ class _CalendarScreenState extends State<CalendarScreen>
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
                                           child: Text(
-                                            '${DateFormat('dd MMMM yyyy').format(upcomingEv[i].date)}',
+                                            '${DateFormat('dd MMMM yyyy').format(upcomingExam[i].date)}',
                                             style: TextStyle(
-                                                color: upcomingExam[i]
-                                                            .eventName ==
-                                                        EventNameElement.EVENTS
-                                                    ? ColorUtil.eventYellow
-                                                    : upcomingExam[i].eventName ==
-                                                            EventNameElement.EXAM
-                                                        ? ColorUtil.examIndiColor
-                                                        : upcomingExam[i]
-                                                                    .eventName ==
-                                                                EventNameElement
-                                                                    .HOLIDAY
-                                                            ? ColorUtil
-                                                                .absentIndiColor
-                                                            : upcomingExam[i]
-                                                                        .eventName ==
-                                                                    EventNameElement
-                                                                        .ABSENT
-                                                                ? ColorUtil
-                                                                    .absentIndiColor
-                                                                : ColorUtil.white,
+                                              color: ColorUtil.examIndiColor,
+                                                // color: upcomingExam[i]
+                                                //             .eventName ==
+                                                //         EventNameElement.EVENTS
+                                                //     ? ColorUtil.eventYellow
+                                                //     : upcomingExam[i].eventName ==
+                                                //             EventNameElement.EXAM
+                                                //         ? ColorUtil.examIndiColor
+                                                //         : upcomingExam[i]
+                                                //                     .eventName ==
+                                                //                 EventNameElement
+                                                //                     .HOLIDAY
+                                                //             ? ColorUtil
+                                                //                 .absentIndiColor
+                                                //             : upcomingExam[i]
+                                                //                         .eventName ==
+                                                //                     EventNameElement
+                                                //                         .ABSENT
+                                                //                 ? ColorUtil
+                                                //                     .absentIndiColor
+                                                //                 : ColorUtil.white,
                                                 fontWeight: FontWeight.w400,
                                                 //fontFamily: "Axiforma",
                                                 // fontStyle:  FontStyle.normal,

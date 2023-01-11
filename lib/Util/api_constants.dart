@@ -2,7 +2,9 @@ class ApiConstants {
   //----------------------------Test URLs----------------------------------//
 
   static const baseUrl = 'https://teamsqa3000.educore.guru';
+ // static const baseUrl = 'https://nims3000.educore.guru'; //---Live
   static const downloadUrl = 'https://teamsqa4000.educore.guru/';
+  //static const downloadUrl = 'https://nims4000.educore.guru/'; //--Live
   static const login = '/v1/schooldiary_login';
   static const dashboardFeed ='/v1/dashboard_feed_student';
   static const circular ='/v0/announcement/received_student';
