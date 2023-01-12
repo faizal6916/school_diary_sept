@@ -1258,7 +1258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
                   child: CachedNetworkImage(
-                    imageUrl:  _students[index].photo!,
+                    imageUrl:  _students[index].photo?? ' ',
                     placeholder: (context, url) => SizedBox(
                       width: 20,
                       height: 20,
